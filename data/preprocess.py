@@ -22,14 +22,14 @@ def dataset_split_save():
     caption_length = len(caption_list)
     test_length = caption_length * 8 // 10
     training_list, test_list = caption_list[1:test_length], caption_list[test_length:]
-    f = open("./datasets/train_captions.csv", "w", encoding="utf-8")
+    f = open("./datasets/train/captions.csv", "w", encoding="utf-8")
     f.write('image_name| comment_number| comment\n')
     for line in training_list:
         f.write(' '.join(line))
         f.write('\n')
         # img_name = line[0].split('|')[0]
         # shutil.copy("./datasets/images/" + img_name, './datasets/train/' + img_name)
-    f = open("./datasets/test_captions.csv", "w", encoding="utf-8")
+    f = open("./datasets/test/captions.csv", "w", encoding="utf-8")
     f.write('image_name| comment_number| comment\n')
     for line in test_list:
         f.write(' '.join(line))
