@@ -39,7 +39,7 @@ prediction = model.predict(x=test_x,
 
 # 결과 시각화
 plt.scatter(x_data,y_data,s=5,label="train data")
-# plt.scatter(test_x,prediction,s=5,label="prediction data")
+plt.scatter(test_x,prediction,s=5,label="prediction data")
 plt.legend()
 plt.show()
 
