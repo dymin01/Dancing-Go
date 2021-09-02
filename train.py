@@ -26,4 +26,4 @@ img_paths, caption = preprocess.get_data_file(train_dataset_path)
 
 
 # 이미지와 캡션 시각화 하기
-# utils.visualize_img_caption(img_paths, caption)
+utils.visualize_img_caption(img_paths, caption)
