@@ -10,6 +10,7 @@ def config():
     return args
 
 def do_sampling():
+    pass
 
 # 캡션 데이터가 있는 파일 경로 (예시)
 # parser.add_argument('--caption_file_path', type=str, default='.\\datasets\\captions.csv')
