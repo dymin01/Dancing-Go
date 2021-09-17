@@ -6,6 +6,7 @@ import pathlib
 import shutil
 
 # Req. 3-1	이미지 경로 및 캡션 불러오기
+# 이미지 데이터의 경로인  ./datasets/images + 캡션을 배열에 저장
 def get_path_caption():
     arr = list()
     arr.append('./datasets/images')
@@ -16,6 +17,7 @@ def get_path_caption():
 
 
 # Req. 3-2	전체 데이터셋을 분리해 저장하기
+# 전체 캡션 수의 80% 만을 training_list 에 저장, 나머지를 test_list에 저장
 def dataset_split_save():
     caption = open('./datasets/captions.csv', 'r', encoding='cp949')
     caption_list = list(csv.reader(caption))
