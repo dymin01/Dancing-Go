@@ -6,8 +6,6 @@ import numpy as np
 import tensorflow as tf
 import csv
 
-# import config from '../config.py'
-
 # Req. 2-2	세팅 값 저장
 def save_config():
 	pass
@@ -15,7 +13,7 @@ def save_config():
 
 # Req. 4-1	이미지와 캡션 시각화
 def visualize_img_caption(img_paths, caption):
-	caption = open(img_paths + '/captions.csv', 'r', encoding='utf-8')
+	caption = open(img_paths + '/captions.csv', 'r', encoding='cp949')
 	caption_list = list(csv.reader(caption))
 	caption_example = caption_list[2][0].split('|')
 	caption_img_name = caption_example[0]
@@ -27,6 +25,3 @@ def visualize_img_caption(img_paths, caption):
 	plt.imshow(img)
 	plt.show()
 	return
-
-
-
