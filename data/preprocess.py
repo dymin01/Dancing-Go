@@ -21,19 +21,22 @@ def dataset_split_save():
     caption_list = list(csv.reader(caption))
     caption_length = len(caption_list)
     test_length = caption_length * 8 // 10
-    training_list, test_list = caption_list[1:test_length], caption_list[test_length:]
-    f = open("./datasets/train/captions.csv", "w", encoding="cp949")
+    training_list, test_list = caption_list[1:test_length], caption_list[test_length:] #컬럼을 빼주려고 1부터 시작
+    f = open("./datasets/train/captions.csv", "w", encoding="utf-8")
     f.write('image_name| comment_number| comment\n')
     for line in training_list:
         f.write(' '.join(line))
         f.write('\n')
+        # 이미지파일 복사
         # img_name = line[0].split('|')[0]
         # shutil.copy("./datasets/images/" + img_name, './datasets/train/' + img_name)
-    f = open("./datasets/test/captions.csv", "w", encoding="cp949")
+        
+    f = open("./datasets/test/captions.csv", "w", encoding="utf-8")
     f.write('image_name| comment_number| comment\n')
     for line in test_list:
         f.write(' '.join(line))
         f.write('\n')
+        # 이미지파일 복사
         # img_name = line[0].split('|')[0]
         # shutil.copy("./datasets/images/" + img_name, './datasets/test/' + img_name)
     return ['./datasets/train', './datasets/test']
