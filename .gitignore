@@ -2,8 +2,8 @@
 
 # Image Files
 images/
-datasets/test
-datasets/train
+test/
+train/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
