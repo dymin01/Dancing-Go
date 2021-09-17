@@ -6,7 +6,6 @@ import numpy as np
 import tensorflow as tf
 import csv
 
-# import config from '../config.py'
 
 # Req. 2-2	세팅 값 저장
 def save_config():
@@ -27,6 +26,3 @@ def visualize_img_caption(img_paths, caption):
 	plt.imshow(img)
 	plt.show()
 	return
-
-
-
