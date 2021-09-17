@@ -10,14 +10,14 @@ def get_path_caption():
     arr = list()
     arr.append('./datasets/images')
     path = pathlib.Path('./datasets/captions.csv')
-    caption = pd.read_csv(path, encoding='utf-8', sep='|')
+    caption = pd.read_csv(path, encoding='cp949', sep='|')
     arr.append(caption)
     return
 
 
 # Req. 3-2	전체 데이터셋을 분리해 저장하기
 def dataset_split_save():
-    caption = open('./datasets/captions.csv', 'r', encoding='utf-8')
+    caption = open('./datasets/captions.csv', 'r', encoding='cp949')
     caption_list = list(csv.reader(caption))
     caption_length = len(caption_list)
     test_length = caption_length * 8 // 10
@@ -47,7 +47,7 @@ def get_data_file(path):
     arr = list()
     arr.append(path)
     path = pathlib.Path(path + '/captions.csv')
-    caption = pd.read_csv(path, encoding='utf-8', sep='|')
+    caption = pd.read_csv(path, encoding='cp949', sep='|')
     arr.append(caption)
     return arr
 
