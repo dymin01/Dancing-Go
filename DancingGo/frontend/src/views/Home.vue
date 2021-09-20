@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>여기는 홈!</h2>
+    <v-img id="background" src="images/home/home_background.jpg"></v-img>
   </div>
 </template>
 
@@ -10,6 +10,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+#background {
+  width: 100vw;
+  height: 100vh;
+}
 </style>
