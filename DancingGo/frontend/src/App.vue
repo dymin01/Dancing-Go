@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
+    <Main />
+    <!-- <v-app-bar
       app
       color="primary"
       dark
@@ -39,15 +40,19 @@
 
     <v-main>
       <router-view/>
-    </v-main>
+    </v-main> -->
   </v-app>
 </template>
 
 <script>
+import Main from '@/views/Main.vue'
 
 export default {
   name: 'App',
 
+  components: {
+    Main
+  },
   data: () => ({
     //
   }),
