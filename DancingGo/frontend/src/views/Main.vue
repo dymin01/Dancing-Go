@@ -1,10 +1,12 @@
 <template>
   <div>
-    <v-img id="background" src="images/main_background.jpg"></v-img>
-    <v-img id="logo" src="images/dancinggo_logo.png"></v-img>
+    <v-img id="background" src="images/main/main_background.jpg"></v-img>
+    <v-img id="logo" src="images/main/dancinggo_logo.png"></v-img>
     <div id="loginBox" class="d-flex">
-      <v-img @click="goToMain" id="loginBtn" class="shadowEffect" src="images/google_btn.png"></v-img>
-      <v-img id="loginBtn" class="shadowEffect" src="images/kakao_btn.png"></v-img>
+      <router-link :to="{name: 'Home'}" exact>
+        <v-img id="loginBtn" class="shadowEffect" src="images/main/google_btn.png"></v-img>
+      </router-link>
+      <v-img id="loginBtn" class="shadowEffect" src="images/main/kakao_btn.png"></v-img>
     </div>
   </div>
 </template>
@@ -14,7 +16,7 @@ import router from '@/router/index.js'
 export default {
   name: 'Main',
   methods: {
-    goToMain () {
+    goToHome () {
       router.push({ name: 'Home' })
     }
   }
