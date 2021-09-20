@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>home</p>
+    <h2>여기는 홈!</h2>
   </div>
 </template>
 
