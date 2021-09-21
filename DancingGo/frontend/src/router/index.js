@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Home from '../views/Home.vue'
+import Practice from '../views/Practice.vue'
+import Ranking from '../views/Ranking.vue'
+import HallofFame from '../views/HallofFame.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +18,21 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/practice',
+    name: 'Practice',
+    component: Practice
+  },
+  {
+    path: '/ranking',
+    name: 'Ranking',
+    component: Ranking
+  },
+  {
+    path: '/halloffame',
+    name: 'HallofFame',
+    component: HallofFame
   },
   {
     path: '/about',
