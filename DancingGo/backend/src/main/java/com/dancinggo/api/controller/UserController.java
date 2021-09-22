@@ -1,27 +1,28 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.service.UserService;
-import com.dancinggo.common.response.ApiResponse;
-import com.dancinggo.db.entity.User;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
+@CrossOrigin(origins="*")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
-    public ApiResponse getUser() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    // 닉네임 중복 확인.
+    // true : 이미 닉네임 있음
+    // false : 닉에님 사용 가능
+    @GetMapping("/nickname/{userNickname}")
+    public ResponseEntity<Boolean> nicknameisExists(@RequestParam("userNickname") String userNickname){
 
-        User user = userService.getUser(principal.getUsername());
-
-        return ApiResponse.success("user", user);
+        boolean isExists = userService.nicknameisExists(userNickname);
+        return new ResponseEntity<>(isExists, HttpStatus.OK);
     }
 }

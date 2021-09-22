@@ -13,4 +13,11 @@ public class UserService {
     public User getUser(String userId) {
         return userRepository.findByUserId(userId);
     }
+
+    public boolean nicknameisExists(String userNickname) {
+        if(userRepository.findByUserNickname(userNickname).isPresent()){
+            return true;
+        }
+        return false;
+    }
 }
