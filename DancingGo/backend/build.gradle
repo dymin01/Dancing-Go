@@ -61,6 +61,8 @@ dependencies {
 
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.7.RELEASE'
+
 }
 
 test {
