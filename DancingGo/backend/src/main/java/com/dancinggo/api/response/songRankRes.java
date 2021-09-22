@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel("SongScoreListRes")
-public class SongScoreListRes {
+@ApiModel("songRankRes")
+public class songRankRes {
 
     @ApiModelProperty(name = "사용자 닉네임")
     String userNickname;

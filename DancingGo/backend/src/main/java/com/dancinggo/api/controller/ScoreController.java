@@ -1,7 +1,7 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.request.ScoreSaveReq;
-import com.dancinggo.api.response.SongScoreListRes;
+import com.dancinggo.api.response.songRankRes;
 import com.dancinggo.api.service.ScoreService;
 import com.dancinggo.common.response.BaseResponseBody;
 import io.swagger.annotations.Api;
@@ -36,10 +36,10 @@ public class ScoreController {
     }
 
     // 곡 별 점수 리스트 가져오기기
-    @GetMapping("/songScoreList/{songId}")
+    @GetMapping("/songRank/{songId}")
     @ApiOperation(value = "곡 별 점수 리스트 가져오기", notes = "곡 별 랭킹을 가져온다, 랭크는 index + 1이다")
-    public ResponseEntity<List<SongScoreListRes>> songScoreList(@PathVariable("songId") Long songId) {
-        List<SongScoreListRes> songScoreListResList = scoreService.songScoreList(songId);
-        return new ResponseEntity<List<SongScoreListRes>>(songScoreListResList, HttpStatus.OK);
+    public ResponseEntity<List<songRankRes>> songRank(@PathVariable("songId") Long songId) {
+        List<songRankRes> songRankResList = scoreService.songRank(songId);
+        return new ResponseEntity<List<songRankRes>>(songRankResList, HttpStatus.OK);
     }
 }

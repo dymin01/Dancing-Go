@@ -1,7 +1,7 @@
 package com.dancinggo.api.service;
 
 import com.dancinggo.api.request.ScoreSaveReq;
-import com.dancinggo.api.response.SongScoreListRes;
+import com.dancinggo.api.response.songRankRes;
 import com.dancinggo.db.entity.Score;
 import com.dancinggo.db.entity.Song;
 import com.dancinggo.db.entity.User;
@@ -57,7 +57,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public List<SongScoreListRes> songScoreList(Long songId) {
+    public List<songRankRes> songRank(Long songId) {
 
         List<Score> scores = scoreRepository.findAllBySong_SongId(songId);
 
@@ -74,10 +74,10 @@ public class ScoreServiceImpl implements ScoreService {
             }
         });
 
-        List<SongScoreListRes> listRes = new ArrayList<>();
+        List<songRankRes> listRes = new ArrayList<>();
         for (Score score : scores) {
             User user = score.getUser();
-            listRes.add(SongScoreListRes.builder()
+            listRes.add(songRankRes.builder()
                     .userNickname(user.getUserNickname())
                     .userImg(user.getProfileImageUrl())
                     .value(score.getValue())
