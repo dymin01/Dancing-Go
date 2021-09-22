@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ScoreSaveReq")
+@ApiModel("UserInfoRes")
 @Data
 public class UserInfoRes {
 
