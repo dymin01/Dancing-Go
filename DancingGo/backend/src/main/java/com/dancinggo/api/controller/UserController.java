@@ -1,6 +1,8 @@
 package com.dancinggo.api.controller;
 
+import com.dancinggo.api.request.NicknameSaveReq;
 import com.dancinggo.api.service.UserService;
+import com.dancinggo.common.response.BaseResponseBody;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,5 +26,15 @@ public class UserController {
 
         boolean isExists = userService.nicknameisExists(userNickname);
         return new ResponseEntity<>(isExists, HttpStatus.OK);
+    }
+
+    //닉네임 수정
+    @PutMapping("/nickname")
+    public ResponseEntity<? extends BaseResponseBody> saveNickname(@RequestBody NicknameSaveReq nicknameSaveReq){
+
+        boolean isOk = userService.setUserNickName(nicknameSaveReq);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "닉네임 등록/변경 성공"));
+
     }
 }
