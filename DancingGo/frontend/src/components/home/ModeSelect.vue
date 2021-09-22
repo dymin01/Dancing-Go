@@ -1,10 +1,10 @@
 <template>
   <carousel-3d id="carousel" :width="600" :height="400">
     <slide :index="0" class="slide">
-      <img  @click="isCurrent($event, 'Practice')" src="images/main/main_background.jpg" alt="practicemode_img">
+      <img  @click="isCurrent($event, 'MusicSelect')" src="images/main/main_background.jpg" alt="practicemode_img">
     </slide>
     <slide :index="1" class="slide">
-        <img @click="isCurrent($event, 'Ranking')" src="images/home/home_background.jpg" alt="rankingmode_img">
+        <img @click="isCurrent($event, 'MusicSelect')" src="images/home/home_background.jpg" alt="rankingmode_img">
     </slide>
     <slide :index="2" class="slide">
       <img @click="isCurrent($event, 'HallofFame')" src="images/home/sample.jpg" alt="halloffame_img">
@@ -35,7 +35,7 @@ export default {
 <style>
 #carousel {
   position: absolute;
-  bottom: 20vh;
+  bottom: 15vh;
   overflow: visible;
 }
 .slide {

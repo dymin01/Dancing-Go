@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Home from '../views/Home.vue'
+import MusicSelect from '../views/MusicSelect.vue'
 import Practice from '../views/Practice.vue'
 import Ranking from '../views/Ranking.vue'
 import HallofFame from '../views/HallofFame.vue'
@@ -18,6 +19,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/musicselect',
+    name: 'MusicSelect',
+    component: MusicSelect
   },
   {
     path: '/practice',
