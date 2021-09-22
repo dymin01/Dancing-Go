@@ -21,4 +21,7 @@ public class songRankRes {
     @ApiModelProperty(name = "점수")
     Long value;
 
+    @ApiModelProperty(name = "랭크")
+    Long rank;
+
 }

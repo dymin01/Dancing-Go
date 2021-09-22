@@ -61,26 +61,30 @@ public class ScoreServiceImpl implements ScoreService {
 
         List<Score> scores = scoreRepository.findAllBySong_SongId(songId);
 
-        // 정렬
         // 점수 내림차순
-        // 점수가 같을 때는 play count 오름차순
         Collections.sort(scores, new Comparator<Score>() {
             @Override
             public int compare(Score o1, Score o2) {
-                if (o1.getValue() == o2.getValue()) {
-                    return (int) (o1.getPlayCnt() - o2.getPlayCnt());
-                }
-                return (int) (o2.getValue() - o2.getValue());
+                return (int) (o2.getValue() - o1.getValue());
             }
         });
 
+        Long rank = 1L, cnt = 0L, tmpScore = 0L;
         List<songRankRes> listRes = new ArrayList<>();
         for (Score score : scores) {
+            if(score.getValue() == tmpScore) {
+                cnt++;
+            } else {
+                rank += cnt;
+                cnt = 1L;
+                tmpScore = score.getValue();
+            }
             User user = score.getUser();
             listRes.add(songRankRes.builder()
                     .userNickname(user.getUserNickname())
                     .userImg(user.getProfileImageUrl())
                     .value(score.getValue())
+                    .rank(rank)
                     .build());
         }
 
