@@ -1,6 +1,7 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.request.NicknameSaveReq;
+import com.dancinggo.api.response.RankRes;
 import com.dancinggo.api.response.UserInfoRes;
 import com.dancinggo.api.service.UserService;
 import com.dancinggo.common.response.BaseResponseBody;
@@ -10,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
@@ -22,7 +26,7 @@ public class UserController {
 
     // 닉네임 중복 확인.
     // true : 이미 닉네임 있음
-    // false : 닉에님 사용 가능
+    // false : 닉네임 사용 가능
     @GetMapping("/nickname/{userNickname}")
     public ResponseEntity<Boolean> nicknameisExists(@RequestParam("userNickname") String userNickname){
 
@@ -60,5 +64,34 @@ public class UserController {
         }
 
         return new ResponseEntity<>(userInfoRes, HttpStatus.OK);
+    }
+
+    // 전체 랭킹 가져오기
+    @GetMapping("/rank")
+    public ResponseEntity<List<RankRes>> getAllRank(){
+
+        int rank = 1;
+
+        List<User> userList = userService.getAllRank();
+
+        List<RankRes> rankResList = new ArrayList<>();
+
+        long preTotalScore = -1;
+
+        for(User user : userList){
+            if(preTotalScore == -1){
+                preTotalScore = user.getTotalScore();
+                rankResList.add(new RankRes(user.getUserNickname(), rank));
+            }
+            else if(preTotalScore == user.getTotalScore()){
+                rankResList.add(new RankRes(user.getUserNickname(), rank));
+            }else{
+                preTotalScore = user.getTotalScore();
+                rankResList.add(new RankRes(user.getUserNickname(), ++rank));
+            }
+        }
+
+        return new ResponseEntity<>(rankResList, HttpStatus.OK);
+
     }
 }
