@@ -47,9 +47,11 @@ public class ScoreServiceImpl implements ScoreService{
             scoreRepository.save(Score.builder()
                     .user(user)
                     .song(song)
+                    .playCnt(1L)
+                    .value(scoreSaveReq.getValue())
                     .build());
         }
 
-        return null;
+        return true;
     }
 }

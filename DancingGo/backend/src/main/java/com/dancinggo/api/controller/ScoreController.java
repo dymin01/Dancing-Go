@@ -23,10 +23,11 @@ public class ScoreController {
     // 점수 등록
     @PostMapping("/saveScoreValue")
     @ApiOperation(value = "점수 등록", notes = "cnt+1 해주고 점수는 최댓값을 저장한다.")
-    public ResponseEntity<? extends BaseResponseBody> joinSession(@RequestBody ScoreSaveReq scoreSaveReq){
+    public ResponseEntity<? extends BaseResponseBody> saveScoreValue(@RequestBody ScoreSaveReq scoreSaveReq){
         if (scoreService.saveScoreValue(scoreSaveReq)){
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "점수 등록 성공"));
-        }else
-            return ResponseEntity.status(488).body(BaseResponseBody.of(999, "점수 등록 실패"));
+        }else {
+            return ResponseEntity.status(999).body(BaseResponseBody.of(999, "점수 등록 실패"));
+        }
     }
 }
