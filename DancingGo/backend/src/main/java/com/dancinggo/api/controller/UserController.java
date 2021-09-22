@@ -1,8 +1,10 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.request.NicknameSaveReq;
+import com.dancinggo.api.response.UserInfoRes;
 import com.dancinggo.api.service.UserService;
 import com.dancinggo.common.response.BaseResponseBody;
+import com.dancinggo.db.entity.User;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @CrossOrigin(origins="*")
 public class UserController {
@@ -36,5 +38,27 @@ public class UserController {
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "닉네임 등록/변경 성공"));
 
+    }
+
+    // 내정보 가져오기
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<UserInfoRes> getUserInfo(@RequestParam("userId") String userId){
+        //이름, 닉네임, 랭킹
+
+        UserInfoRes userInfoRes = new UserInfoRes();
+        User user = userService.getUser(userId);
+        userInfoRes.setUserName(user.getUsername());
+        userInfoRes.setUserNickname(user.getUserNickname());
+
+        // 총 점수가 없으면 랭킹은 0으로
+        if(user.getTotalScore() == 0 || user.getTotalScore() == null){
+            userInfoRes.setRank(0);
+        }
+        else{
+            int rank = userService.getRank(user.getTotalScore()) + 1;
+            userInfoRes.setRank(rank);
+        }
+
+        return new ResponseEntity<>(userInfoRes, HttpStatus.OK);
     }
 }
