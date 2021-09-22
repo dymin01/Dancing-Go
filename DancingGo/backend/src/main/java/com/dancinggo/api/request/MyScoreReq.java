@@ -8,14 +8,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("NicknameSaveReq")
+@ApiModel("MyScoreReq")
 @Data
-public class NicknameSaveReq {
+public class MyScoreReq {
 
     @ApiModelProperty(name="유저 닉네임")
     String userNickname;
 
-    @ApiModelProperty(name="유저 ID")
-    String userId;
+    @ApiModelProperty(name="노래 아이디")
+    Long songId;
 
 }

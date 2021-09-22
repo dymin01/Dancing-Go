@@ -1,6 +1,8 @@
 package com.dancinggo.api.controller;
 
+import com.dancinggo.api.request.MyScoreReq;
 import com.dancinggo.api.request.ScoreSaveReq;
+import com.dancinggo.api.response.MyScoreRes;
 import com.dancinggo.api.response.songRankRes;
 import com.dancinggo.api.service.ScoreService;
 import com.dancinggo.api.service.UserService;
@@ -36,12 +38,20 @@ public class ScoreController {
         }
     }
 
-    // 곡 별 랭킹 리스트 가져오기기
+    // 곡 별 랭킹 리스트 가져오기
     @GetMapping("/songRank/{songId}")
     @ApiOperation(value = "곡 별 랭킹 리스트 가져오기", notes = "곡 별 랭킹을 가져온다")
     public ResponseEntity<List<songRankRes>> songRank(@PathVariable("songId") Long songId) {
         List<songRankRes> songRankResList = scoreService.songRank(songId);
         return new ResponseEntity<List<songRankRes>>(songRankResList, HttpStatus.OK);
+    }
+
+    // 해당 곡에 대한 나의 점수와 랭크 가져오기
+    @PostMapping("/findMyScore")
+    @ApiOperation(value = "해당 곡에 대한 나의 점수와 랭크 가져오기", notes = "해당 곡에 대한 나의 점수와 랭크 가져온다.")
+    public ResponseEntity<MyScoreRes> findMyScore(@RequestBody MyScoreReq myScoreReq) {
+        MyScoreRes myScoreRes = scoreService.findMyScore(myScoreReq);
+        return new ResponseEntity<MyScoreRes>(myScoreRes, HttpStatus.OK);
     }
 
 }
