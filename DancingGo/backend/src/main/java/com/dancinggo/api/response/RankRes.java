@@ -8,17 +8,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("UserInfoRes")
+@ApiModel("RankRes")
 @Data
-public class UserInfoRes {
-
-    @ApiModelProperty(name="유저 이름")
-    String userName;
+public class RankRes {
 
     @ApiModelProperty(name="유저 닉네임")
     String userNickname;
 
     @ApiModelProperty(name="유저 랭킹")
     int rank;
+
+    public RankRes(String userNickname, int rank){
+        this.userNickname = userNickname;
+        this.rank = rank;
+    }
 
 }
