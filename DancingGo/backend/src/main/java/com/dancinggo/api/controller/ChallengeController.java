@@ -37,7 +37,6 @@ public class ChallengeController {
     @PostMapping("/addChallenge")
     @ApiOperation(value = "", notes = "")
     public ResponseEntity<? extends BaseResponseBody> addChallenge(@RequestBody ChallengeAddReq challengeAddReq) {
-        System.out.println(challengeAddReq.getUserNickname());
         challengeService.addChallenge(challengeAddReq.getUserNickname(), challengeAddReq.getBadgeId());
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
