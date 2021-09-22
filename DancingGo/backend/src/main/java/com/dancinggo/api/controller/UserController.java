@@ -1,7 +1,6 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.request.NicknameSaveReq;
-import com.dancinggo.api.response.RankRes;
 import com.dancinggo.api.response.UserInfoRes;
 import com.dancinggo.api.service.UserService;
 import com.dancinggo.common.response.BaseResponseBody;
@@ -51,8 +50,9 @@ public class UserController {
 
         UserInfoRes userInfoRes = new UserInfoRes();
         User user = userService.getUser(userId);
-        userInfoRes.setUserName(user.getUsername());
         userInfoRes.setUserNickname(user.getUserNickname());
+        userInfoRes.setUserImg(user.getProfileImageUrl());
+        userInfoRes.setTotalScore(user.getTotalScore());
 
         // 총 점수가 없으면 랭킹은 0으로
         if(user.getTotalScore() == 0 || user.getTotalScore() == null){
@@ -68,30 +68,33 @@ public class UserController {
 
     // 전체 랭킹 가져오기
     @GetMapping("/rank")
-    public ResponseEntity<List<RankRes>> getAllRank(){
+    public ResponseEntity<List<UserInfoRes>> getAllRank(){
 
         int rank = 1;
 
         List<User> userList = userService.getAllRank();
 
-        List<RankRes> rankResList = new ArrayList<>();
+        List<UserInfoRes> userInfoResList = new ArrayList<>();
 
         long preTotalScore = -1;
 
         for(User user : userList){
+
             if(preTotalScore == -1){
                 preTotalScore = user.getTotalScore();
-                rankResList.add(new RankRes(user.getUserNickname(), rank));
             }
-            else if(preTotalScore == user.getTotalScore()){
-                rankResList.add(new RankRes(user.getUserNickname(), rank));
-            }else{
+            else if(preTotalScore != user.getTotalScore()){
                 preTotalScore = user.getTotalScore();
-                rankResList.add(new RankRes(user.getUserNickname(), ++rank));
+                rank++;
             }
+
+            userInfoResList.add(new UserInfoRes(user.getUserNickname(),
+                    user.getTotalScore(),
+                    rank,
+                    user.getProfileImageUrl()));
         }
 
-        return new ResponseEntity<>(rankResList, HttpStatus.OK);
+        return new ResponseEntity<>(userInfoResList, HttpStatus.OK);
 
     }
 }
