@@ -1,5 +1,6 @@
 package com.dancinggo.api.service;
 
+import com.dancinggo.api.request.NicknameSaveReq;
 import com.dancinggo.db.entity.User;
 import com.dancinggo.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,5 +13,28 @@ public class UserService {
 
     public User getUser(String userId) {
         return userRepository.findByUserId(userId);
+    }
+
+    public boolean nicknameisExists(String userNickname) {
+        if(userRepository.findByUserNickname(userNickname).isPresent()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setUserNickName(NicknameSaveReq nicknameSaveReq) {
+
+        User user = userRepository.findByUserId(nicknameSaveReq.getUserId());
+
+        user.setUserNickname(nicknameSaveReq.getUserNickname());
+
+        userRepository.save(user);
+
+        return true;
+
+    }
+
+    public int getRank(Long totalScore) {
+        return userRepository.findByRank(totalScore);
     }
 }

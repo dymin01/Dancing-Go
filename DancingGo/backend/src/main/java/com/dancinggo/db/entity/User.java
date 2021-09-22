@@ -82,20 +82,27 @@ public class User {
 //    @Column(columnDefinition = "varchar(255) default 'defaultImg'", name = "user_img")
 //    private String userImg;
 
-    @Column(columnDefinition = "integer default 0", name = "gameover_cnt")
-    private Integer gameoverCnt;
+    @Column(name = "gameover_cnt")
+    private Long gameoverCnt;
 
-    @Column(columnDefinition = "integer default 0", name = "total_play_cnt")
-    private Integer totalPlayCnt;
+    @Column(name = "total_play_cnt")
+    private Long totalPlayCnt;
 
-    @Column(columnDefinition = "integer default 0", name = "total_score")
-    private Integer totalScore;
+    @Column(name = "total_score")
+    private Long totalScore;
 
     @OneToMany(mappedBy = "user")
     private List<Score> scores = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Challenge> challenges = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        this.gameoverCnt = this.gameoverCnt == null ? 0 : this.gameoverCnt;
+        this.totalPlayCnt = this.totalPlayCnt == null ? 0 : this.totalPlayCnt;
+        this.totalScore = this.totalScore == null ? 0 : this.totalScore;
+    }
 
 
     public User(
