@@ -1,6 +1,7 @@
 package com.dancinggo.api.service;
 
 import com.dancinggo.api.request.ScoreSaveReq;
+import com.dancinggo.api.response.SongScoreListRes;
 import com.dancinggo.db.entity.Score;
 import com.dancinggo.db.entity.Song;
 import com.dancinggo.db.entity.User;
@@ -10,10 +11,10 @@ import com.dancinggo.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class ScoreServiceImpl implements ScoreService{
+public class ScoreServiceImpl implements ScoreService {
 
     @Autowired
     ScoreRepository scoreRepository;
@@ -29,7 +30,7 @@ public class ScoreServiceImpl implements ScoreService{
 
         Optional<Score> score = scoreRepository.findByUser_UserNicknameAndSong_SongId(scoreSaveReq.getUserNickname(), scoreSaveReq.getSongId());
 
-        if(score.isPresent()) { // 두번 이상 춘 곡일 때
+        if (score.isPresent()) { // 두번 이상 춘 곡일 때
             Score newScore = score.get();
             long playCnt = newScore.getPlayCnt();
             long value = newScore.getValue();
@@ -53,5 +54,36 @@ public class ScoreServiceImpl implements ScoreService{
         }
 
         return true;
+    }
+
+    @Override
+    public List<SongScoreListRes> songScoreList(Long songId) {
+
+        List<Score> scores = scoreRepository.findAllBySong_SongId(songId);
+
+        // 정렬
+        // 점수 내림차순
+        // 점수가 같을 때는 play count 오름차순
+        Collections.sort(scores, new Comparator<Score>() {
+            @Override
+            public int compare(Score o1, Score o2) {
+                if (o1.getValue() == o2.getValue()) {
+                    return (int) (o1.getPlayCnt() - o2.getPlayCnt());
+                }
+                return (int) (o2.getValue() - o2.getValue());
+            }
+        });
+
+        List<SongScoreListRes> listRes = new ArrayList<>();
+        for (Score score : scores) {
+            User user = score.getUser();
+            listRes.add(SongScoreListRes.builder()
+                    .userNickname(user.getUserNickname())
+                    .userImg(user.getProfileImageUrl())
+                    .value(score.getValue())
+                    .build());
+        }
+
+        return listRes;
     }
 }
