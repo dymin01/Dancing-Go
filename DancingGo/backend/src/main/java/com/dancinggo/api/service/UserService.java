@@ -1,7 +1,6 @@
 package com.dancinggo.api.service;
 
 import com.dancinggo.api.request.NicknameSaveReq;
-import com.dancinggo.api.response.RankRes;
 import com.dancinggo.db.entity.User;
 import com.dancinggo.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
