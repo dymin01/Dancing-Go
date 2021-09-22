@@ -33,4 +33,8 @@ public class UserService {
         return true;
 
     }
+
+    public int getRank(Long totalScore) {
+        return userRepository.findByRank(totalScore);
+    }
 }
