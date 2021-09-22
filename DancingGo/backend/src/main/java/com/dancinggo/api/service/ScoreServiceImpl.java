@@ -1,6 +1,8 @@
 package com.dancinggo.api.service;
 
+import com.dancinggo.api.request.MyScoreReq;
 import com.dancinggo.api.request.ScoreSaveReq;
+import com.dancinggo.api.response.MyScoreRes;
 import com.dancinggo.api.response.songRankRes;
 import com.dancinggo.db.entity.Score;
 import com.dancinggo.db.entity.Song;
@@ -72,7 +74,7 @@ public class ScoreServiceImpl implements ScoreService {
         Long rank = 1L, cnt = 0L, tmpScore = 0L;
         List<songRankRes> listRes = new ArrayList<>();
         for (Score score : scores) {
-            if(score.getValue() == tmpScore) {
+            if (score.getValue() == tmpScore) {
                 cnt++;
             } else {
                 rank += cnt;
@@ -89,5 +91,15 @@ public class ScoreServiceImpl implements ScoreService {
         }
 
         return listRes;
+    }
+
+    @Override
+    public MyScoreRes findMyScore(MyScoreReq myScoreReq) {
+        Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
+        Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
+        if(rank == null) {
+            rank = 0L;
+        }
+        return MyScoreRes.builder().value(value).rank(rank + 1L).build();
     }
 }
