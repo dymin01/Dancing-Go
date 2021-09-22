@@ -76,7 +76,7 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
-    @Column(name = "user_nickname")
+    @Column(name = "user_nickname", unique = true)
     private String userNickname;
 
 //    @Column(columnDefinition = "varchar(255) default 'defaultImg'", name = "user_img")
