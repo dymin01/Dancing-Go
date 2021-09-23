@@ -31,6 +31,7 @@ public class ScoreServiceImpl implements ScoreService {
     public Boolean saveScoreValue(ScoreSaveReq scoreSaveReq) {
 
         Optional<Score> score = scoreRepository.findByUser_UserNicknameAndSong_SongId(scoreSaveReq.getUserNickname(), scoreSaveReq.getSongId());
+        User user = userRepository.findByUserNickname(scoreSaveReq.getUserNickname()).get();
 
         if (score.isPresent()) { // 두번 이상 춘 곡일 때
             Score newScore = score.get();
@@ -40,12 +41,18 @@ public class ScoreServiceImpl implements ScoreService {
 
             newScore.setPlayCnt(playCnt + 1L);
             newScore.setValue(maxValue);
+            user.setTotalPlayCnt(user.getTotalPlayCnt() + 1);
+            user.setTotalScore(user.getTotalScore() + maxValue - value);
 
+            userRepository.save(user);
             scoreRepository.save(newScore);
 
         } else { // 처음 춘 곡일 때
-            User user = userRepository.findByUserNickname(scoreSaveReq.getUserNickname()).get();
             Song song = songRepository.findBySongId(scoreSaveReq.getSongId()).get();
+
+            user.setTotalPlayCnt(user.getTotalPlayCnt() + 1);
+            user.setTotalScore(user.getTotalScore() + scoreSaveReq.getValue());
+            userRepository.save(user);
 
             scoreRepository.save(Score.builder()
                     .user(user)
@@ -97,7 +104,7 @@ public class ScoreServiceImpl implements ScoreService {
     public MyScoreRes findMyScore(MyScoreReq myScoreReq) {
         Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
         Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
-        if(rank == null) {
+        if (rank == null) {
             rank = 0L;
         }
         return MyScoreRes.builder().value(value).rank(rank + 1L).build();
