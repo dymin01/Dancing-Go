@@ -1,201 +1,156 @@
+
 <template>
   <div>
-    <div class="example-3d">
-      <swiper class="swiper" :options="swiperOption">
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <swiper-slide>
-          <v-img @keyup="sample($event)" src="images/musicselect/nextlevel.png"></v-img>
-        </swiper-slide>
-        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-      </swiper>
+    <div id="now">
+      <img :src="'images/musicselect/'+musics[0][0]+'.png'" alt="">
     </div>
-    <!-- <div>
-      <slick-slide
-        ref="gallery"
-        :options="topSliderOptions"
-        @beforeChange="syncSliders">
-        <div v-for="(slide, idx) in scopedData" :key="idx">
-          <slick>{{ slide }}</slick>
-        </div>
+    <div class="example-3d">
+      <swiper class="swiper" @slide-change-transition-end="getActive" :options="swiperOptionThumbs">
+        <Music
+          v-for="(music, idx) in musics"
+          :key="idx"
+          :fileName="music"
+        />
+      </swiper>
 
-      </slick-slide>
-      <slick
-        ref="slick"
-        :options="slickOptions"
-        @afterChange="handleAfterChange"
-        @beforeChange="handleBeforeChange"
-        @breakpoint="handleBreakpoint"
-        @destroy="handleDestroy"
-        @edge="handleEdge"
-        @init="handleInit"
-        @reInit="handleReInit"
-        @setPosition="handleSetPosition"
-        @swipe="handleSwipe"
-        @lazyLoaded="handleLazyLoaded"
-        @lazyLoadError="handleLazeLoadError">
-        <v-img src="images/musicselect/nextlevel.png"></v-img>
-        <v-img src="images/musicselect/nextlevel.png"></v-img>
-        <v-img src="images/musicselect/nextlevel.png"></v-img>
-      </slick>
-    </div> -->
+      <!-- <swiper class="swiper" :options="swiperOptionThumbs">
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
+        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper> -->
+    </div>
   </div>
 </template>
 
 <script>
-  import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-  // import Slick from 'vue-slick'
+  import { Swiper } from 'vue-awesome-swiper'
+  import Music from '@/components/musicselect/Music.vue'
   import 'swiper/css/swiper.css'
 
   export default {
-    name: 'swiper-example-3d-coverflow',
-    title: '3D Coverflow effect',
+    name: 'MusicList',
     components: {
       Swiper,
-      SwiperSlide,
-      // Slick
+      // SwiperSlide,
+      Music,
     },
     data() {
       return {
-        scopedData: [
-
-        ],
-        slickOptions: {
-          slidesToShow: 7,
+        musics: [['nextlevel', 0], ['permissiontodance', 1], ['nextlevel', 2], ['permissiontodance', 3],
+                ['nextlevel', 4], ['permissiontodance', 5], ['nextlevel', 6], ['permissiontodance', 7]],
+        swiperOptionTop: {
+          spaceBetween: 10
         },
-        swiperOption: {
-          // direction: 'vertical',
+        swiperOptionThumbs: {
           effect: 'coverflow',
-          loop: true,
           grabCursor: true,
-          keyboard: {
-            enabled: true,
-          },
           centeredSlides: true,
-          // centeredSlidesBounds: true,
-          slidesPerView: 5,
+          slidesPerView: 'auto',
+          // loop: true,
+          // loopedSlides: 2,
+          loopAdditionalSlides: 3,
           coverflowEffect: {
-            rotate: 10,
-            stretch: 10,
+            rotate: 0,
+            stretch: 0,
             depth: 100,
             modifier: 1,
             slideShadows : true
           },
-          pagination: {
-            el: '.swiper-pagination'
+          keyboard: {
+            enabled: true
           }
-        },
+          // pagination: {
+          //   el: '.swiper-pagination'
+          // }
+        }
       }
     },
     methods: {
-      sample (event) {
-        console.log(event)
-      },
-      next() {
-            this.$refs.slick.next();
-      },
-
-      prev() {
-          this.$refs.slick.prev();
-      },
-
-      reInit() {
-          // Helpful if you have to deal with v-for to update dynamic lists
-          this.$nextTick(() => {
-              this.$refs.slick.reSlick();
-          });
-      },
-
-      // Events listeners
-      handleAfterChange(event, slick, currentSlide) {
-          console.log('handleAfterChange', event, slick, currentSlide);
-      },
-      handleBeforeChange(event, slick, currentSlide, nextSlide) {
-          console.log('handleBeforeChange', event, slick, currentSlide, nextSlide);
-      },
-      handleBreakpoint(event, slick, breakpoint) {
-          console.log('handleBreakpoint', event, slick, breakpoint);
-      },
-      handleDestroy(event, slick) {
-          console.log('handleDestroy', event, slick);
-      },
-      handleEdge(event, slick, direction) {
-          console.log('handleEdge', event, slick, direction);
-      },
-      handleInit(event, slick) {
-          console.log('handleInit', event, slick);
-      },
-      handleReInit(event, slick) {
-          console.log('handleReInit', event, slick);
-      },
-      handleSetPosition(event, slick) {
-          console.log('handleSetPosition', event, slick);
-      },
-      handleSwipe(event, slick, direction) {
-          console.log('handleSwipe', event, slick, direction);
-      },
-      handleLazyLoaded(event, slick, image, imageSource) {
-          console.log('handleLazyLoaded', event, slick, image, imageSource);
-      },
-      handleLazeLoadError(event, slick, image, imageSource) {
-          console.log('handleLazeLoadError', event, slick, image, imageSource);
-      },
+      getActive () {
+        const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
+        const imgUrl = selected.style.backgroundImage.split('"')[1]
+        const centerImg = document.querySelector('#now')
+        if (centerImg.hasChildNodes()) {
+          centerImg.removeChild(centerImg.childNodes[0])
+        }
+        const newImg = document.createElement("img")
+        newImg.src = imgUrl
+        newImg.width = 200
+        newImg.height = 200
+        centerImg.appendChild(newImg)
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .example-3d {
+  #now {
+    width: 200px;
+    height: 200px;
     position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 50vh;
-    left: 0vw;
-    padding-top: 50px;
-    padding-bottom: 50px;
-  }
+    top: 15vh;
+    left: 43%;
+    box-shadow: 0 0 20px white;
+    border-radius: 2%;
 
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  .example-3d {
+    width: 100%;
+    height: 250px;
+    // padding-top: 50px;
+    // padding-bottom: 50px;
+    position: absolute;
+    bottom: 0vh;
+  }
+  .swiper-wrapper {
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    // padding-top: 50px;
+    // padding-bottom: 50px;
+    position: absolute;
+    bottom: 0vh;
+    // display: flex;
+    object-fit: visible;
+  }
   .swiper {
-    height: 100vh;
-    width: 100vw;
-    // bottom: 5vh;
+    height: 100%;
+    width: 100%;
 
     .swiper-slide {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 150px;
-      height: 150px;
-      overflow: visible;
-      // text-align: center;
-      // font-weight: bold;
-      // // font-size: $font-size-huge * 2;
-      // background-color: #2C8DFB;
-      // background-position: center;
-      // background-size: cover;
-      // color: white;
+      width: 180px;
+      height: 180px;
+      text-align: center;
+      font-weight: bold;
+      // font-size: $font-size-huge * 2;
+      background-color: #2C8DFB;
+      background-position: center;
+      background-size: cover;
+      // color: $white;
     }
 
-    .swiper-pagination {
-      .swiper-pagination-bullet.swiper-pagination-bullet-active {
-        background-color: white;
-      }
-    }
+    // .swiper-pagination {
+    //   .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    //     // background-color: $white;
+    //   }
+    // }
   }
 </style>
