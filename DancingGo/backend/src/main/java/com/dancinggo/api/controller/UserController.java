@@ -43,6 +43,15 @@ public class UserController {
 
     }
 
+    // 게임오버
+    @GetMapping("/gameover/{userNickname}")
+    public ResponseEntity<? extends BaseResponseBody> gameover(@RequestParam("userNickname") String userNickname){
+
+        boolean isOk = userService.gameover(userNickname);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "게임오버 카운트 성공"));
+    }
+
     // 내정보 가져오기
     @GetMapping("/info/{userId}")
     public ResponseEntity<UserInfoRes> getUserInfo(@RequestParam("userId") String userId){
