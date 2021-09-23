@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public boolean nicknameisExists(String userNickname) {
-        if(userRepository.findByUserNickname(userNickname).isPresent()){
+        if (userRepository.findByUserNickname(userNickname).isPresent()) {
             return true;
         }
         return false;
@@ -43,11 +43,20 @@ public class UserService {
         return userRepository.findByRank(totalScore);
     }
 
-    public List<User> getAllRank(){
+    public List<User> getAllRank() {
 
         List<User> userList = userRepository.findAll(Sort.by("totalScore").descending());
 
         return userList;
+    }
+
+    public boolean gameover(String userNickname) {
+
+        User user = userRepository.findByUserNickname(userNickname).get();
+        user.setGameoverCnt(user.getGameoverCnt() + 1);
+        userRepository.save(user);
+
+        return true;
     }
 
 }
