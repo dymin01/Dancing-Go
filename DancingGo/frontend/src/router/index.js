@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Practice from '../views/Practice.vue'
 import Ranking from '../views/Ranking.vue'
 import HallofFame from '../views/HallofFame.vue'
+import OauthRedirect from '@/components/oauth/Redirect'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/oauth/redirect',
+    name: 'OauthRedrect',
+    component: OauthRedirect
   }
 ]
 
