@@ -2,51 +2,56 @@
   <v-card class="px-5, py-5" id="mypage">
       <div class="d-flex justify-content-center py-3">
           <v-card-title>
-              <span clss="text-h4">마이페이지</span>
+              <span clss="text-h4 title">마이페이지</span>
           </v-card-title>
       </div>
       <v-form>
           <v-container>
               <v-row>
-                  <v-col cols="6">
-                      <v-container>
+                  <v-col cols="6" class="">
+                      <v-container class="background">
+                          <v-row>
+                              <v-col cols="12" class="text-center title">
+                                내 정보
+                              </v-col>
+                          </v-row>
                         <v-row>
-                            <v-col cols="3" style="background-color:red">
+                            <v-col cols="5" class="d-flex justify-end align-center">
                                 <div id="box">
                                     <img :src=userProfile style="max-width:50px">
                                 </div>
                             </v-col>
-                            <v-col cols="9" style="background-color:blue" class="d-flex justify-end align-center">
+                            <v-col cols="7" class="d-flex justify-center align-center">
                                 {{userNickname}}
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="3">
-                                <img id="profile" src="images/mypage/rank.png" style="max-width:100%">
+                            <v-col cols="5" class="text-end">
+                                <img id="profile" src="images/mypage/rank.png" style="max-width:70px">
                             </v-col>
-                            <v-col cols="9" style="background-color:yellow" class="text-end">
+                            <v-col cols="7" class="text-center">
                                 {{userRank}}
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="3" style="background-color:blue">
-                                총점
+                            <v-col cols="5" class="text-end">
+                                주간총점
                             </v-col>
-                            <v-col cols="9" style="background-color:blue" class="text-end">
+                            <v-col cols="7" class="text-center">
                                 {{userTotalscore}}
                             </v-col>
                         </v-row>
                       </v-container>
                   </v-col>
                   <v-col cols="6">
-                      <v-container>
+                      <v-container class="background">
                           <v-row>
-                              <v-col cols="12" style="background-color:red" class="text-center">
+                              <v-col cols="12" class="text-center title">
                                 뱃지 목록
                               </v-col>
                           </v-row>
                           <v-row>
-                              <v-col class="text-center" cols="4" style="background-color:yellow" v-for="(badge,idx) in badgeList" :key="idx">
+                              <v-col class="text-center" cols="4" v-for="(badge,idx) in badgeList" :key="idx">
                                 <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px">
                               </v-col>
                           </v-row>
@@ -116,8 +121,13 @@ export default {
 
 <style>
 #mypage {
-    background-color: rgba( 0, 0, 0, 0.8 );
+    background-color: rgba( 0, 0, 0, 1 );
     color:white;
+}
+
+.background {
+    background-color: rgba( 255, 255, 255, 0.1 );
+    border-radius: 10%;
 }
 
 #box {
@@ -132,5 +142,6 @@ export default {
     height: 100%;
     object-fit: cover;
 }
+
 
 </style>
