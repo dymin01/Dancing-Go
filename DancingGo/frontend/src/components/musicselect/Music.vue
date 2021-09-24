@@ -1,6 +1,13 @@
 <template>
   <swiper-slide>
-    <v-img id="albumart" :src="'images/musicselect/'+fileName[0]+'.png'"></v-img>
+    <!-- {{ music }} -->
+    <div id="albumart">
+      <v-img :src="'images/musicselect/'+music.fileName+'.png'"></v-img>
+      <div class="musicInfo">
+        <p>{{ music.songNameKor }}</p>
+        <p>{{ music.singerKor }}</p>
+      </div>
+    </div>
   </swiper-slide>
 </template>
 
@@ -10,8 +17,8 @@ import 'swiper/css/swiper.css'
 export default {
   name: 'Music',
   props: {
-    fileName: {
-      type: Array,
+    music: {
+      type: Object,
     }
   },
   components: {
@@ -24,6 +31,21 @@ export default {
 #albumart {
   box-shadow: 0 0 20px white;
   border-radius: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  text-align: center;
+}
+.musicInfo {
+  position: absolute;
+  bottom: 0;
+  line-height: 70%;
+  text-shadow: 0 0 4px purple;
+  color: white;
+  -webkit-text-stroke: 0.3px purple;
+
 }
 .swiper-wrapper {
     width: 100%;

@@ -2,14 +2,18 @@
 <template>
   <div>
     <div id="now">
-      <img :src="'images/musicselect/'+musics[0][0]+'.png'" alt="">
+      <!-- {{ musics[activeIndex].fileName }} -->
+      <img :src="'images/musicselect/'+musics[activeIndex].fileName+'.png'" alt="">
+      <div>
+        <p style="color: white;">{{ musics[activeIndex] }}</p>
+      </div>
     </div>
     <div class="example-3d">
-      <swiper class="swiper" @slide-change-transition-end="getActive" :options="swiperOptionThumbs">
+      <swiper class="swiper" ref="musiclist" @slide-change-transition-end="getActive" :options="swiperOptionThumbs">
         <Music
           v-for="(music, idx) in musics"
           :key="idx"
-          :fileName="music"
+          :music="music"
         />
       </swiper>
 
@@ -37,6 +41,7 @@
   import { Swiper } from 'vue-awesome-swiper'
   import Music from '@/components/musicselect/Music.vue'
   import 'swiper/css/swiper.css'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'MusicList',
@@ -45,10 +50,19 @@
       // SwiperSlide,
       Music,
     },
+    computed: {
+      ...mapState('music', {
+        musics: state => state.musics
+      }),
+      activeIndex () {
+        return this.activeIdx
+      }
+    },
     data() {
       return {
-        musics: [['nextlevel', 0], ['permissiontodance', 1], ['nextlevel', 2], ['permissiontodance', 3],
-                ['nextlevel', 4], ['permissiontodance', 5], ['nextlevel', 6], ['permissiontodance', 7]],
+        activeIdx: 0,
+        // musics: [['nextlevel', 0], ['permissiontodance', 1], ['nextlevel', 2], ['permissiontodance', 3],
+        //         ['nextlevel', 4], ['permissiontodance', 5], ['nextlevel', 6], ['permissiontodance', 7]],
         swiperOptionTop: {
           spaceBetween: 10
         },
@@ -78,18 +92,24 @@
     },
     methods: {
       getActive () {
-        const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
-        const imgUrl = selected.style.backgroundImage.split('"')[1]
-        const centerImg = document.querySelector('#now')
-        if (centerImg.hasChildNodes()) {
-          centerImg.removeChild(centerImg.childNodes[0])
-        }
-        const newImg = document.createElement("img")
-        newImg.src = imgUrl
-        newImg.width = 200
-        newImg.height = 200
-        centerImg.appendChild(newImg)
+        const swiper = this.$refs.musiclist.$swiper
+        this.activeIdx = swiper.activeIndex
+        // console.log(this.activeIdx)
+        // const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
+        // const imgUrl = selected.style.backgroundImage.split('"')[1]
+        // const centerImg = document.querySelector('#now')
+        // if (centerImg.hasChildNodes()) {
+        //   centerImg.removeChild(centerImg.childNodes[0])
+        // }
+        // const newImg = document.createElement("img")
+        // newImg.src = imgUrl
+        // newImg.width = 200
+        // newImg.height = 200
+        // centerImg.appendChild(newImg)
       }
+    },
+    created () {
+      this.$store.dispatch('music/setMusics')
     }
   }
 </script>
