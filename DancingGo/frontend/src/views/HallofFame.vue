@@ -6,9 +6,21 @@
 
     </div>
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
-    <div class="first"></div>
-    <div class="second"></div>
-    <div class="third"></div>
+    <div class="first">
+      <v-img class="myImg" :src="getImg(firstRank)" />
+      <span class="myScore"> {{firstRank.totalScore}} </span>
+      <span class="myName">{{firstRank.userNickname}}</span>
+    </div>
+    <div class="second">
+      <v-img class="myImg" :src="getImg(secondRank)" />
+      <span class="myScore"> {{secondRank.totalScore}} </span>
+      <span class="myName">{{secondRank.userNickname}}</span>
+    </div>
+    <div class="third">
+      <v-img class="myImg" :src="getImg(thirdRank)" />
+      <span class="myScore"> {{thirdRank.totalScore}} </span>
+      <span class="myName">{{thirdRank.userNickname}}</span>
+    </div>
     <div class="list"> 
       <!-- <vue-scrolling-table>
         <template slot="thead">
@@ -45,16 +57,25 @@ export default {
       myRank: {}
     }
   },
-  method: {
-
+  methods: {
+    getImg(rankInfo) {
+      const profileImg = rankInfo.userImg
+      if(profileImg === "") {
+        return 'images/HallofFame/mirror-ball.png'
+      } else {
+        return profileImg;
+      }
+    }
   },
   mounted() {
      axios
       .get('http://localhost:8080/user/rank')
       .then((res) => {
         this.rankList = res.data;
+        console.log(this.rankList)
+        console.log(this.rankList.length)
         this.firstRank = this.rankList[0]
-        this.secondeRank = this.rankList[1]
+        this.secondRank = this.rankList[1]
         this.thirdRank = this.rankList[2]
       }),
       axios
@@ -105,39 +126,91 @@ html::-webkit-scrollbar {
 
 #rank {
   position: absolute;
-  width: 40%;
-  left: 30.6vw;
-  bottom: 47vh;
+  width: 30%;
+  height: 30%;
+  left: 35.5vw;
+  bottom: 55vh;
 }
 
 .first {
   position: absolute;
   width: 6vw;
-  height: 6vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -360%);
-  background-color: violet;
+  height: 9vw;
+  top: 5.5vh;
+  left: 47vw;
+  /* transform: translate(-50%, -243%); */
+  text-align: center;
+  /* background-color: white; */
+  /* 가득차게 */
+  /* overflow:hidden; */
+  margin:0 auto;
 }
 
 .second {
   position: absolute;
   width: 6vw;
-  height: 6vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(90%, -280%);
-  background-color: violet;
+  height: 9vw;
+  top: 11vh;
+  left: 40.5vw;
+  margin:0 auto;
+  text-align: center;
+  /* transform: translate(-190%, -300%); */
+  /* background-color: yellow; */
 }
 
 .third {
   position: absolute;
   width: 6vw;
-  height: 6vw;
+  height: 9vw;
+  top: 12.5vh;
+  left: 53.5vw;
+  margin:0 auto;
+  text-align: center;
+  /* transform: translate(-190%, -300%); */
+  /* background-color: yellow; */
+}
+
+.myScore {
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-190%, -300%);
-  background-color: violet;
+  transform: translate(-50%, -180%);
+  font-weight: bold;
+  font-size: 4vh;
+  color: white;
+}
+
+.myImgDiv {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.myImg {
+  position: absolute;
+  width: 6vw;
+  height: 6vw;
+  object-fit: cover;
+  border-radius: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.myName {
+  position: absolute;
+  /* top: 50%; */
+  /* left: 50%; */
+  width: 100%;
+  bottom: 5px;
+  left: 0px;
+  /* transform: translate(50%, 125%); */
+  font-weight: bold;
+  font-size: 0.8vw;
+  color: white;
 }
 
 .list {
