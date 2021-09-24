@@ -48,19 +48,23 @@
               <tr
                 v-for="rank in rankList"
                 :key="rank.rank"
-                style="border-style: none;"
               >
                 <td style="width: 10vh; font-size: 3vh; text-align: center;">{{ rank.rank }}</td>
                 <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
                 <td style="font-size: 3vh; padding: 0px; text-align: center;">{{ rank.userNickname }}</td>
-                <td style="font-size: 3vh; padding: 0px; ztext-align: center;">{{ rank.totalScore }}</td>
+                <td style="font-size: 3vh; padding: 0px; text-align: center;">{{ rank.totalScore }}</td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
       </template>
     </div>
-    <div class="me"> </div>
+    <div class="me transparent white--text"> 
+      <div style="width: 10vh; font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
+      <div style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(myRank)" /></div>
+      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
+      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
+    </div>
   </div>
 </template>
 
@@ -252,9 +256,13 @@ html::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, -14%);
   /* background-color: tomato; */
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
+    0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
 }
 
 .me {
+  display: flex;
   position: absolute;
   width: 30vw;
   height: 9vh;
@@ -262,6 +270,12 @@ html::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, 405%);
   background-color: lime;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
+    0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
 }
 
 .listImg {
