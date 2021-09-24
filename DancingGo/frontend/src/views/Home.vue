@@ -3,6 +3,7 @@
     <v-img id="background" src="images/home/home_background.jpg"></v-img>
     <button @click="logout">로그아웃</button>
     <ModeSelect />
+
   </div>
 </template>
 
@@ -13,7 +14,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'Home',
   components: {
-    ModeSelect
+    ModeSelect,
   },
   methods: {
     ...mapMutations(['setToken', 'setUser']),

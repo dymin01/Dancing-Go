@@ -10,9 +10,10 @@
             </a>
           </div>
       </div>
-      <!-- <router-link :to="{name: 'Home'}" exact> -->
-        <!-- <v-img id="loginBtn" class="shadowEffect" src="images/main/google_btn.png"></v-img> -->
-      <!-- </router-link> -->
+      <!-- 소셜로그인 없이 홈페이지 접속용 -->
+      <router-link :to="{name: 'Home'}" exact>
+        <v-img id="loginBtn" class="shadowEffect" src="images/main/google_btn.png"></v-img>
+      </router-link>
       <!-- <v-img id="loginBtn" class="shadowEffect" src="images/main/kakao_btn.png"></v-img> -->
     </div>
   </div>
