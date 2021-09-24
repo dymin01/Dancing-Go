@@ -54,7 +54,7 @@ public class UserController {
 
     // 내정보 가져오기
     @GetMapping("/info/{userId}")
-    public ResponseEntity<UserInfoRes> getUserInfo(@RequestParam("userId") String userId){
+    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable("userId") String userId){
         //이름, 닉네임, 랭킹
 
         UserInfoRes userInfoRes = new UserInfoRes();

@@ -32,19 +32,36 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'HallofFame',
   data() {
     return {
-      
+      rankList: [],
+      firstRank: {},
+      secondRank: {},
+      thirdRank: {},
+      myRank: {}
     }
   },
   method: {
-   
+
   },
   mounted() {
-     
+     axios
+      .get('http://localhost:8080/user/rank')
+      .then((res) => {
+        this.rankList = res.data;
+        this.firstRank = this.rankList[0]
+        this.secondeRank = this.rankList[1]
+        this.thirdRank = this.rankList[2]
+      }),
+      axios
+      .get('http://localhost:8080/user/info/117154352607372629256')
+      .then((res) => {
+        this.myRank = res.data
+      })
   }
 }
 </script>
