@@ -14,9 +14,10 @@ Vue.use(Carousel3d)
 
 Vue.config.productionTip = false
 
-const BACKEND_PORT = process.env.BACKEND_PORT === null ? '' : `:${process.env.BACKEND_PORT}`
-const BACKEND_DOMAIN = process.env.BACKEND_DOMAIN === null ? `${location.protocol}//${location.hostname}` : process.env.BACKEND_DOMAIN
-axios.defaults.baseURL = `${BACKEND_DOMAIN}${BACKEND_PORT}`
+// const BACKEND_PORT = ":8080"
+// const BACKEND_URL = `${location.protocol}//${location.hostname}${BACKEND_PORT}`
+// axios.defaults.baseURL = `${BACKEND_URL}`
+axios.defaults.baseURL = 'http://localhost:8080'
 
 new Vue({
   router,
