@@ -22,22 +22,43 @@
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
     <div class="list"> 
-      <!-- <vue-scrolling-table>
-        <template slot="thead">
-          <tr>
-          <th v-for="col in columns"
-          :class="col.cssClasses"
-          :key="col.id">{{ col.title }}</th>
-          </tr>
-        </template>
-        <template slot="tbody">
-          <tr v-for="item in items" :key="item.id">
-          <td v-for="col in columns"
-          :class="col.cssClasses"
-          :key="col.id">{{ item[col.id] }}</td>
-          </tr>
-        </template>
-      </vue-scrolling-table> -->
+      <template>
+        <v-simple-table
+          class = "table transparent white--text"
+          fixed-header
+        >
+          <template v-slot:default>
+            <!-- <thead>
+              <tr>
+                <th class="text-left">
+                  Rank
+                </th>
+                <th class="text-left">
+                  Img
+                </th>
+                <th class="text-left">
+                  Nickname
+                </th>
+                <th class="text-left">
+                  Score
+                </th>
+              </tr>
+            </thead> -->
+            <tbody>
+              <tr
+                v-for="rank in rankList"
+                :key="rank.rank"
+                style="border-style: none;"
+              >
+                <td style="width: 10vh; font-size: 3vh; text-align: center;">{{ rank.rank }}</td>
+                <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
+                <td style="font-size: 3vh; padding: 0px; text-align: center;">{{ rank.userNickname }}</td>
+                <td style="font-size: 3vh; padding: 0px; ztext-align: center;">{{ rank.totalScore }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </template>
     </div>
     <div class="me"> </div>
   </div>
@@ -88,6 +109,16 @@ export default {
 </script>
 
 <style>
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: none;
+    border-width: 0;
+}
+
+tr:hover {
+  background-color: transparent !important;
+}
 
 html {
   overflow: hidden;
@@ -220,7 +251,7 @@ html::-webkit-scrollbar {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -14%);
-  background-color: tomato;
+  /* background-color: tomato; */
 }
 
 .me {
@@ -231,6 +262,18 @@ html::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, 405%);
   background-color: lime;
+}
+
+.listImg {
+  width: 3vw;
+  height: 3vw;
+  object-fit: cover;
+  border-radius: 70%;
+}
+
+.table {
+  width: 100%;
+  height: 100%;
 }
 
 </style>
