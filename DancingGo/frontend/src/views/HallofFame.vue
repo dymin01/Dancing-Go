@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -92,21 +93,24 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['token', 'user']),
+  },
   mounted() {
-     axios
-      .get('http://localhost:8080/user/rank')
+    axios
+      .get('/user/rank')
       .then((res) => {
         this.rankList = res.data;
         this.firstRank = this.rankList[0]
         this.secondRank = this.rankList[1]
         this.thirdRank = this.rankList[2]
-      }),
-      axios
-      .get('http://localhost:8080/user/info/117154352607372629256')
+    }),
+    axios
+      .get('/user/info/' + this.user.userId)
       .then((res) => {
         this.myRank = res.data
         console.log(this.myRank)
-      })
+    })
   }
 }
 </script>
