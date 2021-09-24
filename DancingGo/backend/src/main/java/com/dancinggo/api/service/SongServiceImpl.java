@@ -4,6 +4,7 @@ import com.dancinggo.api.request.SongAddReq;
 import com.dancinggo.api.response.SongGetRes;
 import com.dancinggo.db.entity.Song;
 import com.dancinggo.db.repository.GenreRepository;
+import com.dancinggo.db.repository.ScoreRepository;
 import com.dancinggo.db.repository.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class SongServiceImpl implements SongService{
     SongRepository songRepository;
     @Autowired
     GenreRepository genreRepository;
+    @Autowired
+    ScoreRepository scoreRepository;
 
     @Override
     public void addSong(SongAddReq songAddReq) {
@@ -38,6 +41,8 @@ public class SongServiceImpl implements SongService{
     @Override
     public SongGetRes oneSong(Long songId) {
 
+        long maxValue = scoreRepository.findByScore(songId);
+
         Song song = songRepository.findBySongId(songId).get();
         SongGetRes songGetRes = SongGetRes.builder()
                 .songId(song.getSongId())
@@ -49,6 +54,7 @@ public class SongServiceImpl implements SongService{
                 .songImg(song.getSongImg())
                 .fileName(song.getFileName())
                 .genreId(song.getGenre().getGenreId())
+                .value(maxValue)
                 .build();
 
         return songGetRes;

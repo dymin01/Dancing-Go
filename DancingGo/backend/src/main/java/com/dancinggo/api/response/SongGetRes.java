@@ -39,4 +39,7 @@ public class SongGetRes {
     @ApiModelProperty(name="장르 아이디")
     Long genreId;
 
+    @ApiModelProperty(name="최고 점수")
+    Long value;
+
 }
