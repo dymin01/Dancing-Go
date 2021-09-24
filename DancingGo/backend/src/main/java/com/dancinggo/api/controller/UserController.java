@@ -27,7 +27,7 @@ public class UserController {
     // true : 이미 닉네임 있음
     // false : 닉네임 사용 가능
     @GetMapping("/nickname/{userNickname}")
-    public ResponseEntity<Boolean> nicknameisExists(@RequestParam("userNickname") String userNickname){
+    public ResponseEntity<Boolean> nicknameisExists(@PathVariable("userNickname") String userNickname){
 
         boolean isExists = userService.nicknameisExists(userNickname);
         return new ResponseEntity<>(isExists, HttpStatus.OK);
@@ -45,7 +45,7 @@ public class UserController {
 
     // 게임오버
     @GetMapping("/gameover/{userNickname}")
-    public ResponseEntity<? extends BaseResponseBody> gameover(@RequestParam("userNickname") String userNickname){
+    public ResponseEntity<? extends BaseResponseBody> gameover(@PathVariable("userNickname") String userNickname){
 
         boolean isOk = userService.gameover(userNickname);
 
@@ -54,7 +54,7 @@ public class UserController {
 
     // 내정보 가져오기
     @GetMapping("/info/{userId}")
-    public ResponseEntity<UserInfoRes> getUserInfo(@RequestParam("userId") String userId){
+    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable("userId") String userId){
         //이름, 닉네임, 랭킹
 
         UserInfoRes userInfoRes = new UserInfoRes();

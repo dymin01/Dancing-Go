@@ -4,6 +4,7 @@ import com.dancinggo.api.service.UserService;
 import com.dancinggo.common.response.ApiResponse;
 import com.dancinggo.common.response.BaseResponseBody;
 import com.dancinggo.db.entity.User;
+import com.dancinggo.oauth.entity.RoleType;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,17 @@ public class LoginController {
 
         User user = userService.getUser(principal.getUsername());
 
-        return ApiResponse.success("user", user);
+        User tempUser = new User(user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getEmailVerifiedYn(),
+                user.getProfileImageUrl(),
+                user.getProviderType(),
+                user.getRoleType(),
+                user.getCreatedAt(),
+                user.getModifiedAt());
+
+        return ApiResponse.success("user", tempUser);
     }
 
 }

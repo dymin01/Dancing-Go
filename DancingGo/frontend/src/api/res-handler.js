@@ -3,6 +3,7 @@ export default {
     return (res) => {
       switch (res.data.header.code) {
         case 200: {
+          console.log(res.data.body)
           success(res.data.body)
           break
         }
