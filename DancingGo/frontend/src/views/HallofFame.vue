@@ -60,8 +60,8 @@
       </template>
     </div>
     <div class="me transparent white--text"> 
-      <div style="width: 10vh; font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
-      <div style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(myRank)" /></div>
+      <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
+      <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
     </div>
@@ -97,8 +97,6 @@ export default {
       .get('http://localhost:8080/user/rank')
       .then((res) => {
         this.rankList = res.data;
-        console.log(this.rankList)
-        console.log(this.rankList.length)
         this.firstRank = this.rankList[0]
         this.secondRank = this.rankList[1]
         this.thirdRank = this.rankList[2]
@@ -107,6 +105,7 @@ export default {
       .get('http://localhost:8080/user/info/117154352607372629256')
       .then((res) => {
         this.myRank = res.data
+        console.log(this.myRank)
       })
   }
 }
@@ -269,13 +268,12 @@ html::-webkit-scrollbar {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 405%);
-  background-color: lime;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
+  justify-content: space-evenly;
   color: #fff;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
-    0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+  box-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
 }
 
 .listImg {
