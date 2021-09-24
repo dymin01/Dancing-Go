@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -27,7 +27,7 @@ public class UserController {
     // true : 이미 닉네임 있음
     // false : 닉네임 사용 가능
     @GetMapping("/nickname/{userNickname}")
-    public ResponseEntity<Boolean> nicknameisExists(@PathVariable("userNickname") String userNickname){
+    public ResponseEntity<Boolean> nicknameisExists(@RequestParam("userNickname") String userNickname) {
 
         boolean isExists = userService.nicknameisExists(userNickname);
         return new ResponseEntity<>(isExists, HttpStatus.OK);
@@ -35,7 +35,7 @@ public class UserController {
 
     //닉네임 수정
     @PutMapping("/nickname")
-    public ResponseEntity<? extends BaseResponseBody> saveNickname(@RequestBody NicknameSaveReq nicknameSaveReq){
+    public ResponseEntity<? extends BaseResponseBody> saveNickname(@RequestBody NicknameSaveReq nicknameSaveReq) {
 
         boolean isOk = userService.setUserNickName(nicknameSaveReq);
 
@@ -45,7 +45,7 @@ public class UserController {
 
     // 게임오버
     @GetMapping("/gameover/{userNickname}")
-    public ResponseEntity<? extends BaseResponseBody> gameover(@PathVariable("userNickname") String userNickname){
+    public ResponseEntity<? extends BaseResponseBody> gameover(@RequestParam("userNickname") String userNickname) {
 
         boolean isOk = userService.gameover(userNickname);
 
@@ -54,7 +54,7 @@ public class UserController {
 
     // 내정보 가져오기
     @GetMapping("/info/{userId}")
-    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable("userId") String userId){
+    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable("userId") String userId) {
         //이름, 닉네임, 랭킹
 
         UserInfoRes userInfoRes = new UserInfoRes();
@@ -63,11 +63,16 @@ public class UserController {
         userInfoRes.setUserImg(user.getProfileImageUrl());
         userInfoRes.setTotalScore(user.getTotalScore());
 
-        // 총 점수가 없으면 랭킹은 0으로
-        if(user.getTotalScore() == 0 || user.getTotalScore() == null){
-            userInfoRes.setRank(0);
+        List<User> userList = userService.getAllRank();
+        int tmpRank = 0;
+        if (userList != null) {
+            tmpRank = userList.size();
         }
-        else{
+
+        // 총 점수가 없으면 랭킹은 마지막 랭크 + 1로
+        if (user.getTotalScore() == 0 || user.getTotalScore() == null) {
+            userInfoRes.setRank(tmpRank + 1);
+        } else {
             int rank = userService.getRank(user.getTotalScore()) + 1;
             userInfoRes.setRank(rank);
         }
@@ -77,7 +82,7 @@ public class UserController {
 
     // 전체 랭킹 가져오기
     @GetMapping("/rank")
-    public ResponseEntity<List<UserInfoRes>> getAllRank(){
+    public ResponseEntity<List<UserInfoRes>> getAllRank() {
 
         int rank = 1;
 
@@ -87,12 +92,11 @@ public class UserController {
 
         long preTotalScore = -1;
 
-        for(User user : userList){
+        for (User user : userList) {
 
-            if(preTotalScore == -1){
+            if (preTotalScore == -1) {
                 preTotalScore = user.getTotalScore();
-            }
-            else if(preTotalScore != user.getTotalScore()){
+            } else if (preTotalScore != user.getTotalScore()) {
                 preTotalScore = user.getTotalScore();
                 rank++;
             }
