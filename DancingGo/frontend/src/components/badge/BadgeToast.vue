@@ -46,17 +46,20 @@
     name : 'BadgeToast',
     props:{
       //user_seq: Number,
-      badgeInfo:{
-        type : Array,
-      }
+      badgeNum: Number,
+      badgeName: String,
+      badgeImg: String
     },
     data() {
       return {
         count: 0,
-        badgeNum : 1001,
-        badgeName : "시작이 반이다!",
-        badgeImg : "images/badgeImg/1001.png",
+        // badgeNum : 1001,
+        // badgeName : "시작이 반이다!",
+        // badgeImg : "images/badgeImg/1001.png",
       }
+    },
+    mounted(){
+      this.$bvToast.show('my-toast')
     },
     methods: {
       showToast() {

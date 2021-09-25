@@ -1,6 +1,7 @@
 package com.dancinggo.api.service;
 
 import com.dancinggo.api.request.NicknameSaveReq;
+import com.dancinggo.api.response.UserGameInfoRes;
 import com.dancinggo.db.entity.User;
 import com.dancinggo.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,32 @@ public class UserService {
         userRepository.save(user);
 
         return true;
+    }
+
+    public UserGameInfoRes gameInfoRes(String userId) {
+        User user = userRepository.findByUserId(userId);
+        List<User> userList = this.getAllRank();
+        int tmpRank = 0;
+        int rank = 0;
+        if (userList != null) {
+            tmpRank = userList.size();
+        }
+
+        // 총 점수가 없으면 랭킹은 마지막 랭크 + 1로
+        if (user.getTotalScore() == 0 || user.getTotalScore() == null) {
+            rank = tmpRank + 1;
+        } else {
+            rank = this.getRank(user.getTotalScore()) + 1;
+        }
+        UserGameInfoRes userGameInfoRes = UserGameInfoRes.builder()
+                .userSeq(user.getUserSeq())
+                .userNickname(user.getUserNickname())
+                .rank(rank)
+                .totalPlayCnt(user.getTotalPlayCnt())
+                .gameoverCnt(user.getGameoverCnt())
+                .build();
+
+        return userGameInfoRes;
     }
 
 }

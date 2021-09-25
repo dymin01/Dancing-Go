@@ -1,6 +1,7 @@
 package com.dancinggo.api.service;
 
 import com.dancinggo.api.response.ChallengeMyBadgesRes;
+import com.dancinggo.api.response.ChallengeOnlyBadgeIdRes;
 import com.dancinggo.db.entity.Challenge;
 import com.dancinggo.db.repository.BadgeRepository;
 import com.dancinggo.db.repository.ChallengeRepository;
@@ -52,5 +53,20 @@ public class ChallengeServiceImpl implements ChallengeService{
                 .build()
         );
 
+    }
+
+    @Override
+    public List<ChallengeOnlyBadgeIdRes> onlyMyBadges(String userNickname) {
+
+        List<Challenge> myChallenges = challengeRepository.findByUser_UserNickname(userNickname);
+        List<ChallengeOnlyBadgeIdRes> challengeOnlyBadgeIdResList = new ArrayList<>();
+        for (Challenge c : myChallenges) {
+            challengeOnlyBadgeIdResList.add(ChallengeOnlyBadgeIdRes.builder()
+                    .badgeId(c.getBadge().getBadgeId())
+                    .build()
+            );
+        }
+
+        return challengeOnlyBadgeIdResList;
     }
 }
