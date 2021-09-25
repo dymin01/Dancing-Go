@@ -7,6 +7,7 @@ import Practice from '../views/Practice.vue'
 import Ranking from '../views/Ranking.vue'
 import HallofFame from '../views/HallofFame.vue'
 import OauthRedirect from '@/components/oauth/Redirect'
+import BadgeToast from '@/components/badge/BadgeToast.vue'
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes = [
     path: '/oauth/redirect',
     name: 'OauthRedrect',
     component: OauthRedirect
+  },
+  {
+    path: '/badgetoast',
+    name: 'BadgeToast',
+    component: BadgeToast
   }
 ]
 
