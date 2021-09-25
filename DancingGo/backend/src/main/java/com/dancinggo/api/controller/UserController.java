@@ -1,6 +1,7 @@
 package com.dancinggo.api.controller;
 
 import com.dancinggo.api.request.NicknameSaveReq;
+import com.dancinggo.api.response.UserGameInfoRes;
 import com.dancinggo.api.response.UserInfoRes;
 import com.dancinggo.api.service.UserService;
 import com.dancinggo.common.response.BaseResponseBody;
@@ -45,7 +46,7 @@ public class UserController {
 
     // 게임오버
     @GetMapping("/gameover/{userNickname}")
-    public ResponseEntity<? extends BaseResponseBody> gameover(@RequestParam("userNickname") String userNickname) {
+    public ResponseEntity<? extends BaseResponseBody> gameover(@PathVariable("userNickname") String userNickname) {
 
         boolean isOk = userService.gameover(userNickname);
 
@@ -109,5 +110,13 @@ public class UserController {
 
         return new ResponseEntity<>(userInfoResList, HttpStatus.OK);
 
+    }
+
+    // 내 게임 정보 가져오기
+    @GetMapping("/gameinfo/{userId}")
+    public ResponseEntity<UserGameInfoRes> getUserGameInfo(@PathVariable("userId") String userId) {
+        // seq, 닉네임, 랭크, 게임오버횟수, 전체 게임 플레이 횟수
+        UserGameInfoRes userGameInfoRes = userService.gameInfoRes(userId);
+        return new ResponseEntity<>(userGameInfoRes, HttpStatus.OK);
     }
 }
