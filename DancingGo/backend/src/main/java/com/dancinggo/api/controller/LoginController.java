@@ -30,6 +30,7 @@ public class LoginController {
                 user.getEmail(),
                 user.getEmailVerifiedYn(),
                 user.getProfileImageUrl(),
+                user.getUserNickname(),
                 user.getProviderType(),
                 user.getRoleType(),
                 user.getCreatedAt(),
