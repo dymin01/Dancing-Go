@@ -17,4 +17,7 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
     @Query(value = "select count(S.value) from score S where S.value > :value group by song_id having song_id = :songId", nativeQuery = true)
     Long findByRank(@Param("songId") Long songId, @Param("value") Long value);
+
+    @Query(value = "select Max(S.value) from score S group by song_id having song_id = :songId", nativeQuery = true)
+    Long findByScore(@Param("songId") Long songId);
 }

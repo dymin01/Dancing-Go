@@ -53,13 +53,6 @@ export default {
           comment: '구글 로그인'
         },
         {
-          socialType: 'facebook',
-          src: $.getSocialImage('facebook'),
-          width: '32px',
-          height: '32px',
-          comment: '페이스북 로그인'
-        },
-        {
           socialType: 'naver',
           src: $.getSocialImage('naver'),
           width: '32px',

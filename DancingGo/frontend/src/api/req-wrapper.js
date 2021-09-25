@@ -19,6 +19,9 @@ export default {
     axios.get(wrap(url), appendAuth(config))
       .then(handler.handle(success))
       .catch(fail)
+      .finally(function() {
+        console.log(wrap(url))
+      })
   },
   post (url, body, success, fail = err => err.response.data.message, config) {
     axios.post(wrap(url), body, appendAuth(config))
