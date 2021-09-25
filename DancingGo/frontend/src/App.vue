@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <Header />
+    <Header
+    v-if="isheader" />
     <router-view/>
   </v-app>
 </template>
@@ -12,8 +13,15 @@ export default {
   components: {
     Header
   },
-  data: () => ({
-    //
-  }),
+  data () {
+    return {
+      isheader: true
+    }
+  },
+  created () {
+    if (document.location.pathname === '/') {
+      this.isheader = false
+    }
+  }
 };
 </script>
