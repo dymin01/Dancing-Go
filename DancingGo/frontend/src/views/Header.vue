@@ -1,8 +1,16 @@
 <template>
-  <div id="header" class="d-flex justify-end m-3">
-    <i id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
-    <i id="icon" class="mx-2 fas fa-cog"></i>
-    <i id="icon" class="mx-2 fas fa-sign-out-alt"></i>
+  <div id="header" class="d-flex justify-end m-3 pe-4">
+    <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
+    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
+    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt"></i>
+    <tasty-burger-button
+        id="hamburgerButton"
+        :type="buttonType"
+        :active="isActive"
+        :color="color"
+        :active-color="color"
+        @toggle="onToggle"
+         />
 
     <v-dialog
     v-model="isMypageOpen"
@@ -20,7 +28,11 @@ export default {
   name: 'Header',
   data(){
     return{
-      isMypageOpen: false
+      isMypageOpen: false,
+      buttonType: 'elastic',
+      isActive: false,
+      color: 'white',
+      isHamburgerOpen: false,
     }
   },
   components:{
@@ -35,6 +47,10 @@ export default {
     },
     closeMypage(){
       this.isMypageOpen = false
+    },
+    onToggle (active) {
+      // console.log(active)
+      this.isHamburgerOpen = active
     }
   }
 }
@@ -54,6 +70,9 @@ export default {
 }
 #icon:hover {
   cursor: pointer;
+}
+#hamburgerButton {
+  z-index: 100;
 }
 
 </style>

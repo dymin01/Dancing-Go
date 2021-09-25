@@ -9,12 +9,14 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Carousel3d from 'vue-carousel-3d'
 import axios from 'axios'
+import * as TastyBurgerButton from 'vue-tasty-burgers'
 
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(Carousel3d)
+Vue.use(TastyBurgerButton)
 
 Vue.config.productionTip = false
 
