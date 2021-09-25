@@ -1,5 +1,6 @@
 <template>
   <div id="header" class="d-flex justify-end m-3 pe-4">
+    <i id="icon" class="fas fa-chevron-left" @click="goBack"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt"></i>
@@ -10,7 +11,7 @@
         :color="color"
         :active-color="color"
         @toggle="onToggle"
-         />
+        />
 
     <v-dialog
     v-model="isMypageOpen"
@@ -51,8 +52,11 @@ export default {
     onToggle (active) {
       // console.log(active)
       this.isHamburgerOpen = active
+    },
+    goBack () {
+      this.$router.go(-1)
     }
-  }
+  },
 }
 </script>
 
