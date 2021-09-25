@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import account from './modules/account'
+import music from './modules/music'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,6 @@ export default new Vuex.Store({
   actions: {
   },
   plugins: [ createPersistedState({ storage: window.sessionStorage }) ],
-  modules: { account },
+  modules: { account, music },
   strict: debug
 })
