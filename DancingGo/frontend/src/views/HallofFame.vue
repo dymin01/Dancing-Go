@@ -278,6 +278,7 @@ html::-webkit-scrollbar {
   justify-content: space-evenly;
   color: #fff;
   box-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
+  border-radius: 15px;
 }
 
 .listImg {
