@@ -29,7 +29,8 @@ const routes = [
     component: MusicSelect
   },
   {
-    path: '/practice/:songId',
+    path: '/practice',
+    // path: '/practice/:songId',
     name: 'Practice',
     component: Practice
   },
