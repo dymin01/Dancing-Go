@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-img id="background" src="images/HallofFame/stage3.jpg"></v-img>
-    <v-img id="Firecracker" src="images/HallofFame/Firecracker.png"></v-img>
+    <v-img id="background" src="images/HallofFame/HallofFame.png"></v-img>
+    <!-- <v-img id="Firecracker" src="images/HallofFame/Firecracker.png"></v-img> -->
     <div class="board"> 
 
     </div>
@@ -49,10 +49,10 @@
                 v-for="rank in rankList"
                 :key="rank.rank"
               >
-                <td style="width: 10vh; font-size: 3vh; text-align: center;">{{ rank.rank }}</td>
+                <td style="width: 10vh; font-size: 3vh; text-align: center; vertical-align: middle;">{{ rank.rank }}</td>
                 <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
-                <td style="font-size: 3vh; padding: 0px; text-align: center;">{{ rank.userNickname }}</td>
-                <td style="font-size: 3vh; padding: 0px; text-align: center;">{{ rank.totalScore }}</td>
+                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
+                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.totalScore }}</td>
               </tr>
             </tbody>
           </template>
@@ -115,7 +115,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 tbody, td, tfoot, th, thead, tr {
     border-color: inherit;
@@ -136,6 +136,10 @@ html {
 html::-webkit-scrollbar {
   display: none;
 }
+
+/* .table td:nth-child(n) {
+  border-top: none;
+} */
 
 #background {
   position: absolute;
@@ -258,7 +262,6 @@ html::-webkit-scrollbar {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -14%);
-  /* background-color: tomato; */
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
