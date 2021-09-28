@@ -44,8 +44,8 @@ public class ChallengeController {
 
     // 닉네임으로 내가 획득한 뱃지 아이디만을 리스트로 가져오기
     @GetMapping("/onlyMyBadge/{userNickname}")
-    public ResponseEntity<List<ChallengeOnlyBadgeIdRes>> onlyMyBadges(@PathVariable("userNickname") String userNickname) {
-        List<ChallengeOnlyBadgeIdRes> challengeOnlyBadgeIdResList = challengeService.onlyMyBadges(userNickname);
+    public ResponseEntity<List<Long>> onlyMyBadges(@PathVariable("userNickname") String userNickname) {
+        List<Long> challengeOnlyBadgeIdResList = challengeService.onlyMyBadges(userNickname);
         return new ResponseEntity<>(challengeOnlyBadgeIdResList, HttpStatus.OK);
     }
 }

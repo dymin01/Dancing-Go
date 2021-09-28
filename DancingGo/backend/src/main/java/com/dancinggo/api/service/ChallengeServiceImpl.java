@@ -56,15 +56,12 @@ public class ChallengeServiceImpl implements ChallengeService{
     }
 
     @Override
-    public List<ChallengeOnlyBadgeIdRes> onlyMyBadges(String userNickname) {
+    public List<Long> onlyMyBadges(String userNickname) {
 
         List<Challenge> myChallenges = challengeRepository.findByUser_UserNickname(userNickname);
-        List<ChallengeOnlyBadgeIdRes> challengeOnlyBadgeIdResList = new ArrayList<>();
+        List<Long> challengeOnlyBadgeIdResList = new ArrayList<>();
         for (Challenge c : myChallenges) {
-            challengeOnlyBadgeIdResList.add(ChallengeOnlyBadgeIdRes.builder()
-                    .badgeId(c.getBadge().getBadgeId())
-                    .build()
-            );
+            challengeOnlyBadgeIdResList.add(c.getBadge().getBadgeId());
         }
 
         return challengeOnlyBadgeIdResList;
