@@ -3,19 +3,16 @@
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
     <div class="first">
       <v-img class="myImg" :src="getImg(firstRank)" />
-      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
       <span class="myScore"> {{firstRank.value}} </span>
       <span class="myName">{{firstRank.userNickname}}</span>
     </div>
     <div class="second">
       <v-img class="myImg" :src="getImg(secondRank)" />
-      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
       <span class="myScore"> {{secondRank.value}} </span>
       <span class="myName">{{secondRank.userNickname}}</span>
     </div>
     <div class="third">
       <v-img class="myImg" :src="getImg(thirdRank)" />
-      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
       <span class="myScore"> {{thirdRank.value}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
@@ -32,10 +29,10 @@
                 :key="rank.rank"
               >
                 <td style="width: 10vh; font-size: 3vh; text-align: center; vertical-align: middle;">{{ rank.rank }}</td>
-                <!-- <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td> -->
-                <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" src="images/HallofFame/mirror-ball.png" /></td>
+                <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
+                <!-- <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" src="images/HallofFame/mirror-ball.png" /></td> -->
                 <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
-                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.totalScore }}</td>
+                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.value }}</td>
               </tr>
             </tbody>
           </template>
@@ -126,22 +123,6 @@ export default {
         })
       }
     }
-    // updated() {
-    //   axios
-    //     .get('/score/songRank/'+this.songId)
-    //     .then((res) => {
-    //       this.rankList = res.data;
-    //       console.log(this.songId)
-    //       this.firstRank = this.rankList[0]
-    //       this.secondRank = this.rankList[1]
-    //       this.thirdRank = this.rankList[2]
-    //   }),
-    //   axios
-    //     .get('/user/info/' + this.user.userId)
-    //     .then((res) => {
-    //       this.myRank = res.data
-    //   })
-    // }
 }
 </script>
 
@@ -279,7 +260,7 @@ tr:hover {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .me {
