@@ -1,6 +1,7 @@
 
 <template>
   <div>
+    <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt="">
     <div id="now" @click="goToPractice(musics[activeIndex].songId)">
       <!-- {{ musics[activeIndex].fileName }} -->
       <div id="difficulty">
@@ -40,6 +41,11 @@
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper> -->
     </div>
+    <v-dialog
+      v-model="isRankOpen"
+      max-width="650px"
+      > <SongRank @closeRank="isRankOpen" class="mypageModal"/>
+    </v-dialog>
   </div>
 </template>
 
@@ -48,6 +54,7 @@
   import Music from '@/components/musicselect/Music.vue'
   import 'swiper/css/swiper.css'
   import { mapState } from 'vuex'
+  import SongRank from '@/components/musicselect/songRank.vue'
 
   export default {
     name: 'MusicList',
@@ -55,6 +62,7 @@
       Swiper,
       // SwiperSlide,
       Music,
+      SongRank
     },
     computed: {
       ...mapState('music', {
@@ -94,7 +102,8 @@
           // pagination: {
           //   el: '.swiper-pagination'
           // }
-        }
+        },
+        isRankOpen: false
       }
     },
     methods: {
@@ -116,6 +125,15 @@
       },
       goToPractice (songId) {
         this.$router.push({ name: 'Practice', params: { songId: songId } })
+      },
+      songRank (songId) {
+        alert(songId);
+      },
+      openRink () {
+        this.isRankOpen = true
+      },
+      closeRink() {
+        this.isRankOpen = false
       }
     },
     created () {
@@ -211,5 +229,15 @@
     //     // background-color: $white;
     //   }
     // }
+  }
+
+  #rankIcon {
+    position: absolute;
+    width: 8vh;
+    height: 8vh;
+    top: 28%;
+    left: 60%;
+    /* 커서 올리면 손가락 */
+    cursor: pointer;
   }
 </style>
