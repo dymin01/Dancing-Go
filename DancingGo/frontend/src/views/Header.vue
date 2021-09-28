@@ -42,7 +42,7 @@ export default {
     return{
       isMypageOpen: false,
       isSettingsOpen: false,
-      buttonType: 'elastic',
+      buttonType: 'arrowturn',
       isActive: false,
       color: 'white',
       isHamburgerOpen: false,
