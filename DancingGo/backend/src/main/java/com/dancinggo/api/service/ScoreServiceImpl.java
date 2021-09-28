@@ -39,12 +39,12 @@ public class ScoreServiceImpl implements ScoreService {
             long value = newScore.getValue();
             long maxValue = Math.max(value, scoreSaveReq.getValue());
 
-            newScore.setPlayCnt(playCnt + 1L);
-            newScore.setValue(maxValue);
             user.setTotalPlayCnt(user.getTotalPlayCnt() + 1);
             user.setTotalScore(user.getTotalScore() + maxValue - value);
-
             userRepository.save(user);
+
+            newScore.setPlayCnt(playCnt + 1L);
+            newScore.setValue(maxValue);
             scoreRepository.save(newScore);
 
         } else { // 처음 춘 곡일 때
@@ -88,6 +88,11 @@ public class ScoreServiceImpl implements ScoreService {
                 cnt = 1L;
                 tmpScore = score.getValue();
             }
+            System.out.println(score.getScoreId());
+            System.out.println(score.getPlayCnt());
+            System.out.println(score.getValue());
+            System.out.println(score.getSong());
+            System.out.println(score.getUser());
             User user = score.getUser();
             listRes.add(songRankRes.builder()
                     .userNickname(user.getUserNickname())
