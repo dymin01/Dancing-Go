@@ -39,12 +39,12 @@ public class ScoreServiceImpl implements ScoreService {
             long value = newScore.getValue();
             long maxValue = Math.max(value, scoreSaveReq.getValue());
 
-            newScore.setPlayCnt(playCnt + 1L);
-            newScore.setValue(maxValue);
             user.setTotalPlayCnt(user.getTotalPlayCnt() + 1);
             user.setTotalScore(user.getTotalScore() + maxValue - value);
-
             userRepository.save(user);
+
+            newScore.setPlayCnt(playCnt + 1L);
+            newScore.setValue(maxValue);
             scoreRepository.save(newScore);
 
         } else { // 처음 춘 곡일 때
@@ -102,11 +102,29 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public MyScoreRes findMyScore(MyScoreReq myScoreReq) {
-        Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
-        Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
-        if (rank == null) {
-            rank = 0L;
+        Optional<Score> score = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId());
+        List<Score> scores = scoreRepository.findAllBySong_SongId(myScoreReq.getSongId());
+        System.out.println(scores.size());
+        Long value = 0L;
+        if(score.isPresent()) {
+            value = score.get().getValue();
         }
-        return MyScoreRes.builder().value(value).rank(rank + 1L).build();
+
+        Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
+        Boolean check = true;
+        if (rank == null) {
+            if(scores.size() == 0) {
+                check = false;
+            }
+            rank = 0L;
+        } else if(rank == scores.size()) {
+            check = false;
+        }
+
+        if(check) {
+            return MyScoreRes.builder().value(value).rank(rank + 1L).build();
+        } else {
+            return MyScoreRes.builder().value(value).rank(-1L).build();
+        }
     }
 }
