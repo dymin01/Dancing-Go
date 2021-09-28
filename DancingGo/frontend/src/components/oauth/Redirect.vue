@@ -14,7 +14,7 @@ export default {
       this.setToken(token)
       this.fetchUser()
       setTimeout(function(){
-        this.$router.replace('/home')
+         this.$router.replace('/home')
       }.bind(this) , 100)
       
     }else{
