@@ -1,18 +1,22 @@
 <template>
-  <div id="header" class="d-flex justify-end m-3 pe-4">
-    <i id="icon" class="fas fa-chevron-left" @click="goBack"></i>
-    <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
-    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
-    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="logout"></i>
-    <tasty-burger-button
-        id="hamburgerButton"
-        :type="buttonType"
-        :active="isActive"
-        :color="color"
-        :active-color="color"
-        @toggle="onToggle"
-        />
-
+  <!-- <div id="header" class="d-flex justify-end m-3 pe-4"> -->
+  <div id="header" class="d-flex m-3 pe-4" style="z-index:100;">
+    <div style="float:left;">
+      <i id="icon" class="fas fa-chevron-left"  @click="goBack"></i>
+    </div>
+    <div style="margin-left:auto;">
+      <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
+      <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
+      <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="logout"></i>
+      <tasty-burger-button
+          id="hamburgerButton"
+          :type="buttonType"
+          :active="isActive"
+          :color="color"
+          :active-color="color"
+          @toggle="onToggle"
+          />
+    </div>
     <v-dialog
     v-model="isMypageOpen"
     max-width="650px"

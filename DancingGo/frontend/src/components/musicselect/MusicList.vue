@@ -2,7 +2,7 @@
 <template>
   <div>
     <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt="">
-    <div id="now" @click="goToPractice(musics[activeIndex].songId)">
+    <div id="now" @click="goToPractice(musics[activeIndex].songId)"></div>
     <div id="now" @click="openModal">
       <!-- {{ musics[activeIndex].fileName }} -->
       <div id="difficulty">
@@ -83,8 +83,8 @@
       Swiper,
       // SwiperSlide,
       Music,
-      SongRank
-      Modal,
+      SongRank,
+      Modal
     },
     props: {
       mode: {
