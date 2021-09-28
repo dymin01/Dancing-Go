@@ -41,10 +41,9 @@
     </div>
     <div class="me transparent white--text"> 
       <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
-      <!-- <div><v-img class="listImg" :src="getImg(myRank)" /></div> -->
-      <div><v-img class="listImg" src="images/HallofFame/mirror-ball.png" /></div>
+      <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
-      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
+      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.value }}</div>
     </div>
   </v-card>
 </template>
@@ -60,7 +59,12 @@ export default {
           firstRank: {},
           secondRank: {},
           thirdRank: {},
-          myRank: {}
+          myRank: {
+            rank: "",
+            value: "",
+            userNickname: "",
+            userImg: ""
+          }
         }
     },
     props: {
@@ -98,7 +102,10 @@ export default {
         .post('/score/findMyScore/', body)
         .then((res) => {
           console.log(res.data);
-          this.myRank = res.data
+          this.myRank.value = res.data.value
+          this.myRank.rank = res.data.rank
+          this.myRank.userNickname = this.user.userNickname
+          this.myRank.userImg = this.user.profileImageUrl
       })
     },
     watch: {
@@ -119,7 +126,10 @@ export default {
           .post('/score/findMyScore/', body)
           .then((res) => {
             console.log(res.data);
-            this.myRank = res.data
+            this.myRank.value = res.data.value
+            this.myRank.rank = res.data.rank
+            this.myRank.userNickname = this.user.userNickname
+            this.myRank.userImg = this.user.profileImageUrl
         })
       }
     }
