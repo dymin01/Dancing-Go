@@ -2,7 +2,7 @@
   <div id="header" class="d-flex justify-end m-3 pe-4">
     <i id="icon" class="fas fa-chevron-left" @click="goBack"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
-    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
+    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog" @click="openSettings"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="logout"></i>
     <tasty-burger-button
         id="hamburgerButton"
@@ -18,11 +18,18 @@
     max-width="650px"
     > <Mypage @closeMypage="closeMypage" class="mypageModal"/>
     </v-dialog>
+
+    <v-dialog
+    v-model="isSettingsOpen"
+    max-width="400px">
+      <Settings @closeSettings="closeSettings" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Mypage from '@/components/mypage/mypage.vue'
+import Settings from '@/components/settings/Settings.vue'
 import { mapMutations, mapGetters } from 'vuex'
 
 export default {
@@ -30,6 +37,7 @@ export default {
   data(){
     return{
       isMypageOpen: false,
+      isSettingsOpen: false,
       buttonType: 'elastic',
       isActive: false,
       color: 'white',
@@ -37,7 +45,8 @@ export default {
     }
   },
   components:{
-    Mypage
+    Mypage,
+    Settings,
   },
   computed:{
     ...mapGetters(['token', 'user']),
@@ -55,6 +64,12 @@ export default {
     },
     closeMypage(){
       this.isMypageOpen = false
+    },
+    openSettings(){
+      this.isSettingsOpen = true
+    },
+    closeSettings(){
+      this.isSettingsOpen = false
     },
     onToggle (active) {
       // console.log(active)
