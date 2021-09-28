@@ -3,7 +3,7 @@
     <i id="icon" class="fas fa-chevron-left" @click="goBack"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
     <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog"></i>
-    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt"></i>
+    <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="logout"></i>
     <tasty-burger-button
         id="hamburgerButton"
         :type="buttonType"
@@ -23,7 +23,7 @@
 
 <script>
 import Mypage from '@/components/mypage/mypage.vue'
-import { mapGetters } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
@@ -43,6 +43,13 @@ export default {
     ...mapGetters(['token', 'user']),
   },
   methods:{
+    ...mapMutations(['setToken', 'setUser']),
+    logout () {
+      this.setToken(null)
+      this.setUser(null)
+      alert('로그아웃되었습니다.')
+      if (this.$route.path !== '/') this.$router.push('/')
+    },
     openMypage(){
       this.isMypageOpen = true
     },

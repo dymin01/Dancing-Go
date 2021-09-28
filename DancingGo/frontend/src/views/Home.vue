@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img id="background" src="images/home/home_background.jpg"></v-img>
-    <button @click="logout">로그아웃</button>
+    <!-- <button @click="logout">로그아웃</button> -->
     <ModeSelect />
 
     <!-- <NicknameModal /> -->
@@ -39,12 +39,12 @@ export default {
     },
   methods: {
     ...mapMutations(['setToken', 'setUser']),
-    logout () {
-      this.setToken(null)
-      this.setUser(null)
-      alert('로그아웃되었습니다.')
-      if (this.$route.path !== '/') this.$router.push('/')
-    },
+    // logout () {
+    //   this.setToken(null)
+    //   this.setUser(null)
+    //   alert('로그아웃되었습니다.')
+    //   if (this.$route.path !== '/') this.$router.push('/')
+    // },
     closeNicknameModal () {
       this.isNicknameModalOpen = false
     }

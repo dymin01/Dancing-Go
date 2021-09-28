@@ -3,6 +3,7 @@
   <div>
     <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt="">
     <div id="now" @click="goToPractice(musics[activeIndex].songId)">
+    <div id="now" @click="openModal">
       <!-- {{ musics[activeIndex].fileName }} -->
       <div id="difficulty">
         <span v-if="musics[activeIndex].difficulty===1">★</span>
@@ -10,7 +11,13 @@
         <span v-else-if="musics[activeIndex].difficulty===3">★★★</span>
       </div>
       <img :src="'images/musicselect/'+musics[activeIndex].fileName+'.png'" alt="">
-      <div id="active-music-info" class="text-center my-3">
+      <!-- 연습모드 일 때 곡 정보 -->
+      <div v-if="mode==='Practice'" id="active-music-info" class="text-center my-3">
+        <p>{{ musics[activeIndex].songNameKor }}</p>
+        <p>{{ musics[activeIndex].singerKor }}</p>
+      </div>
+      <!-- 랭킹모드 일 때 곡 정보 -->
+      <div v-else id="active-music-info" class="text-center my-3">
         <p>{{ musics[activeIndex].songNameKor }}</p>
         <p>{{ musics[activeIndex].singerKor }}</p>
       </div>
@@ -47,6 +54,17 @@
       > <SongRank 
       :songId="musics[activeIndex].songId"
       @closeRank="isRankOpen" class="mypageModal"/>
+    v-model="isModalOpen"
+    max-width="350px"
+    >
+      <Modal
+        :modalTitle="'알림'"
+        :modalContent="'댄스 한 판 즐겨볼까요?💃'"
+        :buttonO="'시작'"
+        :buttonX="'취소'"
+        @clickO="goToGame(musics[activeIndex].songId)"
+        @clickX="closeModal"
+      />
     </v-dialog>
   </div>
 </template>
@@ -54,6 +72,7 @@
 <script>
   import { Swiper } from 'vue-awesome-swiper'
   import Music from '@/components/musicselect/Music.vue'
+  import Modal from '@/components/Modal.vue'
   import 'swiper/css/swiper.css'
   import { mapState } from 'vuex'
   import SongRank from '@/components/musicselect/songRank.vue'
@@ -65,6 +84,12 @@
       // SwiperSlide,
       Music,
       SongRank
+      Modal,
+    },
+    props: {
+      mode: {
+        type: String
+      }
     },
     computed: {
       ...mapState('music', {
@@ -76,6 +101,7 @@
     },
     data() {
       return {
+        isModalOpen: false,
         activeIdx: 0,
         // musics: [['nextlevel', 0], ['permissiontodance', 1], ['nextlevel', 2], ['permissiontodance', 3],
         //         ['nextlevel', 4], ['permissiontodance', 5], ['nextlevel', 6], ['permissiontodance', 7]],
@@ -136,6 +162,16 @@
       },
       closeRink() {
         this.isRankOpen = false
+      },
+      openModal () {
+        this.isModalOpen = true
+      },
+      closeModal () {
+        this.isModalOpen = false
+      },
+      goToGame (songId) {
+        // console.log(this.mode)
+        this.$router.push({ name: this.mode, params: { songId: songId } })
       }
     },
     created () {
