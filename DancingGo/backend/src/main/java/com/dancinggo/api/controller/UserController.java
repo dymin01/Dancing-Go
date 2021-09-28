@@ -28,8 +28,9 @@ public class UserController {
     // true : 이미 닉네임 있음
     // false : 닉네임 사용 가능
     @GetMapping("/nickname/{userNickname}")
-    public ResponseEntity<Boolean> nicknameisExists(@RequestParam("userNickname") String userNickname) {
-
+    public ResponseEntity<Boolean> nicknameisExists(@PathVariable("userNickname") String userNickname) {
+        System.out.println("은교바보");
+        System.out.println(userNickname);
         boolean isExists = userService.nicknameisExists(userNickname);
         return new ResponseEntity<>(isExists, HttpStatus.OK);
     }

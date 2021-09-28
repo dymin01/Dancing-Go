@@ -13,8 +13,13 @@ export default {
     if (token) {
       this.setToken(token)
       this.fetchUser()
+      setTimeout(function(){
+        this.$router.replace('/home')
+      }.bind(this) , 100)
+      
+    }else{
+      this.$router.replace('/')
     }
-    this.$router.replace('/home')
   },
   methods: {
     ...mapActions(['fetchUser']),

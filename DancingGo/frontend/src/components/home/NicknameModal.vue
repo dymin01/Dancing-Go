@@ -26,6 +26,7 @@
 
 <script>
 import axios from 'axios'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'NicknameModal',
   data () {
@@ -33,7 +34,11 @@ export default {
       nicknameInput: '',
     }
   },
+  computed:{
+        ...mapGetters(['user'])
+  },
   methods: {
+    ...mapMutations(['setUser']),
     checkNickname: function () {
       if (this.nicknameInput.length > 6) {
         alert('닉네임은 6자까지 입력 가능합니다.')
@@ -41,18 +46,24 @@ export default {
         alert('닉네임을 입력해주세요.')
       } else {
         const nickname = this.nicknameInput
+        console.log("은교바보")
+        console.log(nickname)
         axios.get("/user/nickname/" + nickname)
         .then((res) => {
+          console.log("중복결과")
+          console.log(res.data)
           if (res.data === true) {
             alert('중복된 닉네임입니다.')
           } else {
             const body = {
-                userNickname: this.userNickname,
+                userNickname: this.nicknameInput,
                 userId: this.$store.state.account.user.userId,
             }
             axios.put("/user/nickname/", body)
             .then(() => {
               alert('닉네임 설정에 성공했습니다.')
+              this.user.userNickname = this.nicknameInput
+              this.setUser(this.user)
               this.$emit('closeModal')
             })
           }
