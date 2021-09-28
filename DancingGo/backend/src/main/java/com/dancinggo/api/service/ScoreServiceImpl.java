@@ -88,11 +88,6 @@ public class ScoreServiceImpl implements ScoreService {
                 cnt = 1L;
                 tmpScore = score.getValue();
             }
-            System.out.println(score.getScoreId());
-            System.out.println(score.getPlayCnt());
-            System.out.println(score.getValue());
-            System.out.println(score.getSong());
-            System.out.println(score.getUser());
             User user = score.getUser();
             listRes.add(songRankRes.builder()
                     .userNickname(user.getUserNickname())
@@ -107,18 +102,29 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public MyScoreRes findMyScore(MyScoreReq myScoreReq) {
-//        Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
         Optional<Score> score = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId());
+        List<Score> scores = scoreRepository.findAllBySong_SongId(myScoreReq.getSongId());
+        System.out.println(scores.size());
         Long value = 0L;
         if(score.isPresent()) {
             value = score.get().getValue();
         }
 
         Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
+        Boolean check = true;
         if (rank == null) {
+            if(scores.size() == 0) {
+                check = false;
+            }
             rank = 0L;
+        } else if(rank == scores.size()) {
+            check = false;
         }
 
-        return MyScoreRes.builder().value(value).rank(rank + 1L).build();
+        if(check) {
+            return MyScoreRes.builder().value(value).rank(rank + 1L).build();
+        } else {
+            return MyScoreRes.builder().value(value).rank(-1L).build();
+        }
     }
 }

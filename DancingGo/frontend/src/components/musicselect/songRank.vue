@@ -40,7 +40,8 @@
       </template>
     </div>
     <div class="me transparent white--text"> 
-      <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-else>-</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.value }}</div>
@@ -86,6 +87,13 @@ export default {
       },
       check(userInfo) {
         if(userInfo == null) {
+          return false
+        } else {
+          return true
+        }
+      },
+      checkMinus(rankValue) {
+        if(rankValue == -1) {
           return false
         } else {
           return true
