@@ -4,8 +4,10 @@
     <div id="albumart">
       <v-img :src="'images/musicselect/'+music.fileName+'.png'"></v-img>
       <div class="musicInfo">
-        <p>{{ music.songNameKor }}</p>
-        <p>{{ music.singerKor }}</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">{{ music.songNameKor }}</p>
+        <p v-else>{{ music.songNameEng }}</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">{{ music.singerKor }}</p>
+        <p v-else>{{ music.singerEng }}</p>
       </div>
     </div>
   </swiper-slide>

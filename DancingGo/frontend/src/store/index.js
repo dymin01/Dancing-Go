@@ -10,10 +10,22 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
+    language: '한국어'
+  },
+  getters: {
+    langMode: (state) => {
+      return state.language
+    }
   },
   mutations: {
+    CHANGELANG: function (state, data) {
+      state.language = data
+    }
   },
   actions: {
+    changeLang: function ({ commit }, data) {
+      commit('CHANGELANG', data)
+    }
   },
   plugins: [ createPersistedState({ storage: window.sessionStorage }) ],
   modules: { account, music },

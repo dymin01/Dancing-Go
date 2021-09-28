@@ -13,20 +13,36 @@
       <img id="now-image" @click="openModal" :src="'images/musicselect/'+musics[activeIndex].fileName+'.png'" alt="">
       <!-- 연습모드 일 때 곡 정보 -->
       <div v-if="mode==='Practice'" id="active-music-info" class="text-center my-3">
-        <p>{{ musics[activeIndex].songNameKor }}</p>
-        <p>{{ musics[activeIndex].singerKor }}</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">{{ musics[activeIndex].songNameKor }}</p>
+        <p v-else>{{ musics[activeIndex].songNameEng }}</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">{{ musics[activeIndex].singerKor }}</p>
+        <p v-else>{{ musics[activeIndex].singerEng }}</p>
+
       </div>
       <!-- 랭킹모드 일 때 곡 정보 -->
       <div v-else id="active-music-info" class="text-center my-3">
-        <p>{{ musics[activeIndex].songNameKor }}-{{ musics[activeIndex].singerKor }}</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">
+          {{ musics[activeIndex].songNameKor }}-{{ musics[activeIndex].singerKor }}</p>
+        <p v-else>{{ musics[activeIndex].songNameEng }}-{{ musics[activeIndex].singerEng }}</p>
         <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
-        <p>곡별 최고 점수:</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">곡별 최고 점수:</p>
+        <p v-else>Highest score:</p>
         <v-btn
+          v-if="this.$store.getters.langMode=='한국어'"
           @click="openRink"
           small
           id="button"
           style="opacity: 80%;">
           랭킹 확인 🏆
+          <!-- <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt=""> -->
+        </v-btn>
+        <v-btn
+          v-else
+          @click="openRink"
+          small
+          id="button"
+          style="opacity: 80%;">
+          View Ranks 🏆
           <!-- <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt=""> -->
         </v-btn>
       </div>
@@ -39,24 +55,8 @@
           :music="music"
         />
       </swiper>
-
-      <!-- <swiper class="swiper" :options="swiperOptionThumbs">
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/nextlevel.png"></v-img></swiper-slide>
-        <swiper-slide><v-img src="images/musicselect/permissiontodance.png"></v-img></swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper> -->
     </div>
+
     <v-dialog
       v-model="isRankOpen"
       max-width="500px"
@@ -68,10 +68,20 @@
       v-model="isModalOpen"
       max-width="350px">
       <Modal
+        v-if="this.$store.getters.langMode=='한국어'"
         :modalTitle="'알림'"
         :modalContent="'댄스 한 판 즐겨볼까요?💃'"
         :buttonO="'시작'"
         :buttonX="'취소'"
+        @clickO="goToGame(musics[activeIndex].songId)"
+        @clickX="closeModal"
+      />
+      <Modal
+        v-else
+        :modalTitle="'Notice'"
+        :modalContent="'Let\'s enjoy a dance!💃'"
+        :buttonO="'Start'"
+        :buttonX="'Cancel'"
         @clickO="goToGame(musics[activeIndex].songId)"
         @clickX="closeModal"
       />
