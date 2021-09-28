@@ -66,8 +66,6 @@ export default {
                         console.log(res)
                     })
                     
-                    
-                    
                     //this.$emit("getUserInfo")
                     this.user.userNickname = nickname
                     this.setUser(this.user)

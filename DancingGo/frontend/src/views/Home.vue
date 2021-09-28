@@ -21,7 +21,7 @@
 <script>
 import ModeSelect from '@/components/home/ModeSelect.vue'
 import NicknameModal from '@/components/home/NicknameModal.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -34,6 +34,9 @@ export default {
       isNicknameModalOpen: false,
     }
   },
+  computed:{
+        ...mapGetters(['user'])
+    },
   methods: {
     ...mapMutations(['setToken', 'setUser']),
     logout () {
@@ -46,10 +49,14 @@ export default {
       this.isNicknameModalOpen = false
     }
   },
-  created () {
+  mounted () {
     // user 닉네임이 없으면 모달 오픈
-    const userNickname = this.$store.state.account.user.userNickname
-    if (!userNickname) {
+    console.log("테스트용")
+    console.log(this.user)
+    const userNickname = this.user.userNickname
+    // this.$store.state.account.user.userNickname
+    console.log(userNickname)
+    if (!userNickname || userNickname == null) {
       this.isNicknameModalOpen = !this.isNicknameModalOpen
     }
   }
