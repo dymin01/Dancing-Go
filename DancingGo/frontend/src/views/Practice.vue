@@ -1,24 +1,38 @@
 <template>
   <div>
     <img src="./video/bg.png" alt="" id="background">
-    <div style="padding: 40px" id="container">
+    <div style="padding: 40px; margin-top: 40px;" id="container">
 
       <!-- 네브빠 -->
       <div id="navbar" class="mb-5">
         <button class="btn btn-danger btn-lg d-flex justify-content-start">종료</button>
-        <h4>{{this.distance}}</h4>
-        <!-- <h4>{{this.videoAngle}}</h4> -->
-        <!-- <h4>{{this.camAngle}}</h4> -->
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">틀린부분 확인하기</button>
+        <button :disabled="this.isPlaying" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">틀린부분 확인하기</button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">피드백</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" ref="feedbackClose"></button>
           </div>
           <div class="offcanvas-body" id="offcanvas-body">
-            <div v-for="(feedback, index) in feedbacks" v-bind:key="index">
-              <FeedbackCard :feedback="feedback" 
-              @showFeedback="showFeedback(feedback)" />
+            <div id="offcanvas-button-box" class="d-flex justify-content-around" style="width: 100%">
+              <button class="btn btn-success" style="width: 49%; padding: 1px;" @click="showAllFeedback">피드백 목록</button>
+              <button class="btn btn-primary" style="width: 49%; padding: 1px;" @click="showSavedFeedback">보관함</button>
+            </div>
+            <div v-if="isTemporaryFeedback">
+              <div v-for="(feedback, index) in feedbacks" v-bind:key="index">
+                <FeedbackCard :feedback="feedback" 
+                @showFeedback="showFeedback(feedback)"
+                @saveFeedback="saveFeedback(feedback)"
+                @deleteFeedback="deleteFeedback(index)"
+                 />
+              </div>
+            </div>
+            <div v-else>
+              <div v-for="(feedback, index) in savedFeedbacks" v-bind:key="index">
+                <SavedFeedbackCard :feedback="feedback" 
+                @showFeedback="showFeedback(feedback)" 
+                @deleteSavedFeedback="deleteSavedFeedback(index)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -52,7 +66,6 @@
             <span ref="A">A</span>
             <span ref="B">B</span>
           </div>
-          <span @click="makeFeedback" class="mx-3">feedback</span>
         </div>
         <div id="time-box">
           <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
@@ -78,11 +91,13 @@ import Webcam from 'webcam-easy'
 import * as posenet from '@tensorflow-models/posenet'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
+import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
 
 export default {
   components: {
     Feedback,
     FeedbackCard,
+    SavedFeedbackCard
   },
   data() {
     return {
@@ -93,7 +108,6 @@ export default {
       endTime: '03:41',
       endTimeInt: 221,
       isVolumeControl: false,
-      distance: 0,
       seeing: '',
       notSeeing: [],
       vectorInfos: [[17, 0], [5, 11], [6, 12], [5, 6], [11, 12], [5, 7], [7, 9], [6, 8], [8, 10], [11, 13], [13, 15], [12, 14], [14, 16]],
@@ -109,21 +123,27 @@ export default {
       isRepeatStart: false,
       isRepeatEnd: false,
       feedbacks: [],
+      savedFeedbacks: [],
       feedbackData: [],
       feedbackVisible: false,
-      videoAngle: '',
-      camAngle: '',
-      goodPose: 0,
       isPoseReadable: true,
+      isPlaying: false,
+      timeInterval: '',
+      captureInterval: '',
+      isTemporaryFeedback: true,
     }
   },
   methods: {
     playVideo() {
+      clearInterval(this.captureInterval)
+      clearInterval(this.timeInterval)
+      this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
+      this.isPlaying = true
       this.$refs.video.play()
       this.$refs.pause.style = 'color: grey'
       this.$refs.play.style = 'color: red'
-      setInterval(this.checkTime, 500)
-      // setInterval(this.dancingGo, 2000)
+      this.timeInterval = setInterval(this.checkTime, 500)
+      this.captureInterval = setInterval(this.dancingGo, 2000)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
         this.$refs.videoBox.removeChild(this.$refs.videoBox.querySelector('.tmp-box'))
       }
@@ -135,14 +155,29 @@ export default {
       let minute = parseInt(timeInt / 60)
       let second = timeInt % 60
       this.nowTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
+      if (!this.isPlaying) {
+        clearInterval(this.captureInterval)
+        clearInterval(this.timeInterval)
+      }
     },
     pauseVideo() {
+      this.isPlaying = false 
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: red'
       this.$refs.play.style = 'color: grey'
-      this.dancingGo()
+      // this.dancingGo()
+    },
+    removeFeedbacks(time) {
+      const len = this.feedbacks.length - 1
+      for (let i=0; i < len; i++) {
+        if (this.feedbacks[i][0] > time) {
+          this.feedbacks.splice(i, len-i+1)
+          return
+        }
+      }
     },
     moveVideo(time) {
+      this.isPlaying = true 
       this.feedbackVisible = false
       this.$refs.feedbackClose.click()
       let now = time
@@ -213,8 +248,7 @@ export default {
         this.playVideo()
       }
     },
-    makeFeedback(videoSkeleton, webcamSkeleton, distance) {
-      console.log(distance)
+    makeFeedback(videoSkeleton, webcamSkeleton) {
       var feedbackTime = parseInt(this.$refs.video.currentTime)
       var video = this.$refs.video
       var videoCanvas = this.$refs.videoCanvas
@@ -230,7 +264,23 @@ export default {
       webcamContext.drawImage(webcam, 0, 0, 300, 200)
       var feedbackVideoPreview = videoCanvas.toDataURL('image/png');
       var feedbackWebcamPreview = webcamCanvas.toDataURL('image/png');
-      this.feedbacks.push([feedbackTime, this.nowTime, feedbackVideoPreview, feedbackWebcamPreview, videoSkeleton, webcamSkeleton, this.seeing, this.notSeeing, distance])
+      this.feedbacks.push([feedbackTime, this.nowTime, 
+      feedbackVideoPreview, feedbackWebcamPreview, 
+      videoSkeleton, webcamSkeleton, 
+      this.seeing, this.notSeeing, this.seeingVector])
+    },
+    saveFeedback(feedback) {
+      if (this.savedFeedbacks.length < 10) {
+        this.savedFeedbacks.push(feedback)
+      } else {
+        alert('10개가 넘었습니다. 보관함을 비워주세요.')
+      }
+    },
+    deleteFeedback(index) {
+      this.feedbacks.splice(index, 1)
+    },
+    deleteSavedFeedback(index) {
+      this.savedFeedbacks.splice(index, 1)
     },
     showFeedback(feedback) {
       this.feedbackData = feedback
@@ -253,11 +303,7 @@ export default {
       } else {
         var webcamSkeleton = await this.camCapture(webcam, webcamCanvas)
         if (webcamSkeleton !== -1) {
-          this.videoSkeleton = videoSkeleton[0]
-          this.webcamSkeleton = webcamSkeleton[0]
-          var distance = this.cosineDistanceMatching(videoSkeleton[0], webcamSkeleton[0])
-          this.distance = distance
-          this.makeFeedback(videoSkeleton[1], webcamSkeleton[1], distance)
+          this.makeFeedback(videoSkeleton, webcamSkeleton)
         } else {
           console.log('선생님의 캠이 정확하지 않습니다')
         }
@@ -285,8 +331,8 @@ export default {
       const criticalPoints = this.criticalPoints
       let arr = []
       let vectorArray = []
-      let vectorObject = Object()
       let seeing = []
+      let seeingVector = []
       await posenet.load()
       .then(async function(net) {
         const pose = await net.estimateSinglePose(imageElement, {
@@ -319,10 +365,9 @@ export default {
             let ty = arr[vectorInfo[0]*2 + 1]
             let tx2 = arr[vectorInfo[1]*2]
             let ty2 = arr[vectorInfo[1]*2 + 1]
-            let angle = (Math.atan((ty2-ty) /(tx2-tx))) / (Math.PI / 180)
-            vectorArray.push(angle)
-            vectorObject[this.vectorNames[i]] = angle
-            console.log(this.vectorNames[i] + ' : ' + angle)
+            vectorArray.push(tx2-tx)
+            vectorArray.push(ty2-ty)
+            seeingVector.push(this.vectorNames[i])
           }
         }
       }.bind(this))
@@ -330,14 +375,14 @@ export default {
         return -1
       }
       this.seeing = seeing
-      this.videoAngle = vectorArray
-      return [vectorArray, vectorObject]
+      this.seeingVector = seeingVector
+      this.videoVectors = vectorArray
+      return vectorArray
     },
     async getCamSkeleton(imageElement) {
       const vectorInfos = this.vectorInfos
       let arr = []
       let vectorArray = []
-      let vectorObject = Object()
       const seeing = this.seeing
       let notSeeing = []
       await posenet.load()
@@ -367,41 +412,23 @@ export default {
             let ty = arr[vectorInfo[0]*2 + 1]
             let tx2 = arr[vectorInfo[1]*2]
             let ty2 = arr[vectorInfo[1]*2 + 1]
-            let angle = (Math.atan((ty2-ty) /(tx2-tx))) / (Math.PI / 180)
-            vectorObject[this.vectorNames[i]] = angle
-            vectorArray.push(angle)
+            vectorArray.push(tx2-tx)
+            vectorArray.push(ty2-ty)
           }
         }
       }.bind(this))
       if (notSeeing.length > 2) {
-        console.log('선생님의 포즈가 인식되지 않았습니다')
         return -1
       }
       this.notSeeing = notSeeing
-      this.camAngle = vectorArray
-      return [vectorArray, vectorObject]
+      this.camVectors = vectorArray
+      return vectorArray
     },
-    similarity(poseVector1, poseVector2) {
-      var l = poseVector1.length
-      var a = 0
-      var b = 0
-      var c = 0
-      for (var i = 0; i < l; i++) {
-        let x = poseVector1[i]
-        let y = poseVector2[i]
-        a += x * y
-        b += x**2
-        c += y**2
-      }
-      return a / ((b ** 0.5) * (c ** 0.5))
+    showAllFeedback() {
+      this.isTemporaryFeedback = true
     },
-    cosineDistanceMatching(poseVector1, poseVector2) {
-      let cosineSimilarity = this.similarity(poseVector1, poseVector2);
-      let distance = 2 * (1 - cosineSimilarity);
-      // console.log(cosineSimilarity)
-      console.log(distance)
-      // return Math.sqrt(distance);
-      return cosineSimilarity;
+    showSavedFeedback() {
+      this.isTemporaryFeedback = false
     }
   },
   mounted() {
@@ -494,12 +521,4 @@ span {
   position: absolute;
   z-index: 99999;
 }
-
-#webcam {
-  transform: rotateY(180deg);
-  /* -webkit-transform:rotateY(180deg); */
-  /* -moz-transform:rotateY(180deg); Firefox */
-}
-
-
 </style>

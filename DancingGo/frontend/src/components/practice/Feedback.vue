@@ -6,16 +6,12 @@
     </div>
     <div class="d-flex justify-content-around p-4">
       <img :src="feedbackData[2]" alt="">
-      <img :src="feedbackData[3]" alt="">
+      <img :src="feedbackData[3]" style="transform: rotateY(180deg);" alt="">
     </div>
     <div class="p-5 d-flex justify-content-between">
       <div>
-
-        <div>{{feedbackData[4]}}</div>
-        <div>{{feedbackData[5]}}</div>
-        <div>보여야 하는 부위: {{this.seeing}}</div>
+        <div>보이는 부위: {{this.seeing}}</div>
         <div>보이지 않는 부위: {{this.notSeeing}}</div>
-        <div>distance: {{feedbackData[8]}}</div>
         <div>각도가 10도 이상 차이나는 부위: {{this.feedbackString}}</div>
       </div>
       <button @click="$emit('moveFeedback')">확인하기</button>
@@ -43,24 +39,26 @@ export default {
   },
   mounted() {
     const videoSkeleton = this.feedbackData[4]
-    console.log(videoSkeleton)
     const camSkeleton = this.feedbackData[5]
-    console.log(camSkeleton)
     const videoSeeing = this.feedbackData[6]
     const camNotSeeing = this.feedbackData[7]
-      console.log('hi')
     for (let i=0; i < videoSeeing.length; i++) {
       this.seeing.push(this.criticalPoints[videoSeeing[i]])
     }
-    for (let j=0; j < camNotSeeing.length; j++) {
-      this.notSeeing.push(this.criticalPoints[camNotSeeing[j]])
+    for (let k=0; k < camNotSeeing.length; k++) {
+      this.notSeeing.push(this.criticalPoints[camNotSeeing[k]])
     }
-    console.log('hi')
-    for (let k=0; k < Object.keys(videoSkeleton).length; k++) {
-      console.log(k)
-      if (Math.abs(videoSkeleton[Object.keys(videoSkeleton)[k]] - camSkeleton[Object.keys(videoSkeleton)[k]]) > 10) {
-        this.feedbackString.push(Object.keys(videoSkeleton)[k])
-      }
+    for (let j=0; j < Object.keys(videoSkeleton).length / 2; j++) {
+      const x1 = videoSkeleton[j*2]
+      const y1 = videoSkeleton[j*2+1]
+      const x2 = camSkeleton[j*2]
+      const y2 = camSkeleton[j*2+1]
+      const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
+      console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
+      console.log(angle)
+      // if (angle > 10) {
+      //   console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
+      // }
     }
   }
 }

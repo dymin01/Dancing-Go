@@ -9,8 +9,7 @@
       </div>
       <div style="font-weight: bold;">{{ feedback[1] }}</div>
       <div class="d-flex justify-content-end" style="width: 80px;">
-        <i class="far fa-save" style="font-size: 19px" @click="$emit('saveFeedback')"></i>
-        <i class="fas fa-trash-alt ms-5" style="font-size: 18px" @click="$emit('deleteFeedback')"></i>
+        <i class="fas fa-trash-alt ms-5" style="font-size: 18px" @click="$emit('deleteSavedFeedback')"></i>
       </div>
     </div>
   </div>
