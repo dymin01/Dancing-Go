@@ -9,6 +9,7 @@ import HallofFame from '../views/HallofFame.vue'
 import OauthRedirect from '@/components/oauth/Redirect'
 import BadgeToast from '@/components/badge/BadgeToast.vue'
 import BadgeGet from '@/components/badge/BadgeGet.vue'
+import snackbar from '@/components/badge/snackbar.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,11 @@ const routes = [
     path: '/badgeget',
     name: 'BadgeGet',
     component: BadgeGet
+  },
+  {
+    path: '/snackbar',
+    name: 'snackbar',
+    component: snackbar
   }
 ]
 
