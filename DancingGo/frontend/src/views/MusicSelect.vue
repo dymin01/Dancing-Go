@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-img id="background" src="images/home/home_background.jpg"></v-img>
-    <MusicList />
+    <MusicList
+      :mode="mode"
+    />
   </div>
 </template>
 
@@ -9,6 +11,11 @@
 import MusicList from '@/components/musicselect/MusicList.vue'
 export default {
   name: 'MusicSelect',
+  data () {
+    return {
+      mode: this.$route.query.mode
+    }
+  },
   components: {
     MusicList
   }
