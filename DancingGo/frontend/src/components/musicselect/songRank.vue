@@ -1,17 +1,17 @@
 <template>
   <v-card id="rankBoard">
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
-    <div class="first">
+    <div class="first" v-if="check(firstRank)">
       <v-img class="myImg" :src="getImg(firstRank)" />
       <span class="myScore"> {{firstRank.value}} </span>
       <span class="myName">{{firstRank.userNickname}}</span>
     </div>
-    <div class="second">
+    <div class="second" v-if="check(secondRank)">
       <v-img class="myImg" :src="getImg(secondRank)" />
       <span class="myScore"> {{secondRank.value}} </span>
       <span class="myName">{{secondRank.userNickname}}</span>
     </div>
-    <div class="third">
+    <div class="third" v-if="check(thirdRank)">
       <v-img class="myImg" :src="getImg(thirdRank)" />
       <span class="myScore"> {{thirdRank.value}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
@@ -83,6 +83,13 @@ export default {
         } else {
           return profileImg;
         }
+      },
+      check(userInfo) {
+        if(userInfo == null) {
+          return false
+        } else {
+          return true
+        }
       }
     },
     mounted() {
@@ -117,6 +124,7 @@ export default {
         axios
           .get('/score/songRank/'+this.songId)
           .then((res) => {
+            console.log(this.songId)
             this.rankList = res.data;
             this.firstRank = this.rankList[0]
             this.secondRank = this.rankList[1]
