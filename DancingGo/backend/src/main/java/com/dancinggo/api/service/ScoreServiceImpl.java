@@ -107,11 +107,18 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public MyScoreRes findMyScore(MyScoreReq myScoreReq) {
-        Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
+//        Long value = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId()).get().getValue();
+        Optional<Score> score = scoreRepository.findByUser_UserNicknameAndSong_SongId(myScoreReq.getUserNickname(), myScoreReq.getSongId());
+        Long value = 0L;
+        if(score.isPresent()) {
+            value = score.get().getValue();
+        }
+
         Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
         if (rank == null) {
             rank = 0L;
         }
+
         return MyScoreRes.builder().value(value).rank(rank + 1L).build();
     }
 }
