@@ -21,6 +21,7 @@
       <span class="myScore"> {{thirdRank.totalScore}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
+    <hr>
     <div class="list"> 
       <template>
         <v-simple-table
@@ -59,7 +60,7 @@
         </v-simple-table>
       </template>
     </div>
-    <div class="me transparent white--text"> 
+    <div class="me white--text"> 
       <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
@@ -137,9 +138,19 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-/* .table td:nth-child(n) {
+hr {
+  position: absolute;
+  width: 30vw;
+  height: 2px;
+  left: 35vw;
+  bottom: 54.5vh;
+  border: none;
+  background-color:white;
+}
+
+.table td:nth-child(n) {
   border-top: none;
-} */
+}
 
 #background {
   position: absolute;
@@ -156,7 +167,7 @@ html::-webkit-scrollbar {
 .board {
  position: absolute;
  background-color: black;
- width: 75vw;
+ width: 40vw;
  height: 95vh;
  /* 투명도 */
  opacity: 0.6;
@@ -164,6 +175,7 @@ html::-webkit-scrollbar {
  top: 50%;
  left: 50%;
  transform: translate(-50%, -50%);
+ border-radius: 40px;
 }
 
 #rank {
@@ -171,14 +183,14 @@ html::-webkit-scrollbar {
   width: 30%;
   height: 30%;
   left: 35.5vw;
-  bottom: 55vh;
+  bottom: 56.5vh;
 }
 
 .first {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 5.5vh;
+  top: 4vh;
   left: 47vw;
   /* transform: translate(-50%, -243%); */
   text-align: center;
@@ -192,7 +204,7 @@ html::-webkit-scrollbar {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 11vh;
+  top: 9.5vh;
   left: 40.5vw;
   margin:0 auto;
   text-align: center;
@@ -204,7 +216,7 @@ html::-webkit-scrollbar {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 12.5vh;
+  top: 11vh;
   left: 53.5vw;
   margin:0 auto;
   text-align: center;
@@ -265,6 +277,9 @@ html::-webkit-scrollbar {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+    /* background-color: black; */
+  background-color: rgba( 0, 0, 0, 0.8 );
+  border-radius: 40px;
 }
 
 .me {
@@ -281,7 +296,8 @@ html::-webkit-scrollbar {
   justify-content: space-evenly;
   color: #fff;
   box-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
-  border-radius: 15px;
+  /* background-color: rgba( 0, 0, 0, 0.8 ); */
+  border-radius: 20px;
 }
 
 .listImg {
