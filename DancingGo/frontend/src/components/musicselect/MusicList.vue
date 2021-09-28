@@ -1,16 +1,16 @@
 
 <template>
   <div>
-    <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt="">
-    <div id="now" @click="goToPractice(musics[activeIndex].songId)">
-    <div id="now" @click="openModal">
+    <!-- <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt=""> -->
+    <!-- <div id="now" @click="goToPractice(musics[activeIndex].songId)"></div> -->
+    <div id="now">
       <!-- {{ musics[activeIndex].fileName }} -->
       <div id="difficulty">
         <span v-if="musics[activeIndex].difficulty===1">★</span>
         <span v-else-if="musics[activeIndex].difficulty===2">★★</span>
         <span v-else-if="musics[activeIndex].difficulty===3">★★★</span>
       </div>
-      <img :src="'images/musicselect/'+musics[activeIndex].fileName+'.png'" alt="">
+      <img id="now-image" @click="openModal" :src="'images/musicselect/'+musics[activeIndex].fileName+'.png'" alt="">
       <!-- 연습모드 일 때 곡 정보 -->
       <div v-if="mode==='Practice'" id="active-music-info" class="text-center my-3">
         <p>{{ musics[activeIndex].songNameKor }}</p>
@@ -18,8 +18,17 @@
       </div>
       <!-- 랭킹모드 일 때 곡 정보 -->
       <div v-else id="active-music-info" class="text-center my-3">
-        <p>{{ musics[activeIndex].songNameKor }}</p>
-        <p>{{ musics[activeIndex].singerKor }}</p>
+        <p>{{ musics[activeIndex].songNameKor }}-{{ musics[activeIndex].singerKor }}</p>
+        <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
+        <p>곡별 최고 점수:</p>
+        <v-btn
+          @click="openRink"
+          small
+          id="button"
+          style="opacity: 80%;">
+          랭킹 확인 🏆
+          <!-- <img id="rankIcon" :src="'images/musicselect/ranking.png'" @click="openRink" alt=""> -->
+        </v-btn>
       </div>
     </div>
     <div class="example-3d">
@@ -50,13 +59,14 @@
     </div>
     <v-dialog
       v-model="isRankOpen"
-      max-width="650px"
+      max-width="500px"
       > <SongRank 
       :songId="musics[activeIndex].songId"
       @closeRank="isRankOpen" class="mypageModal"/>
-    v-model="isModalOpen"
-    max-width="350px"
-    >
+    </v-dialog>
+    <v-dialog
+      v-model="isModalOpen"
+      max-width="350px">
       <Modal
         :modalTitle="'알림'"
         :modalContent="'댄스 한 판 즐겨볼까요?💃'"
@@ -83,7 +93,7 @@
       Swiper,
       // SwiperSlide,
       Music,
-      SongRank
+      SongRank,
       Modal,
     },
     props: {
@@ -182,6 +192,12 @@
 </script>
 
 <style lang="scss" scoped>
+  #button {
+  color: white;
+  background-color: black;
+  box-shadow: 0 0 10px white;
+  }
+
   #now {
     // background-color: black;
     background-color: rgba( 0, 0, 0, 0.8 );
@@ -197,6 +213,7 @@
       width: 200px;
       height: 200px;
       border-radius: 2%;
+      cursor: pointer;
     }
   }
 
@@ -270,11 +287,12 @@
   }
 
   #rankIcon {
-    position: absolute;
+    // position: absolute;
+    object-fit: contain;
     width: 8vh;
     height: 8vh;
-    top: 28%;
-    left: 60%;
+    // top: 28%;
+    // left: 60%;
     /* 커서 올리면 손가락 */
     cursor: pointer;
   }
