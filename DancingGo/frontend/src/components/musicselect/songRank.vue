@@ -1,27 +1,22 @@
 <template>
   <v-card id="rankBoard">
-      <!-- <div class="d-flex justify-content-center py-3">
-          <v-card-title class="text">
-              <span clss="text-h4 title">곡별랭킹</span>
-          </v-card-title>
-      </div> -->
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
     <div class="first">
-      <!-- <v-img class="myImg" :src="getImg(firstRank)" /> -->
-      <v-img id="myImg" src="images/HallofFame/mirror-ball.png" />
-      <span class="myScore"> {{firstRank.totalScore}} </span>
+      <v-img class="myImg" :src="getImg(firstRank)" />
+      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
+      <span class="myScore"> {{firstRank.value}} </span>
       <span class="myName">{{firstRank.userNickname}}</span>
     </div>
     <div class="second">
-      <!-- <v-img class="myImg" :src="getImg(secondRank)" /> -->
-      <v-img id="myImg" src="images/HallofFame/mirror-ball.png" />
-      <span class="myScore"> {{secondRank.totalScore}} </span>
+      <v-img class="myImg" :src="getImg(secondRank)" />
+      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
+      <span class="myScore"> {{secondRank.value}} </span>
       <span class="myName">{{secondRank.userNickname}}</span>
     </div>
     <div class="third">
-      <!-- <v-img class="myImg" :src="getImg(thirdRank)" /> -->
-      <v-img id="myImg" src="images/HallofFame/mirror-ball.png" />
-      <span class="myScore"> {{thirdRank.totalScore}} </span>
+      <v-img class="myImg" :src="getImg(thirdRank)" />
+      <!-- <v-img id="myImg" src="images/HallofFame/mirror-ball.png" /> -->
+      <span class="myScore"> {{thirdRank.value}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
     <div class="list"> 
