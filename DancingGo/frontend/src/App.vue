@@ -2,16 +2,20 @@
   <v-app>
     <Header
     v-if="isheader" />
+    <LanguageSetting
+    v-else />
     <router-view/>
   </v-app>
 </template>
 
 <script>
 import Header from '@/views/Header.vue'
+import LanguageSetting from '@/views/LanguageSetting.vue'
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    LanguageSetting
   },
   data () {
     return {
