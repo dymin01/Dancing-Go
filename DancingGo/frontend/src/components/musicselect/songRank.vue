@@ -59,6 +59,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
     data(){
@@ -69,6 +70,11 @@ export default {
           thirdRank: {},
           myRank: {}
         }
+    },
+    props: {
+      songId: {
+        type: Number,
+      }
     },
     computed:{
         ...mapGetters(['token', 'user']),
@@ -84,16 +90,73 @@ export default {
       }
     },
     mounted() {
-      
+      const body = {
+        songId: this.songId,
+        userNickname: this.user.userNickname
+      }
+      axios
+        .get('/score/songRank/'+this.songId)
+        .then((res) => {
+          this.rankList = res.data;
+          this.firstRank = this.rankList[0]
+          this.secondRank = this.rankList[1]
+          this.thirdRank = this.rankList[2]
+      }),
+      axios
+        .post('/score/findMyScore/', body)
+        .then((res) => {
+          console.log(res.data);
+          this.myRank = res.data
+      })
+    },
+    watch: {
+      songId : function() {
+        const body = {
+          songId: this.songId,
+          userNickname: this.user.userNickname
+        }
+        axios
+          .get('/score/songRank/'+this.songId)
+          .then((res) => {
+            this.rankList = res.data;
+            this.firstRank = this.rankList[0]
+            this.secondRank = this.rankList[1]
+            this.thirdRank = this.rankList[2]
+        }),
+        axios
+          .post('/score/findMyScore/', body)
+          .then((res) => {
+            console.log(res.data);
+            this.myRank = res.data
+        })
+      }
     }
+    // updated() {
+    //   axios
+    //     .get('/score/songRank/'+this.songId)
+    //     .then((res) => {
+    //       this.rankList = res.data;
+    //       console.log(this.songId)
+    //       this.firstRank = this.rankList[0]
+    //       this.secondRank = this.rankList[1]
+    //       this.thirdRank = this.rankList[2]
+    //   }),
+    //   axios
+    //     .get('/user/info/' + this.user.userId)
+    //     .then((res) => {
+    //       this.myRank = res.data
+    //   })
+    // }
 }
 </script>
 
 <style scoped>
 
 .v-card > *:last-child:not(.v-btn):not(.v-chip):not(.v-avatar) {
-    border-bottom-left-radius: none;
-    border-bottom-right-radius: none;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 
 #rankBoard {

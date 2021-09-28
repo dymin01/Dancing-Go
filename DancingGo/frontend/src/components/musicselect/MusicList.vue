@@ -44,7 +44,9 @@
     <v-dialog
       v-model="isRankOpen"
       max-width="650px"
-      > <SongRank @closeRank="isRankOpen" class="mypageModal"/>
+      > <SongRank 
+      :songId="musics[activeIndex].songId"
+      @closeRank="isRankOpen" class="mypageModal"/>
     </v-dialog>
   </div>
 </template>
