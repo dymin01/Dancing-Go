@@ -240,4 +240,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+pose_deploy_linevec_faster_4_stages.prototxt
+pose_iter_160000.caffemodel
 # End of https://www.toptal.com/developers/gitignore/api/python,django,windows
