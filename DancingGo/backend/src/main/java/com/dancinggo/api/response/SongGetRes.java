@@ -42,4 +42,7 @@ public class SongGetRes {
     @ApiModelProperty(name="최고 점수")
     Long value;
 
+    @ApiModelProperty(name="곡의 길이")
+    String songLen;
+
 }
