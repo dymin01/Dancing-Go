@@ -41,13 +41,11 @@
       <!-- 가이드 & 동영상 -->
       <div id="midBox">
         <div id="videoBox" ref="videoBox">
-          <video src="./video/sample2.mp4" height="420" ref="video" @timeupdate="repeat" id="video"></video>
-          <!-- <video src="./video/sample.mp4" height="120" ref="video"></video> -->
+          <video src="./video/sample3.mp4" height="420" ref="video" @timeupdate="repeat" id="video"></video>
           <canvas class="d-none" ref="videoCanvas"></canvas>
         </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" autoplay playsinline height="420"></video>
-          <!-- <video ref="webcam" id="webcam" autoplay playsinline height="120"></video> -->
           <canvas class="d-none" ref="webcamCanvas"></canvas>
         </div>
       </div>
@@ -135,15 +133,15 @@ export default {
   },
   methods: {
     playVideo() {
-      clearInterval(this.captureInterval)
       clearInterval(this.timeInterval)
+      // clearInterval(this.captureInterval)
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
       this.$refs.pause.style = 'color: grey'
       this.$refs.play.style = 'color: red'
       this.timeInterval = setInterval(this.checkTime, 500)
-      this.captureInterval = setInterval(this.dancingGo, 2000)
+      // this.captureInterval = setInterval(this.dancingGo, 200)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
         this.$refs.videoBox.removeChild(this.$refs.videoBox.querySelector('.tmp-box'))
       }
@@ -165,7 +163,7 @@ export default {
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: red'
       this.$refs.play.style = 'color: grey'
-      // this.dancingGo()
+      this.dancingGo()
     },
     removeFeedbacks(time) {
       const len = this.feedbacks.length - 1
@@ -298,7 +296,6 @@ export default {
       var webcamCanvas = this.$refs.webcamCanvas
       var videoSkeleton = await this.videoCapture(video, videoCanvas)
       if (videoSkeleton === -1) {
-        console.log(videoSkeleton)
         console.log('가이드가 인식되지 않았습니다')
       } else {
         var webcamSkeleton = await this.camCapture(webcam, webcamCanvas)
@@ -341,9 +338,10 @@ export default {
         return pose;
       })
       .then(function(pose){
+        console.log('가이드')
         console.log(pose)
         for (let i=0; i < pose.keypoints.length; i++) {
-          if (Object.keys(criticalPoints).includes(String(i)) && pose.keypoints[i].score > 0.85) {
+          if (Object.keys(criticalPoints).includes(String(i)) && pose.keypoints[i].score > 0.93) {
             seeing.push(i)
           }
           let tx = pose.keypoints[i].position.x
@@ -353,8 +351,6 @@ export default {
 
         }
         // 인식 체크
-        console.log('seeing')
-        console.log(seeing)
         arr.push((arr[10] + arr[12] + arr[22] + arr[24])/4)
         arr.push((arr[11] + arr[13] + arr[23] + arr[25])/4)
         seeing.push(17)
@@ -393,8 +389,10 @@ export default {
         return pose;
       })
       .then(function(pose){
+        console.log('캠')
+        console.log(pose)
         for (let i=0; i < pose.keypoints.length; i++) {
-          if (seeing.includes(i) && pose.keypoints[i].score < 0.7) {
+          if (seeing.includes(i) && pose.keypoints[i].score < 0.9) {
             notSeeing.push(i)
           }
           let tx = pose.keypoints[i].position.x
@@ -417,9 +415,9 @@ export default {
           }
         }
       }.bind(this))
-      if (notSeeing.length > 2) {
-        return -1
-      }
+      // if (notSeeing.length > 2) {
+      //   return -1
+      // }
       this.notSeeing = notSeeing
       this.camVectors = vectorArray
       return vectorArray

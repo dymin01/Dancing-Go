@@ -42,6 +42,8 @@ export default {
     const camSkeleton = this.feedbackData[5]
     const videoSeeing = this.feedbackData[6]
     const camNotSeeing = this.feedbackData[7]
+    console.log(videoSkeleton)
+    console.log(camSkeleton)
     for (let i=0; i < videoSeeing.length; i++) {
       this.seeing.push(this.criticalPoints[videoSeeing[i]])
     }
@@ -54,11 +56,13 @@ export default {
       const x2 = camSkeleton[j*2]
       const y2 = camSkeleton[j*2+1]
       const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
-      console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
-      console.log(angle)
-      // if (angle > 10) {
-      //   console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
-      // }
+      // console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
+      // console.log(angle)
+      if (angle > 10) {
+        this.feedbackString.push(this.feedbackData[8][j])
+        console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
+        console.log(angle)
+      }
     }
   }
 }
