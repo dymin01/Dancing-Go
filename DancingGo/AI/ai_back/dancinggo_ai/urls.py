@@ -5,5 +5,5 @@ app_name = 'dancinggo_ai'
 
 urlpatterns = [
     # articles/index/ ->index 
-    path('', views.ai, name='ai'),
+    path('', views.upload_image, name='upload_image'),
 ]
