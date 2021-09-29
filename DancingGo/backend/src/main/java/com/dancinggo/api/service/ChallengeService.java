@@ -11,6 +11,6 @@ public interface ChallengeService {
 
     void addChallenge(String userNickname, Long badgeId);
 
-    List<ChallengeOnlyBadgeIdRes> onlyMyBadges(String userNickname);
+    List<Long> onlyMyBadges(String userNickname);
 
 }

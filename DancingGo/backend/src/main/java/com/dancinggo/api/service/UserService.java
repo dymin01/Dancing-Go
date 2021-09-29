@@ -63,15 +63,10 @@ public class UserService {
     public UserGameInfoRes gameInfoRes(String userId) {
         User user = userRepository.findByUserId(userId);
         List<User> userList = this.getAllRank();
-        int tmpRank = 0;
         int rank = 0;
-        if (userList != null) {
-            tmpRank = userList.size();
-        }
-
-        // 총 점수가 없으면 랭킹은 마지막 랭크 + 1로
+        // 총 점수가 없으면 랭킹은 -1 로
         if (user.getTotalScore() == 0 || user.getTotalScore() == null) {
-            rank = tmpRank + 1;
+            rank = -1;
         } else {
             rank = this.getRank(user.getTotalScore()) + 1;
         }
