@@ -1,10 +1,12 @@
 <template>
   <v-app>
-    <Header
-    v-if="isheader" />
-    <LanguageSetting
-    v-else />
-    <router-view/>
+    <div v-if="isRealHeader">
+      <Header
+      v-if="isheader" />
+      <LanguageSetting
+      v-else />
+    </div>
+    <router-view />
   </v-app>
 </template>
 
@@ -19,12 +21,18 @@ export default {
   },
   data () {
     return {
+      isRealHeader: true,
       isheader: true
     }
   },
   created () {
-    if (document.location.pathname === '/') {
+    var path = document.location.pathname
+    console.log(path)
+    if (path === '/') {
       this.isheader = false
+    }
+    if (path.includes('ranking') || path.includes('practice')) {
+      this.isRealHeader = false
     }
   }
 };

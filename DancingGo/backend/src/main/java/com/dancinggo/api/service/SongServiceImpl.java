@@ -42,7 +42,10 @@ public class SongServiceImpl implements SongService{
     @Override
     public SongGetRes oneSong(Long songId) {
 
-        long maxValue = scoreRepository.findByScore(songId);
+        Long maxValue = scoreRepository.findByScore(songId);
+        if(maxValue == null) {
+            maxValue = 0L;
+        }
 
         Song song = songRepository.findBySongId(songId).get();
         SongGetRes songGetRes = SongGetRes.builder()

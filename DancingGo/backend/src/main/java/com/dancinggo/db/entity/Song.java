@@ -47,5 +47,5 @@ public class Song {
     private String fileName;
 
     @Column(name = "song_len")
-    private String songLen;
+    private Long SongLen;
 }
