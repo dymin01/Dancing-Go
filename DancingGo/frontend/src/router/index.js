@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import MusicSelect from '../views/MusicSelect.vue'
 import Practice from '../views/Practice.vue'
 import Ranking from '../views/Ranking.vue'
+import RankingScore from '../views/RankingScore.vue'
 import HallofFame from '../views/HallofFame.vue'
 import OauthRedirect from '@/components/oauth/Redirect'
 import BadgeToast from '@/components/badge/BadgeToast.vue'
@@ -30,15 +31,20 @@ const routes = [
     component: MusicSelect
   },
   {
-    path: '/practice',
-    // path: '/practice/:songId',
+    // path: '/practice',
+    path: '/practice/:songId',
     name: 'Practice',
     component: Practice
   },
   {
-    path: '/ranking',
+    path: '/ranking/:songId',
     name: 'Ranking',
     component: Ranking
+  },
+  {
+    path: '/rankingscore',
+    name: 'RankingScore',
+    component: RankingScore
   },
   {
     path: '/halloffame',

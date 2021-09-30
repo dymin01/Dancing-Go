@@ -190,8 +190,8 @@
         this.isModalOpen = false
       },
       goToGame (songId) {
-        // console.log(this.mode)
-        this.$router.push({ name: this.mode, params: { songId: songId } })
+        console.log(this.$route.query.mode)
+        this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
       }
     },
     created () {

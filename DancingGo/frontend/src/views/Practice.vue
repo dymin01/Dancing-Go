@@ -1,11 +1,12 @@
 <template>
   <div>
-    <img src="./video/bg.png" alt="" id="background">
+    <img src="" alt="" id="background" ref="background">
+    <!-- <img src="./video/bg.png" alt="" id="background" ref="background"> -->
     <div style="padding: 40px; margin-top: 40px;" id="container">
 
       <!-- 네브빠 -->
       <div id="navbar" class="mb-5">
-        <button class="btn btn-danger btn-lg d-flex justify-content-start">종료</button>
+        <button class="btn-lg d-flex justify-content-start"></button>
         <button :disabled="this.isPlaying" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">틀린부분 확인하기</button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div class="offcanvas-header">
@@ -41,7 +42,7 @@
       <!-- 가이드 & 동영상 -->
       <div id="midBox">
         <div id="videoBox" ref="videoBox">
-          <video src="./video/sample3.mp4" height="420" ref="video" @timeupdate="repeat" id="video"></video>
+          <video src="" height="420" ref="video" @timeupdate="repeat" id="video"></video>
           <canvas class="d-none" ref="videoCanvas"></canvas>
         </div>
         <div id="camBox">
@@ -90,6 +91,7 @@ import * as posenet from '@tensorflow-models/posenet'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -99,6 +101,8 @@ export default {
   },
   data() {
     return {
+      songId: '',
+      songInfo: Object,
       volume: 100,
       tmpVolume: 100,
       isMute: false,
@@ -294,12 +298,16 @@ export default {
       var videoCanvas = this.$refs.videoCanvas
       var webcam = this.$refs.webcam
       var webcamCanvas = this.$refs.webcamCanvas
+      // 가이드에서 프레임 캡쳐
       var videoSkeleton = await this.videoCapture(video, videoCanvas)
       if (videoSkeleton === -1) {
+        // 가이드의 프레임의 인식률이 떨어질 경우 버림
         console.log('가이드가 인식되지 않았습니다')
       } else {
+        // 캠에서 프레임 캡쳐
         var webcamSkeleton = await this.camCapture(webcam, webcamCanvas)
         if (webcamSkeleton !== -1) {
+          // 캠에서 프레임이 정확하다고 판단 되었을 때 피드백 생성
           this.makeFeedback(videoSkeleton, webcamSkeleton)
         } else {
           console.log('선생님의 캠이 정확하지 않습니다')
@@ -330,6 +338,7 @@ export default {
       let vectorArray = []
       let seeing = []
       let seeingVector = []
+      //포즈넷에 사진을 담아 요청을 보냄
       await posenet.load()
       .then(async function(net) {
         const pose = await net.estimateSinglePose(imageElement, {
@@ -338,10 +347,11 @@ export default {
         return pose;
       })
       .then(function(pose){
+        // 포즈넷의 스켈레톤의 정확도를 판단하고 0.9 이상 신뢰도를 가진 관절만 담는다
         console.log('가이드')
         console.log(pose)
         for (let i=0; i < pose.keypoints.length; i++) {
-          if (Object.keys(criticalPoints).includes(String(i)) && pose.keypoints[i].score > 0.93) {
+          if (Object.keys(criticalPoints).includes(String(i)) && pose.keypoints[i].score > 0.9) {
             seeing.push(i)
           }
           let tx = pose.keypoints[i].position.x
@@ -430,18 +440,38 @@ export default {
     }
   },
   mounted() {
+    localStorage.setItem('mode', 'practice')
+    const songId = this.$route.params.songId
+    console.log(songId)
+    this.songId = songId
     this.startCam()
+    axios.get('/song/getSong/' + songId)
+    .then(res => {
+      const songInfo = res.data
+      this.songInfo = songInfo
+      this.$refs.background.src = '/images/musicselect/' + songInfo.fileName + '.png'
+      this.$refs.video.src = '/guides/' + songInfo.fileName + '.mp4'
+      // var songLength = songInfo.SongLen
+      // let minute = parseInt(songLength / 60)
+      // let second = songLength % 60
+      // this.endTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
+      // this.endTimeInt = songLength
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
 
-<style>
+<style scoped>
 #background {
   position: absolute;
   left: 0px;
   top: 0px;
   width: 100vw;
   height: 100vh;
+  opacity: 0.5;
 }
 
 #container {
