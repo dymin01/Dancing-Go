@@ -39,5 +39,5 @@ public class SongAddReq {
     Long genreId;
 
     @ApiModelProperty(name="곡의 길이")
-    String songLen;
+    Long songLen;
 }

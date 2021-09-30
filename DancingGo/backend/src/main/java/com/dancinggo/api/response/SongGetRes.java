@@ -43,6 +43,6 @@ public class SongGetRes {
     Long value;
 
     @ApiModelProperty(name="곡의 길이")
-    String songLen;
+    Long songLen;
 
 }
