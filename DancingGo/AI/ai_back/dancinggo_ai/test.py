@@ -19,8 +19,8 @@ def test(imagePath):
     BASE_DIR = 'C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/'
     # protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_deploy_linevec_faster_4_stages.prototxt"
     # weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_iter_160000.caffemodel"
-    protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_deploy_linevec.prototxt"
-    weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_iter_440000.caffemodel"
+    protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/pose_deploy_linevec.prototxt"
+    weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/pose_iter_440000.caffemodel"
     net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
     # # 테스트 이미지 읽기
     image = cv2.imread(imagePath)
