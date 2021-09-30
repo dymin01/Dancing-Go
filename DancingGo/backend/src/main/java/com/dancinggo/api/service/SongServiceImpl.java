@@ -33,6 +33,7 @@ public class SongServiceImpl implements SongService{
                 .songImg(songAddReq.getSongImg())
                 .fileName(songAddReq.getFileName())
                 .genre(genreRepository.findByGenreId(songAddReq.getGenreId()).get())
+                .songLen(songAddReq.getSongLen())
                 .build()
         );
 
@@ -58,6 +59,7 @@ public class SongServiceImpl implements SongService{
                 .fileName(song.getFileName())
                 .genreId(song.getGenre().getGenreId())
                 .value(maxValue)
+                .songLen(song.getSongLen())
                 .build();
 
         return songGetRes;
