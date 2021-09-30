@@ -10,9 +10,6 @@
     </div>
     <div class="p-5 d-flex justify-content-between">
       <div>
-        <div>보이는 부위: {{this.seeing}}</div>
-        <div>보이지 않는 부위: {{this.notSeeing}}</div>
-        <div>각도가 10도 이상 차이나는 부위: {{this.feedbackString}}</div>
       </div>
       <button @click="$emit('moveFeedback')">확인하기</button>
     </div>
@@ -23,12 +20,8 @@
 export default {
   data() {
     return {
-      vectorInfos: [[17, 0], [5, 11], [6, 12], [5, 6], [11, 12], [5, 7], [7, 9], [6, 8], [8, 10], [11, 13], [13, 15], [12, 14], [14, 16]],
-      vectorNames: { 0: '목', 1: '왼허리', 2: '오른허리', 3: '어깨라인', 4: '힙라인', 5: '왼팔뚝', 6: '왼팔', 
-                    7: '오른팔뚝', 8: '오른팔', 9: '왼허벅지', 10:'왼종아리', 11:'오른허벅지', 12:'오른종아리' },
-      criticalPoints: { 0: '코', 5: '왼쪽 어깨', 6: '오른쪽 어깨', 7: '왼쪽 팔꿈치', 8: '오른쪽 팔꿈치', 
-                                9: '왼쪽 손목', 10: '오른쪽 손목', 11: '왼쪽 엉덩이', 12: '오른쪽 엉덩이', 
-                                13: '왼쪽 무릎', 14: '오른쪽 무릎', 15: '왼쪽 발목', 16: '오른쪽 발목', 17: '몸통'},
+      vectorNames: { 0: '목', 1: '우측 허리', 2: '좌측 허리', 3: '어깨 라인', 4: '힙 라인', 5: '오른 팔뚝', 6: '오른 팔', 
+                    7: '왼 팔뚝', 8: '왼 팔', 9: '오른 허벅지', 10:'오른 종아리', 11:'왼 허벅지', 12:'왼 종아리'},
       seeing: [],
       notSeeing: [],
       feedbackString: []
@@ -40,27 +33,14 @@ export default {
   mounted() {
     const videoSkeleton = this.feedbackData[4]
     const camSkeleton = this.feedbackData[5]
-    const videoSeeing = this.feedbackData[6]
-    const camNotSeeing = this.feedbackData[7]
-    console.log(videoSkeleton)
-    console.log(camSkeleton)
-    for (let i=0; i < videoSeeing.length; i++) {
-      this.seeing.push(this.criticalPoints[videoSeeing[i]])
-    }
-    for (let k=0; k < camNotSeeing.length; k++) {
-      this.notSeeing.push(this.criticalPoints[camNotSeeing[k]])
-    }
-    for (let j=0; j < Object.keys(videoSkeleton).length / 2; j++) {
-      const x1 = videoSkeleton[j*2]
-      const y1 = videoSkeleton[j*2+1]
-      const x2 = camSkeleton[j*2]
-      const y2 = camSkeleton[j*2+1]
+    console.log('hi')
+    for (let i=0; i < this.vectorNames.length / 2; i++) {
+      const x1 = videoSkeleton[i*2]
+      const y1 = videoSkeleton[i*2+1]
+      const x2 = camSkeleton[i*2]
+      const y2 = camSkeleton[i*2+1]
       const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
-      if (angle > 10) {
-        this.feedbackString.push(this.feedbackData[8][j])
-        console.log('10도이상 틀린 부위: ' + this.feedbackData[8][j])
-        console.log(angle)
-      }
+      console.log(this.vectorNames[i] + ' : ' + angle)
     }
   }
 }

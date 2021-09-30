@@ -109,14 +109,14 @@ export default {
       endTime: '03:41',
       endTimeInt: 221,
       isVolumeControl: false,
-      vectorInfos: [[15, 0], [2, 9], [5, 12], [2, 5], [9, 12], [2, 3], [3, 4], [5, 6], [6, 7], [9, 10], [10, 11], [12, 13], [13, 14]],
+      vectorInfos: [[14, 0], [2, 8], [5, 11], [2, 5], [8, 11], [2, 3], [3, 4], [5, 6], [6, 7], [8, 9], [9, 10], [11, 12], [12, 13]],
       vectorNames: { 0: '목', 1: '우측 허리', 2: '좌측 허리', 3: '어깨 라인', 4: '힙 라인', 5: '오른 팔뚝', 6: '오른 팔', 
                     7: '왼 팔뚝', 8: '왼 팔', 9: '오른 허벅지', 10:'오른 종아리', 11:'왼 허벅지', 12:'왼 종아리'},
       criticalPoints: { 0: '정수리', 1: '목', 
                         2: '우측 어깨', 3: '우측 팔꿈치', 4: '우측 손목', 
                         5: '좌측 어깨', 6: '좌측 팔꿈치', 7: '좌측 손목', 
-                        8: '골반', 9: '우측 엉덩이', 10: '우측 무릎',  
-                        11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
+                        8: '우측 엉덩이', 9: '우측 무릎', 10: '우측 발목',  
+                        11: '좌측 엉덩이', 12: '좌측 무릎', 13: '좌측 발목', 14: '몸통'},
       repeatStartTime: 0,
       repeatEndTime: 0,
       isRepeatStart: false,
@@ -247,10 +247,24 @@ export default {
         this.playVideo()
       }
     },
-    makeFeedback(videoImage, webcamImage, videoSkeleton, webcamSkeleton) {
+    makeFeedback(videoSkeleton, webcamSkeleton) {
       var feedbackTime = parseInt(this.$refs.video.currentTime)
+      var video = this.$refs.video
+      var videoCanvas = this.$refs.videoCanvas
+      var webcam = this.$refs.webcam
+      var webcamCanvas = this.$refs.webcamCanvas
+      var videoContext = videoCanvas.getContext('2d')
+      var webcamContext = webcamCanvas.getContext('2d')
+      videoCanvas.width = 300
+      videoCanvas.height = 200
+      webcamCanvas.width = 300
+      webcamCanvas.height = 200
+      videoContext.drawImage(video, 0, 0, 300, 200)
+      webcamContext.drawImage(webcam, 0, 0, 300, 200)
+      var feedbackVideoPreview = videoCanvas.toDataURL('image/png');
+      var feedbackWebcamPreview = webcamCanvas.toDataURL('image/png');
       this.feedbacks.push([feedbackTime, this.nowTime, 
-      videoImage, webcamImage , 
+      feedbackVideoPreview, feedbackWebcamPreview, 
       videoSkeleton, webcamSkeleton])
     },
     saveFeedback(feedback) {
@@ -281,59 +295,47 @@ export default {
       var webcam = this.$refs.webcam
       var webcamCanvas = this.$refs.webcamCanvas
       // 가이드에서 프레임 캡쳐
-      var videoImage = this.capture(video, videoCanvas)
-      var webcamImage = this.capture(webcam, webcamCanvas)
       console.log('가이드')
-      var skeletons = this.openpose(videoImage, webcamImage)
-      var videoPoints = skeletons[0]
-      var webcamPoints = skeletons[1]
-      var videoVectors = this.openpose2(videoPoints)
+      var videoSkeleton = await this.capture(video, videoCanvas)
       console.log('캠')
-      var webcamVectors = this.openpose2(webcamPoints)
-      this.makeFeedback(videoImage, webcamImage, videoVectors, webcamVectors)
+      var webcamSkeleton = await this.capture(webcam, webcamCanvas)
+      this.makeFeedback(videoSkeleton, webcamSkeleton)
     },
-    capture(video, canvas) {
+    async capture(video, canvas) {
       var context = canvas.getContext('2d')
       canvas.width = video.clientWidth
       canvas.height = video.clientHeight
       context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
-      return canvas.toDataURL()
-    },
-    openpose(videoImage, webcamImage) {
+      const imageURL = canvas.toDataURL()
+
       var params = {
-        'images': [videoImage, webcamImage]
+        'image': imageURL
       }
-      let skeletons = []
-      // await axios.post('http://localhost:8000/api/v1/', params)
-      axios.post('http://70.12.130.110:8000/api/v1/', params)
-      .then(function(res) {
-        skeletons = res.data.skeletons
-      })
-      return skeletons
-    },
-    openpose2(videoPoints) {
       const vectorArray = []
-      const skeletonArray = []
-      for (let i = 0; i < videoPoints.length; i++) {
-        skeletonArray.push(videoPoints[i][0])
-        skeletonArray.push(videoPoints[i][1])
-      }
-      let bodyx = (skeletonArray[0] + skeletonArray[16])/2
-      let bodyy = (skeletonArray[1] + skeletonArray[17])/2
-      skeletonArray.push(bodyx)
-      skeletonArray.push(bodyy)
-      console.log(skeletonArray)
-      for (let j = 0; j < this.vectorInfos.length; j++) {
-        let vectorInfo = this.vectorInfos[j]
-        let start = vectorInfo[0]
-        let end = vectorInfo[1]
-        let x1 = skeletonArray[start*2]
-        let y1 = skeletonArray[start*2+1]
-        let x2 = skeletonArray[end*2]
-        let y2 = skeletonArray[end*2+1]
-        vectorArray.push(x2-x1)
-        vectorArray.push(y2-y1)
-      }
+
+      axios.post('http://70.12.130.110:8000/api/v1/', params)
+      // await axios.post('http://localhost:8000/api/v1/', params)
+      .then(function(res) {
+        const skeleton = res.data.skeleton
+        const skeletonArray = []
+        console.log(skeleton)
+        for (let i = 0; i < skeleton.length; i++) {
+          skeletonArray.push(skeleton[i][0])
+          skeletonArray.push(skeleton[i][1])
+        }
+        for (let j = 0; j < this.vectorInfos.length; j++) {
+          let vectorInfo = this.vectorInfos[j]
+          let start = vectorInfo[0]
+          let end = vectorInfo[1]
+          let x1 = skeletonArray[start*2]
+          let y1 = skeletonArray[start*2+1]
+          let x2 = skeletonArray[end*2]
+          let y2 = skeletonArray[end*2+1]
+          vectorArray.push(x2-x1)
+          vectorArray.push(y2-y1)
+        }
+      }.bind(this))
+      console.log(vectorArray)
       return vectorArray
     },
     showAllFeedback() {

@@ -19,11 +19,12 @@ def test(imagePath):
     BASE_DIR = 'C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/'
     # protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_deploy_linevec_faster_4_stages.prototxt"
     # weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_iter_160000.caffemodel"
-    protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/pose_deploy_linevec.prototxt"
-    weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/pose_iter_440000.caffemodel"
+    protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/body_25/pose_deploy.prototxt"
+    weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/body_25/pose_iter_584000.caffemodel"
     net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
     # # 테스트 이미지 읽기
     image = cv2.imread(imagePath)
+    # print(image)
 
     # # 테스트 이미지에서 height, width, color 정보 파악
     imageHeight, imageWidth, imageColor = image.shape
@@ -48,6 +49,7 @@ def test(imagePath):
         probMap = output[0, i, :, :]
         # global 최대값 찾기
         minVal, prob, minLoc, point = cv2.minMaxLoc(probMap)
+        # print(point, prob)
         # 원래 이미지에 맞게 점 위치 변경
         x = (imageWidth * point[0]) / W
         y = (imageHeight * point[1]) / H
@@ -60,9 +62,9 @@ def test(imagePath):
             points.append((int(x), int(y)))
         else:
             points.append(None)
-    
     cv2.imshow("Output-Keypoints", image)
     cv2.waitKey(0)
+    return points
     
     # # 관절들을 선으로 연결해주기
     # for pair in POSE_PAIRS:
