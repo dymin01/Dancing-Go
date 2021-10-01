@@ -14,7 +14,7 @@
       @closeModal="closeNicknameModal" />
       <!-- <Mypage @closeMypage="closeMypage" class="mypageModal"/> -->
     </v-dialog>
-
+    <audio src="songs/background.mp3" ref="background" autoplay loop></audio>
   </div>
 </template>
 
