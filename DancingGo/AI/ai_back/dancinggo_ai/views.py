@@ -19,7 +19,9 @@ def upload_image(request):
    with open(webcamImageName, "wb") as f:
       f.write(webcamRealImage)
    videoSkeleton = test(videoImageName)
-   webCamSkeleton = test(webcamImageName)
+   webcamSkeleton = test(webcamImageName)
+   print(videoSkeleton)
+   # print(webcamSkeleton)
 
-   result_json = { 'skeletons': [videoSkeleton, webCamSkeleton] }
+   result_json = { 'skeletons': [videoSkeleton, webcamSkeleton] }
    return JsonResponse(result_json)

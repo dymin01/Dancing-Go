@@ -62,8 +62,8 @@ def test(imagePath):
             points.append((int(x), int(y)))
         else:
             points.append(None)
-    cv2.imshow("Output-Keypoints", image)
-    cv2.waitKey(0)
+    # cv2.imshow("Output-Keypoints", image)
+    # cv2.waitKey(0)
     return points
     
     # # 관절들을 선으로 연결해주기

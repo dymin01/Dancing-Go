@@ -6,10 +6,15 @@
     </div>
     <div class="d-flex justify-content-around p-4">
       <img :src="feedbackData[2]" alt="">
-      <img :src="feedbackData[3]" style="transform: rotateY(180deg);" alt="">
+      <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="">
     </div>
     <div class="p-5 d-flex justify-content-between">
       <div>
+        맞은 부위: {{ this.correct }}
+        틀린 부위: {{ this.fail }}
+      </div>
+      <div>
+        ????
       </div>
       <button @click="$emit('moveFeedback')">확인하기</button>
     </div>
@@ -24,23 +29,44 @@ export default {
                     7: '왼 팔뚝', 8: '왼 팔', 9: '오른 허벅지', 10:'오른 종아리', 11:'왼 허벅지', 12:'왼 종아리'},
       seeing: [],
       notSeeing: [],
-      feedbackString: []
+      feedbackString: [],
+      correct: [],
+      fail: [],
     }
   },
   props: {
     feedbackData: Array,
   },
-  mounted() {
-    const videoSkeleton = this.feedbackData[4]
-    const camSkeleton = this.feedbackData[5]
-    console.log('hi')
-    for (let i=0; i < this.vectorNames.length / 2; i++) {
-      const x1 = videoSkeleton[i*2]
-      const y1 = videoSkeleton[i*2+1]
-      const x2 = camSkeleton[i*2]
-      const y2 = camSkeleton[i*2+1]
-      const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
-      console.log(this.vectorNames[i] + ' : ' + angle)
+  watch: {
+    feedbackData: function() {
+      const feedbackString = []
+      const videoSkeleton = this.feedbackData[4]
+      const camSkeleton = this.feedbackData[5]
+      const correct = []
+      const fail = []
+      for (let i=0; i < Object.keys(this.vectorNames).length; i++) {
+        if (videoSkeleton[i] != null) {
+          if (camSkeleton[i] != null) {
+            const x1 = videoSkeleton[i][0]
+            const y1 = videoSkeleton[i][1]
+            const x2 = camSkeleton[i][0]
+            const y2 = camSkeleton[i][1]
+            const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
+            if (angle > 10) {
+              fail.push(this.vectorNames[i] + '가 틀렸습니다. 각도: ' + angle)
+            } else {
+              correct.push(this.vectorNames[i] + '가 맞았습니다. 각도: ' + angle)
+            }
+            feedbackString.push(this.vectorNames[i] + '의 각도 : ' + angle)
+          } else {
+            feedbackString.push(this.vectorNames[i] + '가 웹캠에서 보이지 않습니다')
+          }
+        } else {
+          feedbackString.push(this.vectorNames[i] + '가 가이드에서 보이지 않습니다')
+        }
+      }
+      this.correct = correct
+      this.fail = fail
     }
   }
 }
@@ -56,5 +82,9 @@ export default {
   top: 10vh;
   border-radius: 10px;
   background-color: white;
+}
+
+i:hover {
+  cursor: pointer;
 }
 </style>
