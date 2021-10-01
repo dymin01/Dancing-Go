@@ -7,14 +7,21 @@ import base64
 # Create your views here.
 @api_view(['POST'])
 def upload_image(request):
-   base64Image = request.data['image']
-   image = base64.b64decode(base64Image[22:])
+   videoImage, webcamImage = request.data['images']
+   videoRealImage = base64.b64decode(videoImage[22:])
+   webcamRealImage = base64.b64decode(webcamImage[22:])
    # image = base64Image.encode()
    # print(image)
-   filename = 'testImage.jpg'
-   with open(filename, "wb") as f:
-      f.write(image)
-   test(filename)
+   videoImageName = 'videoImage.jpg'
+   webcamImageName = 'webcamImage.jpg'
+   with open(videoImageName, "wb") as f:
+      f.write(videoRealImage)
+   with open(webcamImageName, "wb") as f:
+      f.write(webcamRealImage)
+   videoSkeleton = test(videoImageName)
+   webcamSkeleton = test(webcamImageName)
+   print(videoSkeleton)
+   # print(webcamSkeleton)
 
-   result_json = { 'result': 'ok' }
+   result_json = { 'skeletons': [videoSkeleton, webcamSkeleton] }
    return JsonResponse(result_json)

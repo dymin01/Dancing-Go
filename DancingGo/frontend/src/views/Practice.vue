@@ -87,7 +87,6 @@
 
 <script>
 import Webcam from 'webcam-easy'
-import * as posenet from '@tensorflow-models/posenet'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
@@ -110,16 +109,14 @@ export default {
       endTime: '03:41',
       endTimeInt: 221,
       isVolumeControl: false,
-      seeing: '',
-      notSeeing: [],
-      vectorInfos: [[17, 0], [5, 11], [6, 12], [5, 6], [11, 12], [5, 7], [7, 9], [6, 8], [8, 10], [11, 13], [13, 15], [12, 14], [14, 16]],
-      vectorNames: { 0: '목', 1: '왼허리', 2: '오른허리', 3: '어깨라인', 4: '힙라인', 5: '왼팔뚝', 6: '왼팔', 
-                    7: '오른팔뚝', 8: '오른팔', 9: '왼허벅지', 10:'왼종아리', 11:'오른허벅지', 12:'오른종아리' },
-      criticalPoints: { 0: '코', 5: '왼쪽 어깨', 6: '오른쪽 어깨', 7: '왼쪽 팔꿈치', 8: '오른쪽 팔꿈치', 
-                                9: '왼쪽 손목', 10: '오른쪽 손목', 11: '왼쪽 엉덩이', 12: '오른쪽 엉덩이', 
-                                13: '왼쪽 무릎', 14: '오른쪽 무릎', 15: '왼쪽 발목', 16: '오른쪽 발목'},
-      videoSkeleton: [],
-      webcamSkeleton: [],
+      vectorInfos: [[15, 0], [2, 9], [5, 12], [2, 5], [9, 12], [2, 3], [3, 4], [5, 6], [6, 7], [9, 10], [10, 11], [12, 13], [13, 14]],
+      vectorNames: { 0: '목', 1: '우측 허리', 2: '좌측 허리', 3: '어깨 라인', 4: '힙 라인', 5: '오른 팔뚝', 6: '오른 팔', 
+                    7: '왼 팔뚝', 8: '왼 팔', 9: '오른 허벅지', 10:'오른 종아리', 11:'왼 허벅지', 12:'왼 종아리'},
+      criticalPoints: { 0: '정수리', 1: '목', 
+                        2: '우측 어깨', 3: '우측 팔꿈치', 4: '우측 손목', 
+                        5: '좌측 어깨', 6: '좌측 팔꿈치', 7: '좌측 손목', 
+                        8: '골반', 9: '우측 엉덩이', 10: '우측 무릎',  
+                        11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
       repeatStartTime: 0,
       repeatEndTime: 0,
       isRepeatStart: false,
@@ -138,14 +135,14 @@ export default {
   methods: {
     playVideo() {
       clearInterval(this.timeInterval)
-      // clearInterval(this.captureInterval)
+      clearInterval(this.captureInterval)
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
       this.$refs.pause.style = 'color: grey'
       this.$refs.play.style = 'color: red'
       this.timeInterval = setInterval(this.checkTime, 500)
-      // this.captureInterval = setInterval(this.dancingGo, 200)
+      this.captureInterval = setInterval(this.dancingGo, 2000)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
         this.$refs.videoBox.removeChild(this.$refs.videoBox.querySelector('.tmp-box'))
       }
@@ -167,7 +164,7 @@ export default {
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: red'
       this.$refs.play.style = 'color: grey'
-      this.dancingGo()
+      // this.dancingGo()
     },
     removeFeedbacks(time) {
       const len = this.feedbacks.length - 1
@@ -250,26 +247,11 @@ export default {
         this.playVideo()
       }
     },
-    makeFeedback(videoSkeleton, webcamSkeleton) {
+    makeFeedback(videoImage, webcamImage, videoSkeleton, webcamSkeleton) {
       var feedbackTime = parseInt(this.$refs.video.currentTime)
-      var video = this.$refs.video
-      var videoCanvas = this.$refs.videoCanvas
-      var webcam = this.$refs.webcam
-      var webcamCanvas = this.$refs.webcamCanvas
-      var videoContext = videoCanvas.getContext('2d')
-      var webcamContext = webcamCanvas.getContext('2d')
-      videoCanvas.width = 300
-      videoCanvas.height = 200
-      webcamCanvas.width = 300
-      webcamCanvas.height = 200
-      videoContext.drawImage(video, 0, 0, 300, 200)
-      webcamContext.drawImage(webcam, 0, 0, 300, 200)
-      var feedbackVideoPreview = videoCanvas.toDataURL('image/png');
-      var feedbackWebcamPreview = webcamCanvas.toDataURL('image/png');
       this.feedbacks.push([feedbackTime, this.nowTime, 
-      feedbackVideoPreview, feedbackWebcamPreview, 
-      videoSkeleton, webcamSkeleton, 
-      this.seeing, this.notSeeing, this.seeingVector])
+      videoImage, webcamImage , 
+      videoSkeleton, webcamSkeleton])
     },
     saveFeedback(feedback) {
       if (this.savedFeedbacks.length < 10) {
@@ -293,144 +275,113 @@ export default {
       this.feedbackVisible = false
     },
     //posenet 핵심 기능
-    async dancingGo() {
+    dancingGo() {
       var video = this.$refs.video
       var videoCanvas = this.$refs.videoCanvas
       var webcam = this.$refs.webcam
       var webcamCanvas = this.$refs.webcamCanvas
       // 가이드에서 프레임 캡쳐
-      var videoSkeleton = await this.videoCapture(video, videoCanvas)
-      if (videoSkeleton === -1) {
-        // 가이드의 프레임의 인식률이 떨어질 경우 버림
-        console.log('가이드가 인식되지 않았습니다')
-      } else {
-        // 캠에서 프레임 캡쳐
-        var webcamSkeleton = await this.camCapture(webcam, webcamCanvas)
-        if (webcamSkeleton !== -1) {
-          // 캠에서 프레임이 정확하다고 판단 되었을 때 피드백 생성
-          this.makeFeedback(videoSkeleton, webcamSkeleton)
-        } else {
-          console.log('선생님의 캠이 정확하지 않습니다')
-        }
-      }
-    },
-    // 스샷
-    async videoCapture(video, canvas) {
-      var context = canvas.getContext('2d')
-      canvas.width = video.clientWidth
-      canvas.height = video.clientHeight
-      context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
-      const skeleton = await this.getVideoSkeleton(canvas)
-      return skeleton
-    },
-    async camCapture(video, canvas) {
-      var context = canvas.getContext('2d')
-      canvas.width = video.clientWidth
-      canvas.height = video.clientHeight
-      context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
-      const skeleton = await this.getCamSkeleton(canvas)
-      return skeleton
-    },
-    async getVideoSkeleton(imageElement) {
-      const vectorInfos = this.vectorInfos
-      const criticalPoints = this.criticalPoints
-      let arr = []
-      let vectorArray = []
-      let seeing = []
-      let seeingVector = []
-      //포즈넷에 사진을 담아 요청을 보냄
-      await posenet.load()
-      .then(async function(net) {
-        const pose = await net.estimateSinglePose(imageElement, {
-          flipHorizontal: true
-        });
-        return pose;
-      })
-      .then(function(pose){
-        // 포즈넷의 스켈레톤의 정확도를 판단하고 0.9 이상 신뢰도를 가진 관절만 담는다
+      var videoImages = this.videoCapture(video, videoCanvas)
+      var webcamImage = this.webcamCapture(webcam, webcamCanvas)
+      this.openpose(videoImages[1], webcamImage)
+      .then((res) => {
+        var videoPoints = res[0]
+        var webcamPoints = res[1]
+        var videoVectors = this.getVideoVector(videoPoints)
         console.log('가이드')
-        console.log(pose)
-        for (let i=0; i < pose.keypoints.length; i++) {
-          if (Object.keys(criticalPoints).includes(String(i)) && pose.keypoints[i].score > 0.9) {
-            seeing.push(i)
-          }
-          let tx = pose.keypoints[i].position.x
-          let ty = pose.keypoints[i].position.y
-          arr.push(tx)
-          arr.push(ty)
-
-        }
-        // 인식 체크
-        arr.push((arr[10] + arr[12] + arr[22] + arr[24])/4)
-        arr.push((arr[11] + arr[13] + arr[23] + arr[25])/4)
-        seeing.push(17)
-        for (let i=0; i < vectorInfos.length; i++) {
-          const vectorInfo = vectorInfos[i]
-          if (seeing.includes(vectorInfo[0]) && seeing.includes(vectorInfo[1])) {
-            let tx = arr[vectorInfo[0]*2]
-            let ty = arr[vectorInfo[0]*2 + 1]
-            let tx2 = arr[vectorInfo[1]*2]
-            let ty2 = arr[vectorInfo[1]*2 + 1]
-            vectorArray.push(tx2-tx)
-            vectorArray.push(ty2-ty)
-            seeingVector.push(this.vectorNames[i])
-          }
-        }
-      }.bind(this))
-      if (seeing.length < 8) {
-        return -1
-      }
-      this.seeing = seeing
-      this.seeingVector = seeingVector
-      this.videoVectors = vectorArray
-      return vectorArray
-    },
-    async getCamSkeleton(imageElement) {
-      const vectorInfos = this.vectorInfos
-      let arr = []
-      let vectorArray = []
-      const seeing = this.seeing
-      let notSeeing = []
-      await posenet.load()
-      .then(async function(net) {
-        const pose = await net.estimateSinglePose(imageElement, {
-          flipHorizontal: true
-        });
-        return pose;
-      })
-      .then(function(pose){
+        console.log(videoVectors)
+        var webcamVectors = this.getCamVector(webcamPoints, videoVectors)
         console.log('캠')
-        console.log(pose)
-        for (let i=0; i < pose.keypoints.length; i++) {
-          if (seeing.includes(i) && pose.keypoints[i].score < 0.9) {
-            notSeeing.push(i)
-          }
-          let tx = pose.keypoints[i].position.x
-          let ty = pose.keypoints[i].position.y
-          arr.push(tx)
-          arr.push(ty)
+        console.log(webcamVectors)
+        this.makeFeedback(videoImages[0], webcamImage, videoVectors, webcamVectors)
+      })
+    },
+    videoCapture(video, canvas) {
+      var context = canvas.getContext('2d')
+      canvas.width = video.clientWidth
+      canvas.height = video.clientHeight
+      context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
+      var originalCanvas = canvas.toDataURL()
+      canvas.width = video.clientWidth
+      canvas.height = video.clientHeight
+      context.scale(-1, 1)
+      context.translate(-canvas.width, 0)
+      context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
+      var reversedCanvas = canvas.toDataURL()
+      return [originalCanvas, reversedCanvas]
+    },
+    webcamCapture(video, canvas) {
+      var context = canvas.getContext('2d')
+      canvas.width = video.clientWidth
+      canvas.height = video.clientHeight
+      context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
+      return canvas.toDataURL()
+    },
+    async openpose(videoImage, webcamImage) {
+      var params = {
+        'images': [videoImage, webcamImage]
+      }
+      let skeletons = []
+      // await axios.post('http://localhost:8000/api/v1/', params)
+      await axios.post('http://70.12.130.110:8000/api/v1/', params)
+      .then(function(res) {
+        skeletons = res.data.skeletons
+      })
+      return skeletons
+    },
+    getVideoVector(videoPoints) {
+      const vector = Array()
+
+      if (videoPoints[0] != null && videoPoints[8] != null) {
+        videoPoints.push([(videoPoints[0][0] + videoPoints[8][0])/2, (videoPoints[0][1] + videoPoints[8][1])/2])
+      } else {
+        videoPoints.push(null)
+      }
+      console.log(videoPoints)
+      for (let i = 0; i < this.vectorInfos.length; i++) {
+        let vectorInfo = this.vectorInfos[i]
+        let start = vectorInfo[0]
+        let end = vectorInfo[1]
+        if (videoPoints[start] != null && videoPoints[end] != null) {
+          let x1 = videoPoints[start][0]
+          let y1 = videoPoints[start][1]
+          let x2 = videoPoints[end][0]
+          let y2 = videoPoints[end][1]
+          vector.push([x2-x1, y2-y1])
+        } else {
+          vector.push(null)
         }
-        // 캠 인식 확인
-        arr.push((arr[10] + arr[12] + arr[22] + arr[24])/4)
-        arr.push((arr[11] + arr[13] + arr[23] + arr[25])/4)
-        for (let i=0; i < vectorInfos.length; i++) {
-          const vectorInfo = vectorInfos[i]
-          if (seeing.includes(vectorInfo[0]) && seeing.includes(vectorInfo[1])) {
-            let tx = arr[vectorInfo[0]*2]
-            let ty = arr[vectorInfo[0]*2 + 1]
-            let tx2 = arr[vectorInfo[1]*2]
-            let ty2 = arr[vectorInfo[1]*2 + 1]
-            vectorArray.push(tx2-tx)
-            vectorArray.push(ty2-ty)
+      }
+      return vector
+    },
+    getCamVector(webcamPoints, videoVectors) {
+      const vector = Array()
+
+      if (webcamPoints[0] != null && webcamPoints[8] != null) {
+        webcamPoints.push([(webcamPoints[0][0] + webcamPoints[8][0])/2, (webcamPoints[0][1] + webcamPoints[8][1])/2])
+      } else {
+        webcamPoints.push(null)
+      }
+      console.log(webcamPoints)
+      for (let i = 0; i < this.vectorInfos.length; i++) {
+        if (videoVectors[i] != null) {
+          let vectorInfo = this.vectorInfos[i]
+          let start = vectorInfo[0]
+          let end = vectorInfo[1]
+          if (webcamPoints[start] != null && webcamPoints[end] != null) {
+            let x1 = webcamPoints[start][0]
+            let y1 = webcamPoints[start][1]
+            let x2 = webcamPoints[end][0]
+            let y2 = webcamPoints[end][1]
+            vector.push([x2-x1, y2-y1])
+          } else {
+            vector.push(null)
           }
+        } else {
+          vector.push(null)
         }
-      }.bind(this))
-      // if (notSeeing.length > 2) {
-      //   return -1
-      // }
-      this.notSeeing = notSeeing
-      this.camVectors = vectorArray
-      return vectorArray
+      }
+      return vector
     },
     showAllFeedback() {
       this.isTemporaryFeedback = true
