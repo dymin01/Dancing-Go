@@ -22,11 +22,23 @@ export default {
   data () {
     return {
       isRealHeader: true,
-      isheader: true
+      isheader: true,
     }
   },
-  created () {
-    var path = document.location.pathname
+  watch:{
+    $route(to, from){
+      console.log("from " + from.path)
+      console.log("to " + to.path)
+      if(to.path.includes('ranking') || to.path.includes('practice')){
+        this.isRealHeader = false
+      }else{
+        this.isRealHeader = true
+      }
+    }
+  },
+  mounted () {
+    const path = document.location.pathname
+    this.path = path
     console.log(path)
     if (path === '/') {
       this.isheader = false
