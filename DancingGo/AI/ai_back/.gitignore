@@ -4,6 +4,7 @@
 
 *.caffemodel
 *.prototxt
+*.jpg
 
 ### Django ###
 *.log
