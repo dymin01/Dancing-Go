@@ -44,6 +44,7 @@ export default {
       tmpScores: [0, 0, 0, 0, 0],
       rankVisible: false,
       menuVisible: false,
+      totalScore: 0,
     }
   },
   methods: {
@@ -116,7 +117,24 @@ export default {
     }
   },
   mounted() {
-    this.scores = this.$store.state.ranking.scores
+    const scores = this.$store.state.ranking.scores
+    this.scores = scores
+    var frameNum = scores[0] + scores[1] + scores[2] + scores[3] + scores[4]
+    var totalScore = (scores[0]*1 + scores[1]*0.9 + scores[2]*0.7 + scores[3]*0.4 + scores[4]*0)*100/frameNum
+    if (totalScore >= 90) { 
+      this.rank = 'S'
+    } else if (totalScore >= 80) {
+      this.rank = 'A'
+    } else if (totalScore >= 70) {
+      this.rank = 'B'
+    } else if (totalScore >= 60) {
+      this.rank = 'C'
+    } else if (totalScore >= 50) {
+      this.rank = 'D'
+    } else {
+      this.rank = 'F'
+    }
+
     this.showPerfect()
   }
 }
