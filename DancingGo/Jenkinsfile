@@ -3,12 +3,12 @@ pipeline{
     stages{
         stage('spring-docker-build'){
             steps{
-                sh 'docker build -t backend:latest /var/jenkins_home/workspace/DancingGo/backend'
+                sh 'docker build -t backend:latest /var/jenkins_home/workspace/DancingGo/DancingGo/backend'
             }
         }
         stage('vue-build'){
             steps{
-                sh 'docker build -t frontend:latest /var/jenkins_home/workspace/DancingGo/frontend'
+                sh 'docker build -t frontend:latest /var/jenkins_home/workspace/DancingGo/DancingGo/frontend'
             }
         }
         stage('docker-run'){
