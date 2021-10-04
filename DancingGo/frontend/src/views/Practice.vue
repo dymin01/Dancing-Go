@@ -52,23 +52,31 @@
       </div>
 
       <!-- 진행도 빠 -->
-      <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)">
-        <div ref="progressBar" id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)" style="height: 4px; background-color: white;">
+        <div ref="progressBar" id="progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
 
       <!-- 버튼 빠 -->
       <div id="bottom-box">
         <div id="button-box">
-          <i ref="play" class="fas fa-play mx-4 fs-3 play-menu" style="color: grey" @click="playVideo"></i>
+          <i ref="play" class="fas fa-play mx-4 fs-3 play-menu" style="color: grey" @click="countdown"></i>
           <i ref="pause" class="fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: red"></i>
           <div @click="repeatCheck" class="ms-4">
             <span ref="A">A</span>
             <span ref="B">B</span>
           </div>
+          <div class="btn-group dropend ms-3">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              반복 횟수 
+            </button>
+            <div class="dropdown-menu ms-2" style="width: 50px;">
+              <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
+            </div>
+          </div>
         </div>
         <div id="time-box">
           <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
-            <input type="range" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
+            <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
             <div style="width: 32px">
               <i class="fas fa-volume-mute fs-3" v-if="this.volume == 0 || isMute" @click="unmute"></i>
               <i class="fas fa-volume-up fs-3" v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
@@ -82,21 +90,26 @@
     <Feedback ref="feedback" v-if="this.feedbackVisible" :feedbackData="feedbackData" id="feedback-modal"
     @moveFeedback="moveVideo(feedbackData[0])"
     @closeFeedback="hideFeedback()" />
+    <Countdown style="z-index: 99999" v-if="isCountdown" @countdownEnd="countdownEnd" />
   </div>
 </template>
 
 <script>
 import Webcam from 'webcam-easy'
+import axios from 'axios'
+// import router from '@/router/index.js'
+// import ExitButton from '@/components/practice/ExitButton.vue'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
-import axios from 'axios'
+import Countdown from '@/components/ranking/Countdown.vue'
 
 export default {
   components: {
     Feedback,
     FeedbackCard,
-    SavedFeedbackCard
+    SavedFeedbackCard,
+    Countdown
   },
   data() {
     return {
@@ -106,7 +119,7 @@ export default {
       tmpVolume: 100,
       isMute: false,
       nowTime: '00:00',
-      endTime: '03:41',
+      endTime: '',
       endTimeInt: 221,
       isVolumeControl: false,
       vectorInfos: [[15, 0], [2, 9], [5, 12], [2, 5], [9, 12], [2, 3], [3, 4], [5, 6], [6, 7], [9, 10], [10, 11], [12, 13], [13, 14]],
@@ -130,19 +143,29 @@ export default {
       timeInterval: '',
       captureInterval: '',
       isTemporaryFeedback: true,
+      nowRepeatCount: 0,
+      maxRepeatCount: 5,
+      isCountdown: false,
     }
   },
   methods: {
+    countdown() {
+      this.isCountdown = true
+    },
+    countdownEnd() {
+      this.isCountdown = false
+      this.playVideo()
+    },
     playVideo() {
       clearInterval(this.timeInterval)
-      clearInterval(this.captureInterval)
+      // clearInterval(this.captureInterval)
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
       this.$refs.pause.style = 'color: grey'
       this.$refs.play.style = 'color: red'
       this.timeInterval = setInterval(this.checkTime, 500)
-      this.captureInterval = setInterval(this.dancingGo, 2000)
+      // this.captureInterval = setInterval(this.dancingGo, 2000)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
         this.$refs.videoBox.removeChild(this.$refs.videoBox.querySelector('.tmp-box'))
       }
@@ -155,7 +178,7 @@ export default {
       let second = timeInt % 60
       this.nowTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
       if (!this.isPlaying) {
-        clearInterval(this.captureInterval)
+        // clearInterval(this.captureInterval)
         clearInterval(this.timeInterval)
       }
     },
@@ -164,7 +187,7 @@ export default {
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: red'
       this.$refs.play.style = 'color: grey'
-      // this.dancingGo()
+      this.dancingGo()
     },
     removeFeedbacks(time) {
       const len = this.feedbacks.length - 1
@@ -231,6 +254,9 @@ export default {
         this.isRepeatEnd = true
         this.repeatEndTime = this.$refs.video.currentTime
         this.$refs.B.style = 'color: red'
+        this.$refs.video.currentTime = this.repeatStartTime
+        this.pauseVideo()
+        this.countdown()
       } else {
         this.$refs.A.style = 'color: black'
         this.$refs.B.style = 'color: black'
@@ -243,6 +269,18 @@ export default {
     },
     repeat() {
       if (this.isRepeatEnd && this.$refs.video.currentTime > this.repeatEndTime) {
+        this.nowRepeatCount += 1
+        if (this.nowRepeatCount >= this.maxRepeatCount) {
+          this.nowRepeatCount = 0
+          this.$refs.A.style = 'color: black'
+          this.$refs.B.style = 'color: black'
+          this.isRepeatEnd = false
+          this.isRepeatStart = false
+          this.repeatEndTime = 0
+          this.repeatStartTime = 0
+          this.pauseVideo()
+          return
+        }
         this.$refs.video.currentTime = this.repeatStartTime
         this.playVideo()
       }
@@ -391,9 +429,9 @@ export default {
     }
   },
   mounted() {
-    localStorage.setItem('mode', 'practice')
     const songId = this.$route.params.songId
-    console.log(songId)
+    localStorage.setItem('mode', 'Practice')
+    localStorage.setItem('songId', songId)
     this.songId = songId
     this.startCam()
     axios.get('/song/getSong/' + songId)
@@ -402,11 +440,11 @@ export default {
       this.songInfo = songInfo
       this.$refs.background.src = '/images/musicselect/' + songInfo.fileName + '.png'
       this.$refs.video.src = '/guides/' + songInfo.fileName + '.mp4'
-      // var songLength = songInfo.SongLen
-      // let minute = parseInt(songLength / 60)
-      // let second = songLength % 60
-      // this.endTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
-      // this.endTimeInt = songLength
+      var songLength = songInfo.songLen
+      let minute = parseInt(songLength / 60)
+      let second = songLength % 60
+      this.endTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
+      this.endTimeInt = songLength
     })
     .catch(err => {
       console.log(err)

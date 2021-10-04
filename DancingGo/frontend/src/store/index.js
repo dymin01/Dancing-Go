@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import account from './modules/account'
 import music from './modules/music'
+import ranking from './modules/ranking'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,6 @@ export default new Vuex.Store({
     }
   },
   plugins: [ createPersistedState({ storage: window.sessionStorage }) ],
-  modules: { account, music },
+  modules: { account, music, ranking },
   strict: debug
 })

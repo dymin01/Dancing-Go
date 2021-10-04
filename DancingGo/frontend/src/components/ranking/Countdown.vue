@@ -1,6 +1,6 @@
 <template>
   <div id="countdown-whole">
-    <div ref="count" class="d-none" style="font-size: 200px; font-weight: bold">3</div>
+    <div ref="count" style="font-size: 200px; font-weight: bold; color: white;">3</div>
   </div>
 </template>
 
@@ -14,18 +14,19 @@ export default {
   },
   methods: {
     show() {
-      var interval = setInterval(function() {
-        this.$refs.count.innerText = this.countdownString[this.count]
-        this.$refs.count.className = 'fade-in-box'
-        setTimeout(function() {
-          this.$refs.count.className = 'fade-out-box'
-          this.count += 1
-        }.bind(this), 2500)
-        if (this.count == 4) {
-          clearInterval(interval)
+      var count = 1
+      var interval = setTimeout(function countdown() {
+        this.$refs.count.innerText = this.countdownString[count]
+        // this.$refs.count.className = 'd-none'
+        if (count == 4) {
+          clearTimeout(interval)
           this.$emit('countdownEnd')
+        } else {
+          // this.$refs.count.className = 'fade-in-box'
+          count += 1
+          setTimeout(countdown.bind(this), 1000);
         }
-      }.bind(this))
+      }.bind(this), 1000)
     },
   },
   mounted() {
@@ -49,11 +50,8 @@ export default {
 
 
 .fade-in-box {
-  animation: fadein 2s;
-}
-
-.fade-out-box {
-  animation: fadeout 2s;
+  /* animation: fadein 1s; */
+  animation: fadeout 1.1s;
 }
 
 @keyframes fadein {
