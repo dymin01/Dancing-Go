@@ -24,6 +24,7 @@ pipeline{
                 sh 'docker run -d --name frontend \
                 -p 80:80 \
                 -p 443:443 \
+                -v /etc/letsencrypt/live/j5a105.p.ssafy.io/:/var/jenkins_home/workspace/DancingGo/sslkey/ \
                 -v /etc/localtime:/etc/localtime:ro \
                 --network dancinggonetwork \
                 frontend:latest'
