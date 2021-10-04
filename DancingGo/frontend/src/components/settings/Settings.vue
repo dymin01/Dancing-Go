@@ -4,15 +4,30 @@
       환경설정
     </v-card-title>
     <hr style="margin: 0px; background: white;">
-    <v-card-text>
-      <h6 style="color: white;" class="mt-4 mb-5">환경설정 텍스트 부분</h6>
-      <v-btn
-        id="button"
-        @click="checkNickname"
-      >
-        확인
-      </v-btn>
+    <v-card-text class="d-flex row">
+      <div class="cols-6">
+        <h6 style="color: white;" class="mt-4 mb-5">배경음 볼륨 조절</h6>
+        <v-slider
+          v-model="backgroundSound"
+          step="10"
+          ticks
+        ></v-slider>
+      </div>
+      <div class="cols-6">
+        <h6 style="color: white;" class="mt-4 mb-5">배경음 볼륨 조절</h6>
+        <v-slider
+          v-model="backgroundSound"
+          step="10"
+          ticks
+        ></v-slider>
+      </div>
     </v-card-text>
+    <v-btn
+      id="button"
+      @click="checkNickname"
+    >
+      확인
+    </v-btn>
   </v-card>
 </template>
 
