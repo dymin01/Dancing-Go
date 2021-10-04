@@ -30,6 +30,9 @@ export default {
     $route(to, from){
       console.log("from " + from.path)
       console.log("to " + to.path)
+      if (to.path === '/') {
+      this.isheader = false
+    }
       if(to.path.includes('ranking') || to.path.includes('practice')){
         this.isRealHeader = false
       }else{

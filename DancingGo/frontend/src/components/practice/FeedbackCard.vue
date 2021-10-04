@@ -1,8 +1,6 @@
 <template>
   <div id="feedback-box">
-    <div id="feedback-preview-box" @click="clickFeedback">
-      <img :src="feedback[2]" alt="">
-    </div>
+    <img :src="feedback[2]" alt="" id="feedback-preview-box" @click="clickFeedback">
     <div id="feedback-card-info">
       <div class="d-flex" style="width: 80px;">
 
@@ -35,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #feedback-box {
   position: relative;
   display: flex;
@@ -50,10 +48,9 @@ export default {
   position: relative;
   width: 300px;
   height: 200px;
-  border: 1px solid black;
   margin-top: 30px;
   margin-bottom: 10px;
-  overflow: hidden;
+  object-fit: cover;
 }
 
 #feedback-preview-box:hover {
