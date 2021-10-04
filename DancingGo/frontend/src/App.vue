@@ -7,7 +7,7 @@
       v-else />
     </div>
     <router-view />
-    <audio src="songs/background.mp3" ref="background" autoplay></audio>
+    <!-- <audio src="songs/background.mp3" ref="background" autoplay></audio> -->
   </v-app>
 </template>
 
@@ -36,6 +36,10 @@ export default {
         this.isRealHeader = true
       }
     }
+  },
+  created () {
+    localStorage.setItem('backgroundVolume', 50)
+    localStorage.setItem('effectVolume', 50)
   },
   mounted () {
     const path = document.location.pathname

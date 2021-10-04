@@ -55,6 +55,14 @@ export default {
   },
   computed:{
     ...mapGetters(['token', 'user']),
+    changeEffect () {
+      return this.$store.getters.effectVolume*(0.01)
+    },
+  },
+  watch: {
+    changeEffect (val) {
+      this.$refs.selecteffect.volume = val
+    },
   },
   methods:{
     ...mapMutations(['setToken', 'setUser']),
@@ -86,9 +94,13 @@ export default {
       this.isHamburgerOpen = active
     },
     goBack () {
+      this.$refs.selecteffect.play()
       this.$router.go(-1)
     }
   },
+  mounted () {
+    this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
+  }
 }
 </script>
 
