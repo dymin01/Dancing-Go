@@ -7,7 +7,7 @@ RUN ./gradlew clean build
 RUN ls /backend/build/libs
 
 FROM azul/zulu-openjdk:8
-COPY --from=builder /backend/build/libs/*.jar app.jar
+COPY --from=builder /backend/build/libs/backend-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "-Duser.timezone=Asia/Seoul", "./app.jar"]
