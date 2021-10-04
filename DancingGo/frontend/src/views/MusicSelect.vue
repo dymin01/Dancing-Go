@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-img id="background" src="images/home/home_background.jpg"></v-img>
+    <v-img id="background" src="images/home/dance3.jpg"></v-img>
     <MusicList
       :mode="mode"
     />
