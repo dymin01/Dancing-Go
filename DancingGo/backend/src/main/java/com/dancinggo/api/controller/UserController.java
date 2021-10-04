@@ -89,6 +89,7 @@ public class UserController {
         List<UserInfoRes> userInfoResList = new ArrayList<>();
 
         long preTotalScore = -1;
+        long cnt = 1L;
 
         for (User user : userList) {
 
@@ -96,7 +97,10 @@ public class UserController {
                 preTotalScore = user.getTotalScore();
             } else if (preTotalScore != user.getTotalScore()) {
                 preTotalScore = user.getTotalScore();
-                rank++;
+                rank += cnt;
+                cnt = 1;
+            } else if(preTotalScore == user.getTotalScore()) {
+                cnt++;
             }
 
             userInfoResList.add(new UserInfoRes(user.getUserNickname(),
