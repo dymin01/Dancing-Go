@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('spring-docker-build'){
             steps{
-                sh 'docker build -t springio/gs-spring-boot-docker /var/jenkins_home/workspace/DancingGo/DancingGo/backend'
+                sh 'docker build -t backend:latest /var/jenkins_home/workspace/DancingGo/DancingGo/backend'
             }
         }
         stage('vue-build'){
@@ -28,7 +28,7 @@ pipeline{
                 --network dancinggonetwork \
                 frontend:latest'
 
-                sh 'docker run -d --name springio/gs-spring-boot-docker \
+                sh 'docker run -d --name backend \
                 --network dancinggonetwork backend:latest'
             }
         }
