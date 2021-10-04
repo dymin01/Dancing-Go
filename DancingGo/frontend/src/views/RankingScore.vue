@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       rank: 'A',
-      scores: [100, 80, 20, 10, 4],
+      scores: Array,
       tmpScores: [0, 0, 0, 0, 0],
       rankVisible: false,
       menuVisible: false,
@@ -49,51 +49,51 @@ export default {
   methods: {
     showPerfect() {
       var perfectInterval = setInterval(function() {
-        this.tmpScores[0] += 1
         this.$refs.perfect.innerText = this.tmpScores[0]
         if (this.tmpScores[0] >= this.scores[0]) {
           clearInterval(perfectInterval)
         }
+        this.tmpScores[0] += 1
       }.bind(this), 20)
       setTimeout(this.showGreat, this.scores[0]*20 + 200)
     },
     showGreat() {
       var greatInterval = setInterval(function() {
-        this.tmpScores[1] += 1
         this.$refs.great.innerText = this.tmpScores[1]
         if (this.tmpScores[1] >= this.scores[1]) {
           clearInterval(greatInterval)
         }
+        this.tmpScores[1] += 1
       }.bind(this), 20)
       setTimeout(this.showGood, this.scores[1]*20 + 200)
     },
     showGood() {
       var goodInterval = setInterval(function() {
-        this.tmpScores[2] += 1
         this.$refs.good.innerText = this.tmpScores[2]
         if (this.tmpScores[2] >= this.scores[2]) {
           clearInterval(goodInterval)
         }
+        this.tmpScores[2] += 1
       }.bind(this), 20)
       setTimeout(this.showBad, this.scores[2]*20 + 200)
     },
     showBad() {
       var badInterval = setInterval(function() {
-        this.tmpScores[3] += 1
         this.$refs.bad.innerText = this.tmpScores[3]
         if (this.tmpScores[3] >= this.scores[3]) {
           clearInterval(badInterval)
         }
+        this.tmpScores[3] += 1
       }.bind(this), 20)
       setTimeout(this.showMiss, this.scores[3]*20 + 200)
     },
     showMiss() {
       var missInterval = setInterval(function() {
-        this.tmpScores[4] += 1
         this.$refs.miss.innerText = this.tmpScores[4]
         if (this.tmpScores[4] >= this.scores[4]) {
           clearInterval(missInterval)
         }
+        this.tmpScores[4] += 1
       }.bind(this), 20)
       setTimeout(this.showRank, this.scores[4]*20 + 1000)
     },
@@ -116,6 +116,7 @@ export default {
     }
   },
   mounted() {
+    this.scores = this.$store.state.ranking.scores
     this.showPerfect()
   }
 }

@@ -13,10 +13,6 @@
         </div>
       </div>
       <div id="midBox">
-        <div id="videoBox">
-          <video src="" height="420" ref="video"></video>
-          <canvas ref="videoCanvas" class="d-none"></canvas>
-        </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" playsinline height="450"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
@@ -24,11 +20,16 @@
       </div>
       <div id="rank-bottom">
         <div>
-          <span>{{ this.frameScore }}</span>
+          <span @click="plusHealth">+</span>
+          <span @click="minusHealth">-</span>
         </div>
         <div style="font-size: 20px; font-weight: bold;">
           {{ nowTime }} / {{ endTime }}
         </div>
+      </div>
+      <div id="videoBox">
+        <video src="" height="420" ref="video"></video>
+        <canvas ref="videoCanvas"></canvas>
       </div>
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
     </div>
@@ -60,9 +61,7 @@ export default {
                         5: '좌측 어깨', 6: '좌측 팔꿈치', 7: '좌측 손목', 
                         8: '골반', 9: '우측 엉덩이', 10: '우측 무릎',  
                         11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
-      scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 6, 4: 10, 5: 15, 6: 21, 7: 50 },
-      frameScore: '',
-      scores: [0, 0, 0, 0, 0]
+      scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 6, 4: 10, 5: 15, 6: 21, 7: 50 } 
     }
   },
   components: {
@@ -90,8 +89,21 @@ export default {
       if (this.nowTime == this.endTime) {
         clearInterval(this.timeInterval)
         clearInterval(this.captureInterval)
-        this.$store.dispatch('ranking/setScores', this.scores)
         router.push('/rankingscore')
+      }
+    },
+    plusHealth() {
+      this.health += 5
+      if(this.health > 100) {
+        this.health = 100
+      }
+      this.refreshHealth()
+    },
+    minusHealth() {
+      this.health -= 5
+      this.refreshHealth()
+      if (this.health <= 0) {
+        this.gameover()
       }
     },
     refreshHealth() {
@@ -222,15 +234,12 @@ export default {
             const y2 = webcamVectors[i][1]
             const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
             frameScore -= this.scoreMatch[this.checkScore(angle)]
-            console.log(this.vectorNames[i] + '각도: ' + angle)
-          } 
-          else {
+          } else {
             notSeeingCount += 1
           }
         }
       }
       if (notSeeingCount > 3) {
-        console.log('notSeeing')
         frameScore = 0
       }
       return frameScore
@@ -248,24 +257,14 @@ export default {
     changeHealth(score) {
       var health = this.health
       if (score >= 90) {
-        this.frameScore = 'perfect'
-        this.scores[0] += 1
         health += 3
       } else if (score >= 80) {
-        this.frameScore = 'great'
-        this.scores[1] += 1
         health += 2
       } else if (score >= 70) {
-        this.scores[2] += 1
-        this.frameScore = 'good'
         health += 1
       } else if (score >= 50) {
-        this.scores[3] += 1
-        this.frameScore = 'bad'
         health -= 3
       } else {
-        this.scores[4] += 1
-        this.frameScore = 'miss'
         health -= 5
       }
       if (health > 100) {
@@ -358,8 +357,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  /* position: absolute;
-  top: 100vh; */
+  position: absolute;
+  top: 100vh;
 }
 
 #camBox {
