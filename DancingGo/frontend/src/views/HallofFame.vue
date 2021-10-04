@@ -7,17 +7,17 @@
 
     </div>
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
-    <div class="first">
+    <div class="first" v-if="check(firstRank)">
       <v-img class="myImg" :src="getImg(firstRank)" />
       <span class="myScore"> {{firstRank.totalScore}} </span>
       <span class="myName">{{firstRank.userNickname}}</span>
     </div>
-    <div class="second">
+    <div class="second" v-if="check(secondRank)">
       <v-img class="myImg" :src="getImg(secondRank)" />
       <span class="myScore"> {{secondRank.totalScore}} </span>
       <span class="myName">{{secondRank.userNickname}}</span>
     </div>
-    <div class="third">
+    <div class="third" v-if="check(thirdRank)">
       <v-img class="myImg" :src="getImg(thirdRank)" />
       <span class="myScore"> {{thirdRank.totalScore}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
@@ -28,24 +28,9 @@
         <v-simple-table
           class = "table transparent white--text"
           fixed-header
+          height="100%"
         >
           <template v-slot:default>
-            <!-- <thead>
-              <tr>
-                <th class="text-left">
-                  Rank
-                </th>
-                <th class="text-left">
-                  Img
-                </th>
-                <th class="text-left">
-                  Nickname
-                </th>
-                <th class="text-left">
-                  Score
-                </th>
-              </tr>
-            </thead> -->
             <tbody>
               <tr
                 v-for="rank in rankList"
@@ -62,7 +47,8 @@
       </template>
     </div>
     <div class="me white--text"> 
-      <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-else>-</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
@@ -93,6 +79,20 @@ export default {
       } else {
         return profileImg;
       }
+    },
+    check(userInfo) {
+      if(userInfo == null) {
+        return false
+      } else {
+        return true
+      }
+    },
+    checkMinus(rankValue) {
+      if(rankValue == -1) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   computed: {
@@ -102,10 +102,10 @@ export default {
     axios
       .get('/user/rank')
       .then((res) => {
-        this.rankList = res.data;
-        this.firstRank = this.rankList[0]
-        this.secondRank = this.rankList[1]
-        this.thirdRank = this.rankList[2]
+        this.rankList = res.data.slice(3, res.data.length);
+        this.firstRank = res.data[0]
+        this.secondRank = res.data[1]
+        this.thirdRank = res.data[2]
     }),
     axios
       .get('/user/info/' + this.user.userId)
