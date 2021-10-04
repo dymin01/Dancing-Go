@@ -48,8 +48,9 @@
       </div>
     </div>
     <div class="example-3d">
-      <swiper class="swiper" ref="musiclist" @slide-change-transition-end="getActive" :options="swiperOptionThumbs">
+      <swiper class="swiper" ref="musiclist" @slide-change-transition-end="getActive" :options="swiperOptionThumbs" >
         <Music
+          class="align-self-center"
           v-for="(music, idx) in musics"
           :key="idx"
           :music="music"
