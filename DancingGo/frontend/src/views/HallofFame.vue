@@ -87,10 +87,10 @@ export default {
     axios
       .get('/user/rank')
       .then((res) => {
-        this.rankList = res.data;
-        this.firstRank = this.rankList[0]
-        this.secondRank = this.rankList[1]
-        this.thirdRank = this.rankList[2]
+        this.rankList = res.data.slice(3, res.data.length);
+        this.firstRank = res.data[0]
+        this.secondRank = res.data[1]
+        this.thirdRank = res.data[2]
     }),
     axios
       .get('/user/info/' + this.user.userId)
