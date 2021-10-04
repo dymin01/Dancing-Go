@@ -90,7 +90,7 @@
     <!-- 선택 시 효과음 -->
     <audio src="sounds/select.wav" ref="selecteffect"></audio>
     <!-- 선택한 곡 -->
-    <audio src="" ref="selectedsong" autoplay></audio>
+    <audio src="" ref="backgroundSound" autoplay></audio>
   </div>
 </template>
 
@@ -122,7 +122,22 @@
       }),
       activeIndex () {
         return this.activeIdx
-      }
+      },
+      changeBg () {
+        return this.$store.getters.backgroundVolume*(0.01)
+      },
+      changeEffect () {
+      return this.$store.getters.effectVolume*(0.01)
+      },
+    },
+    watch: {
+      changeBg (val) {
+      this.$refs.backgroundSound.volume = val
+      console.log(this.$refs.backgroundSound.volume)
+      },
+      changeEffect (val) {
+      this.$refs.selecteffect.volume = val
+      },
     },
     data() {
       return {
@@ -165,8 +180,8 @@
         const swiper = this.$refs.musiclist.$swiper
         this.activeIdx = swiper.activeIndex
         console.log(this.musics[this.activeIndex].fileName)
-        this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
-        this.$refs.selectedsong.play()
+        this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+        this.$refs.backgroundSound.play()
         // console.log(this.activeIdx)
         // const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
         // const imgUrl = selected.style.backgroundImage.split('"')[1]
@@ -208,7 +223,11 @@
       // this.$refs.musiclist.$swiper.mousewheel.enable()
     },
     mounted () {
-      this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+      console.log(this.musics[this.activeIndex].fileName)
+      this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+      this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
+      this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
+      this.$refs.backgroundSound.play()
     }
   }
 </script>

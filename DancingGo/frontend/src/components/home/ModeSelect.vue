@@ -31,15 +31,30 @@
 <script>
 import { Carousel3d, Slide } from 'vue-carousel-3d'
 import router from '@/router/index.js'
+// import { mapGetters } from 'vuex'
 export default {
   name: 'ModeSelect',
   components: {
     Carousel3d,
     Slide,
   },
+  computed:{
+    // ...mapGetters(['effectVolume']),
+    changeEffect () {
+      return this.$store.getters.effectVolume*(0.01)
+    },
+  },
+  watch:{
+    changeEffect (val) {
+      // console.log(val)
+      this.$refs.selecteffect.volume = val
+      console.log(this.$refs.selecteffect.volume)
+    },
+  },
   methods: {
     // 현재 슬라이드가 가운데 있으면 해당하는 라우터로 이동하는 함수
     isCurrent(event, url, Mode) {
+      this.$refs.selecteffect.play()
       if (event.path[1].classList.contains('current')) {
         if (Mode === 'Practice' || Mode === 'Ranking') {
           router.push({ name: url, query: {'mode': Mode} })
