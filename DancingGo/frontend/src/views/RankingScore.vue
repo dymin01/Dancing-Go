@@ -1,6 +1,7 @@
 <template>
   <div>
-    <img src="./video/bg.png" alt="" id="background">
+    <img src="" alt="" id="background" ref="background">
+    <div id="shade"></div>
     <div id="score-box" class="shadow">
       <div class="score-half" id="rank-box">
         <div style="font-size: 300px;" v-if="this.rankVisible">{{this.rank}}</div>
@@ -117,6 +118,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs.background.src = '/images/musicselect/' + localStorage.getItem('songName') + '.png'
     const scores = this.$store.state.ranking.scores
     this.scores = scores
     var frameNum = scores[0] + scores[1] + scores[2] + scores[3] + scores[4]
@@ -147,6 +149,17 @@ export default {
   top: 0px;
   width: 100vw;
   height: 100vh;
+  opacity: 0.5;
+}
+
+#shade {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.7;
 }
 
 #score-box {

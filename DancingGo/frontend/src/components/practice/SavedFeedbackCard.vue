@@ -1,8 +1,6 @@
 <template>
   <div id="feedback-box">
-    <div id="feedback-preview-box" @click="clickFeedback">
-      <img :src="feedback[2]" alt="">
-    </div>
+    <img :src="feedback[2]" alt="" id="feedback-preview-box" @click="clickFeedback">
     <div id="feedback-card-info">
       <div class="d-flex" style="width: 80px;">
 
@@ -53,6 +51,7 @@ export default {
   margin-top: 30px;
   margin-bottom: 10px;
   overflow: hidden;
+  object-fit: cover;
 }
 
 #feedback-preview-box:hover {

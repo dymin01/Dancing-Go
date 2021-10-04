@@ -1,11 +1,12 @@
 <template>
   <div>
     <img src="" alt="" id="background" ref="background">
+    <div id="shade"></div>
     <img src="./video/gameover.jpg" alt="" id="background-gameover" v-if="this.isGameover">
     <audio src="/effect/gameover.wav" ref="gameover"></audio>
     <div style="padding: 40px" id="container">
       <div id="navbar" class="mb-5">
-        <exit-button />
+        <ExitButton />
       </div>
       <div class="d-flex justify-content-center">
         <div class="progress mt-5 mx-3" id="progress" ref="progress" style="width: 40%; height: 15px; background-color: white;">
@@ -295,6 +296,7 @@ export default {
     .then(res => {
       const songInfo = res.data
       this.songInfo = songInfo
+      localStorage.setItem('songName', songInfo.fileName)
       this.$refs.background.src = '/images/musicselect/' + songInfo.fileName + '.png'
       this.$refs.video.src = '/guides/' + songInfo.fileName + '.mp4'
       var songLength = songInfo.songLen
@@ -319,6 +321,16 @@ export default {
 </script>
 
 <style scoped>
+#shade {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.7;
+}
+
 #background {
   position: absolute;
   left: 0px;
