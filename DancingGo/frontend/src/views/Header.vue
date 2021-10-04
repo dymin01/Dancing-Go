@@ -7,7 +7,7 @@
     <div style="margin-left:auto;">
       <i v-if="isHamburgerOpen" id="icon" class="mx-2 far fa-user-circle" @click="openMypage"></i>
       <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-cog" @click="openSettings"></i>
-      <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="logout"></i>
+      <i v-if="isHamburgerOpen" id="icon" class="mx-2 fas fa-sign-out-alt" @click="openLogout"></i>
       <tasty-burger-button
           id="hamburgerButton"
           :type="buttonType"
@@ -28,6 +28,13 @@
     max-width="400px">
       <Settings @closeSettings="closeSettings" />
     </v-dialog>
+
+    <v-dialog
+    v-model="isLogoutOpen"
+    max-width="400px">
+      <Logout @closeSettings="closeLogout" />
+    </v-dialog>
+
     <audio src="sounds/select.wav" ref="selecteffect"></audio>
   </div>
 </template>
@@ -35,6 +42,7 @@
 <script>
 import Mypage from '@/components/mypage/mypage.vue'
 import Settings from '@/components/settings/Settings.vue'
+import Logout from '@/components/Logout.vue'
 import { mapMutations, mapGetters } from 'vuex'
 import router from '@/router/index.js'
 
@@ -49,11 +57,13 @@ export default {
       color: 'white',
       isHamburgerOpen: false,
       isHome: true,
+      isLogoutOpen: false,
     }
   },
   components:{
     Mypage,
     Settings,
+    Logout,
   },
   computed:{
     ...mapGetters(['token', 'user']),
@@ -100,6 +110,14 @@ export default {
     },
     goBack () {
       router.push({name: "Home"})
+    },
+    openLogout(){
+      this.$refs.selecteffect.play()
+      this.isLogoutOpen = true
+    },
+    closeLogout(){
+      this.$refs.selecteffect.play()
+      this.isLogoutOpen = false
     }
   },
 }
