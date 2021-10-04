@@ -93,6 +93,10 @@ public class UserController {
 
         for (User user : userList) {
 
+            if(user.getTotalScore() == 0) {
+                break;
+            }
+
             if (preTotalScore == -1) {
                 preTotalScore = user.getTotalScore();
             } else if (preTotalScore != user.getTotalScore()) {

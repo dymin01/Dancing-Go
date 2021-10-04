@@ -47,7 +47,8 @@
       </template>
     </div>
     <div class="me white--text"> 
-      <div style="font-size: 3vh; text-align: center;">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
+      <div style="font-size: 3vh; text-align: center;" v-else>-</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
@@ -77,6 +78,13 @@ export default {
         return 'images/HallofFame/mirror-ball.png'
       } else {
         return profileImg;
+      }
+    },
+    checkMinus(rankValue) {
+      if(rankValue == -1) {
+        return false
+      } else {
+        return true
       }
     }
   },
