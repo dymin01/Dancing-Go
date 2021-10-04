@@ -48,7 +48,7 @@
                       </v-container>
                   </v-col>
                   <v-col cols="6">
-                      <v-container class="background">
+                      <v-container class="background" style="height:251.271px; width:301px">
                           <v-row>
                               <v-col cols="12" class="text-center title text">
                                 뱃지 목록
