@@ -7,17 +7,17 @@
 
     </div>
     <v-img id="rank" src="images/HallofFame/rank.png"></v-img>
-    <div class="first">
+    <div class="first" v-if="check(firstRank)">
       <v-img class="myImg" :src="getImg(firstRank)" />
       <span class="myScore"> {{firstRank.totalScore}} </span>
       <span class="myName">{{firstRank.userNickname}}</span>
     </div>
-    <div class="second">
+    <div class="second" v-if="check(secondRank)">
       <v-img class="myImg" :src="getImg(secondRank)" />
       <span class="myScore"> {{secondRank.totalScore}} </span>
       <span class="myName">{{secondRank.userNickname}}</span>
     </div>
-    <div class="third">
+    <div class="third" v-if="check(thirdRank)">
       <v-img class="myImg" :src="getImg(thirdRank)" />
       <span class="myScore"> {{thirdRank.totalScore}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
@@ -78,6 +78,13 @@ export default {
         return 'images/HallofFame/mirror-ball.png'
       } else {
         return profileImg;
+      }
+    },
+    check(userInfo) {
+      if(userInfo == null) {
+        return false
+      } else {
+        return true
       }
     },
     checkMinus(rankValue) {
