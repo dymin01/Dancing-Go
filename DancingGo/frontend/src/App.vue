@@ -7,6 +7,7 @@
       v-else />
     </div>
     <router-view />
+    <audio src="songs/background.mp3" ref="background" autoplay></audio>
   </v-app>
 </template>
 

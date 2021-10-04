@@ -86,6 +86,10 @@
         @clickX="closeModal"
       />
     </v-dialog>
+    <!-- 선택 시 효과음 -->
+    <audio src="sounds/select.wav" ref="selecteffect"></audio>
+    <!-- 선택한 곡 -->
+    <audio src="" ref="selectedsong" autoplay></audio>
   </div>
 </template>
 
@@ -156,8 +160,12 @@
     },
     methods: {
       getActive () {
+        this.$refs.selecteffect.play()
         const swiper = this.$refs.musiclist.$swiper
         this.activeIdx = swiper.activeIndex
+        console.log(this.musics[this.activeIndex].fileName)
+        this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+        this.$refs.selectedsong.play()
         // console.log(this.activeIdx)
         // const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
         // const imgUrl = selected.style.backgroundImage.split('"')[1]
@@ -197,6 +205,9 @@
     created () {
       this.$store.dispatch('music/setMusics')
       // this.$refs.musiclist.$swiper.mousewheel.enable()
+    },
+    mounted () {
+      this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
     }
   }
 </script>

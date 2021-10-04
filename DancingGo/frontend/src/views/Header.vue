@@ -28,6 +28,7 @@
     max-width="400px">
       <Settings @closeSettings="closeSettings" />
     </v-dialog>
+    <audio src="sounds/select.wav" ref="selecteffect"></audio>
   </div>
 </template>
 
@@ -64,18 +65,23 @@ export default {
       if (this.$route.path !== '/') this.$router.push('/')
     },
     openMypage(){
+      this.$refs.selecteffect.play()
       this.isMypageOpen = true
     },
     closeMypage(){
+      this.$refs.selecteffect.play()
       this.isMypageOpen = false
     },
     openSettings(){
+      this.$refs.selecteffect.play()
       this.isSettingsOpen = true
     },
     closeSettings(){
+      this.$refs.selecteffect.play()
       this.isSettingsOpen = false
     },
     onToggle (active) {
+      this.$refs.selecteffect.play()
       // console.log(active)
       this.isHamburgerOpen = active
     },
