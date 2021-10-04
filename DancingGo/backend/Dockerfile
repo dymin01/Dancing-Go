@@ -3,8 +3,8 @@ WORKDIR /backend
 COPY . .
 RUN chmod +x ./gradlew
 
-RUN ./gradlew clean bootJar
-RUN ls /build/libs
+RUN ./gradlew :backend:clean bootJar
+RUN ls backend/build/libs
 
 FROM azul/zulu-openjdk:8
 COPY --from=builder /backend/build/libs/*.jar app.jar
