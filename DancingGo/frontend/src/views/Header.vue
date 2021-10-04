@@ -1,7 +1,7 @@
 <template>
   <!-- <div id="header" class="d-flex justify-end m-3 pe-4"> -->
   <div id="header" class="d-flex m-3 pe-4" style="z-index:100;">
-    <div style="float:left;">
+    <div v-if="isHome" style="float:left;">
       <i id="icon" class="fas fa-chevron-left"  @click="goBack"></i>
     </div>
     <div style="margin-left:auto;">
@@ -36,6 +36,7 @@
 import Mypage from '@/components/mypage/mypage.vue'
 import Settings from '@/components/settings/Settings.vue'
 import { mapMutations, mapGetters } from 'vuex'
+import router from '@/router/index.js'
 
 export default {
   name: 'Header',
@@ -47,6 +48,7 @@ export default {
       isActive: false,
       color: 'white',
       isHamburgerOpen: false,
+      isHome: true,
     }
   },
   components:{
@@ -55,6 +57,17 @@ export default {
   },
   computed:{
     ...mapGetters(['token', 'user']),
+  },
+  watch:{
+    $route(to, from){
+      console.log("from " + from.path)
+      console.log("to " + to.path)
+      if(to.path.includes('home')){
+        this.isHome = false
+      }else{
+        this.isHome = true
+      }
+    }
   },
   methods:{
     ...mapMutations(['setToken', 'setUser']),
@@ -86,7 +99,7 @@ export default {
       this.isHamburgerOpen = active
     },
     goBack () {
-      this.$router.go(-1)
+      router.push({name: "Home"})
     }
   },
 }
