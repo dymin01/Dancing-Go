@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-img id="background" src="images/home/home_background.jpg"></v-img>
+    <v-img id="background" src="images/home/home2.jpg"></v-img>
     <!-- <button @click="logout">로그아웃</button> -->
     <ModeSelect />
 

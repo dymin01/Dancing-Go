@@ -2,21 +2,21 @@
   <div>
     <carousel-3d id="carousel" :width="600" :height="400" @before-slide-change="soundEffect">
       <slide :index="0" class="slide">
-        <img  @click="isCurrent($event, 'MusicSelect', 'Practice')" src="images/main/main_background.jpg" alt="practicemode_img">
+        <img  @click="isCurrent($event, 'MusicSelect', 'Practice')" src="images/home/dance4.jpg" alt="practicemode_img">
         <h2 
         v-if="this.$store.getters.langMode=='한국어'"
         class="text-center modeText">연습모드</h2>
         <h2 v-else class="text-center modeText">Practice mode</h2>
       </slide>
       <slide :index="1" class="slide">
-          <img @click="isCurrent($event, 'MusicSelect', 'Ranking')" src="images/home/home_background.jpg" alt="rankingmode_img">
+          <img @click="isCurrent($event, 'MusicSelect', 'Ranking')" src="images/home/stage4.jpg" alt="rankingmode_img">
           <h2
           v-if="this.$store.getters.langMode=='한국어'"
           class="modeText">랭킹모드</h2>
           <h2 v-else class="modeText">Rank mode</h2>
       </slide>
       <slide :index="2" class="slide">
-        <img @click="isCurrent($event, 'HallofFame', 'HallofFame')" src="images/home/sample.jpg" alt="halloffame_img">
+        <img @click="isCurrent($event, 'HallofFame', 'HallofFame')" src="images/home/hall2.jpg" alt="halloffame_img">
         <h2
         v-if="this.$store.getters.langMode=='한국어'"
         class="modeText">명예의전당</h2>

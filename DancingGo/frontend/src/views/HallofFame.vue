@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-img id="background" src="images/HallofFame/HallofFame.png"></v-img>
+    <v-img id="background" src="images/home/hall2.jpg"></v-img>
+    <!-- <v-img id="background" src="images/HallofFame/HallofFame.png"></v-img> -->
     <!-- <v-img id="Firecracker" src="images/HallofFame/Firecracker.png"></v-img> -->
     <div class="board"> 
 
