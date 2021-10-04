@@ -1,4 +1,5 @@
 FROM azul/zulu-openjdk:8
+RUN chmod +x ./gradlew
 RUN ./gradlew build
 COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
