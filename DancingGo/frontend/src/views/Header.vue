@@ -71,12 +71,10 @@ export default {
       return this.$store.getters.effectVolume*(0.01)
     },
   },
-  watch: {
+  watch:{
     changeEffect (val) {
       this.$refs.selecteffect.volume = val
     },
-  },
-  watch:{
     $route(to, from){
       console.log("from " + from.path)
       console.log("to " + to.path)
