@@ -28,24 +28,9 @@
         <v-simple-table
           class = "table transparent white--text"
           fixed-header
+          height="100%"
         >
           <template v-slot:default>
-            <!-- <thead>
-              <tr>
-                <th class="text-left">
-                  Rank
-                </th>
-                <th class="text-left">
-                  Img
-                </th>
-                <th class="text-left">
-                  Nickname
-                </th>
-                <th class="text-left">
-                  Score
-                </th>
-              </tr>
-            </thead> -->
             <tbody>
               <tr
                 v-for="rank in rankList"

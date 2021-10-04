@@ -22,6 +22,7 @@
         <v-simple-table
           class = "table transparent white--text"
           fixed-header
+          height="100%"
         >
           <template v-slot:default>
             <tbody>
