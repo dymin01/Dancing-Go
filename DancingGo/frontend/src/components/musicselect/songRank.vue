@@ -134,10 +134,10 @@ export default {
           .get('/score/songRank/'+this.songId)
           .then((res) => {
             console.log(this.songId)
-            this.rankList = res.data;
-            this.firstRank = this.rankList[0]
-            this.secondRank = this.rankList[1]
-            this.thirdRank = this.rankList[2]
+            this.rankList = res.data.slice(3, res.data.length);
+            this.firstRank = res.data[0]
+            this.secondRank = res.data[1]
+            this.thirdRank = res.data[2]
         }),
         axios
           .post('/score/findMyScore/', body)
