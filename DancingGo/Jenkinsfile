@@ -25,11 +25,10 @@ pipeline{
                 -p 80:80 \
                 -p 443:443 \
                 -v /home/ubuntu/Dancing_Go/sslkey/:/var/jenkins_home/workspace/DancingGo/sslkey/ \
-                --network dancinggonetwork \
                 frontend:latest'
 
                 sh 'docker run -d --name backend \
-                --network dancinggonetwork backend:latest'
+                backend:latest'
             }
         }
     }
