@@ -23,8 +23,9 @@ pipeline{
 
                 sh 'docker run -d --name frontend \
                 -p 80:80 \
-                -v /home/ubuntu/Dancing_Go/certbot/conf:/etc/nginx/ssl
-                -v /home/ubuntu/Dancing_Go/certbot/data:/var/www/certbot
+                -p 443:443 \
+                -v /etc/letsencrypt/live/j5a105.p.ssafy.io/:/var/jenkins_home/workspace/DancingGo/sslkey/ \
+                -v /etc/localtime:/etc/localtime:ro \
                 --network dancinggonetwork \
                 frontend:latest'
 
