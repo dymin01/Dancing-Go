@@ -67,12 +67,17 @@
             <span ref="B" style="color: rgb(150,150,150)">B</span>
           </div>
           <div class="btn-group dropend ms-3">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               반복 횟수 
-            </button>
-            <div class="dropdown-menu ms-2" style="width: 50px;">
+            </button> -->
+            <div class="align-self-center mr-2" style="font-size:25px; color: rgb(150,150,150)">반복 횟수 : </div>
+            <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
+            <i class="fas fa-caret-left fa-3x" style="color: rgb(150,150,150)" @click="minus"></i>
+            <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: rgb(150,150,150)">{{maxRepeatCount}}</div>
+            <i class="fas fa-caret-right fa-3x" style="color: rgb(150,150,150)" @click="plus"></i>
+            <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
               <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
-            </div>
+            </div> -->
           </div>
         </div>
         <div id="time-box" style='color: white'>
@@ -151,6 +156,16 @@ export default {
     }
   },
   methods: {
+    plus(){
+      if(this.maxRepeatCount < 10){
+        this.maxRepeatCount++
+      }
+    },
+    minus(){
+      if(this.maxRepeatCount > 1){
+        this.maxRepeatCount--
+      }
+    },
     countdown() {
       this.isCountdown = true
     },
