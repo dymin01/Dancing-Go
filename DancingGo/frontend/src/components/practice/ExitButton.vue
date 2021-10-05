@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn" id="exit-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
       종료
     </button>
 
@@ -44,5 +44,12 @@ export default {
 </script>
 
 <style>
-
+#exit-button {
+  color: white;
+  background-color: purple;
+  box-shadow: 0 0 10px white;
+}
+#exit-button:hover {
+  color: white;
+}
 </style>
