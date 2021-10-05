@@ -1,15 +1,4 @@
 <template>
-  <div class="text-center">
-    <v-img id="background" src="images/home/dance3.jpg"></v-img>
-    <button id="check" @click="checkBadge">이거눌러봐요</button>
-    <v-btn
-      dark
-      color="indigo"
-      @click="snackbar = true"
-    >
-    Open Snackbar
-    </v-btn>
-
     <v-snackbar
       v-model="snackbar"
       :vertical="vertical"
@@ -20,21 +9,9 @@
       content-class="badgeSnackbar"
       color="rgba(43, 29, 59, 0.8)"
     >
-      <!-- <img :src="badgeImg" width="200px">
-      {{ badgeNameKor }}
-      {{ badgeNameEng }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="indigo"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-        </v-btn>
-      </template> -->
       <span class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
       <span class="badgeText mb-5">뱃지를 획득했습니다!</span>
-      <img class="badgeImg mb-2" :src="badgeImg">
+      <img class="badgeImg mb-2" style="opacity:1;" :src="badgeImg">
       <span class="badgeName mt-4">{{ badgeNameKor }}</span>
       <span class="badgeCondition mt-2">{{ badgeConditionKor }}</span>
       <template v-slot:action="{ attrs }">
@@ -47,37 +24,15 @@
         </v-btn>
       </template>
     </v-snackbar>
-
-    <!-- 임시 -->
-    <div class="text-center ma-2">
-      <v-btn
-        dark
-        @click="tmpSnackbar = true"
-      >
-        Open Snackbar
-      </v-btn>
-      <v-snackbar
-        v-model="tmpSnackbar"
-        :vertical="vertical"
-        :height="height"
-        :width="width"
-        centered
-        content-class="badgeSnackbar"
-        color="rgba(43, 29, 59, 0.8)"
-      >
-        <span class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
-        <span class="badgeText mb-5">뱃지를 획득했습니다!</span>
-        <img class="badgeImg mb-2" src="images/badge/1001.png">
-        <span class="badgeName mt-4">{{ name }}</span>
-        <span class="badgeCondition mt-2">{{ condition }}</span>
-      </v-snackbar>
-    </div>
-  </div>
+    
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 export default {
+  props:{
+    snackbar: Boolean,
+  },
   data () {
     return{
       userInfo: {},
@@ -92,7 +47,7 @@ export default {
       badgeImg: '',
       badgelist:[],
       //--- snackbar 부분 ---
-      snackbar: false,
+      
       vertical: true,
       height: '360px',
       width: '450px',
@@ -111,6 +66,8 @@ export default {
       this.userInfo = res.data
       this.userNickname = res.data.userNickname
       console.log('닉네임 : '+ this.userNickname)
+
+      this.checkBadge();
     })
   },
   methods:{
