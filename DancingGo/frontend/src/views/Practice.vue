@@ -7,8 +7,29 @@
 
       <!-- 네브빠 -->
       <div id="navbar" class="mb-5 px-5">
-        <ExitButton />
-        <button :disabled="this.isPlaying" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">틀린부분 확인하기</button>
+        <!-- <ExitButton /> -->
+        <v-btn
+          id="button"
+          style="opacity: 80%;"
+          @click="openModal"
+        >
+          종료
+        </v-btn>
+        <v-dialog
+          v-model="isModalOpen"
+          persistent
+          max-width="370px">
+          <Modal
+            v-if="this.$store.getters.langMode=='한국어'"
+            :modalTitle="'종료하시겠습니까?'"
+            :modalContent="'진행상황은 저장되지 않습니다.'"
+            :buttonO="'종료'"
+            :buttonX="'취소'"
+            @clickO="exitDance"
+            @clickX="closeModal"
+          />
+        </v-dialog>
+        <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">피드백 확인</button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">피드백</h5>
@@ -60,27 +81,27 @@
       <!-- 버튼 빠 -->
       <div id="bottom-box">
         <div id="button-box">
-          <i ref="play" class="fas fa-play mx-4 fs-3 play-menu" style="color: rgb(150,150,150)" @click="countdown"></i>
-          <i ref="pause" class="fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
-          <div @click="repeatCheck" class="ms-4">
-            <span ref="A" style="color: rgb(150,150,150)">A</span>
-            <span ref="B" style="color: rgb(150,150,150)">B</span>
+          <i ref="play" class="txt fas fa-play mx-4 fs-3 play-menu" style="color: white;" @click="countdown"></i>
+          <i ref="pause" class="txt fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
+          <div @click="repeatCheck" class="txt ms-4">
+            <span ref="A" style="color: white;">A</span>
+            <span ref="B" style="color: white;">B</span>
           </div>
-          <div class="btn-group dropend ms-3">
+          <div class="txt btn-group dropend ms-3">
             <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               반복 횟수 
             </button> -->
-            <div class="align-self-center mr-2" style="font-size:25px; color: rgb(150,150,150)">반복 횟수 : </div>
+            <div class="align-self-center mr-2" style="font-size:25px; color: white;">반복 횟수 : </div>
             <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
-            <i class="fas fa-caret-left fa-3x" style="color: rgb(150,150,150)" @click="minus"></i>
-            <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: rgb(150,150,150)">{{maxRepeatCount}}</div>
-            <i class="fas fa-caret-right fa-3x" style="color: rgb(150,150,150)" @click="plus"></i>
+            <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
+            <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
+            <i class="fas fa-caret-right fa-3x" style="color: white;" @click="plus"></i>
             <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
               <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
             </div> -->
           </div>
         </div>
-        <div id="time-box" style='color: white'>
+        <div id="time-box" class="txt" style='color: white'>
           <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
             <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
             <div style="width: 32px">
@@ -103,12 +124,13 @@
 <script>
 import Webcam from 'webcam-easy'
 import axios from 'axios'
-// import router from '@/router/index.js'
-import ExitButton from '@/components/practice/ExitButton.vue'
+import router from '@/router/index.js'
+// import ExitButton from '@/components/practice/ExitButton.vue'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   components: {
@@ -116,7 +138,8 @@ export default {
     FeedbackCard,
     SavedFeedbackCard,
     Countdown,
-    ExitButton
+    // ExitButton,
+    Modal,
   },
   data() {
     return {
@@ -153,9 +176,20 @@ export default {
       nowRepeatCount: 0,
       maxRepeatCount: 5,
       isCountdown: false,
+      isModalOpen: false,
     }
   },
   methods: {
+    exitDance() {
+      router.push({ name: 'MusicSelect', query: {'mode': localStorage.getItem('mode')} })
+    },
+    openModal () {
+        // this.$refs.selecteffect.play()
+        this.isModalOpen = true
+      },
+    closeModal () {
+        this.isModalOpen = false
+    },
     plus(){
       if(this.maxRepeatCount < 10){
         this.maxRepeatCount++
@@ -179,7 +213,7 @@ export default {
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
-      this.$refs.pause.style = 'color: rgb(150,150,150)'
+      this.$refs.pause.style = 'color: white'
       this.$refs.play.style = 'color: crimson'
       this.timeInterval = setInterval(this.checkTime, 500)
       // this.captureInterval = setInterval(this.dancingGo, 2000)
@@ -203,7 +237,7 @@ export default {
       this.isPlaying = false 
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: crimson'
-      this.$refs.play.style = 'color: rgb(150,150,150)'
+      this.$refs.play.style = 'color: white'
       this.dancingGo()
     },
     removeFeedbacks(time) {
@@ -507,6 +541,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 15px white;
+  border-radius: 5px;
 }
 
 #camBox {
@@ -515,6 +551,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 15px white;
+  border-radius: 5px;
 }
 
 #bottom-box {
@@ -561,5 +599,18 @@ span {
 #feedback-modal {
   position: absolute;
   z-index: 99999;
+}
+
+.button {
+  color: white;
+  background-color: purple;
+  box-shadow: 0 0 10px white;
+}
+.button:hover {
+  color: white;
+}
+
+.txt {
+  text-shadow: 0 0 4px purple;
 }
 </style>
