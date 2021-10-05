@@ -2,7 +2,7 @@
   <div>
     <img src="" alt="" id="background" ref="background">
     <div id="shade"></div>
-    <img src="./video/gameover.jpg" alt="" id="background-gameover" v-if="this.isGameover">
+    <Gameover v-if="isGameover" />
     <audio src="/effect/gameover.wav" ref="gameover"></audio>
     <div style="padding: 40px" id="container">
       <div id="navbar" class="mb-5">
@@ -42,6 +42,7 @@ import axios from 'axios'
 import router from '@/router/index.js'
 import ExitButton from '@/components/practice/ExitButton.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
+import Gameover from '@/components/ranking/Gameover.vue'
 
 export default {
   data() {
@@ -68,7 +69,8 @@ export default {
   },
   components: {
     ExitButton,
-    Countdown
+    Countdown,
+    Gameover
   },
   methods: {
     startCam() {
@@ -267,13 +269,13 @@ export default {
       } else {
         this.scores[4] += 1
         this.frameScore = 'miss'
-        health -= 5
+        health -= 50
       }
       if (health > 100) {
         health = 100
       }
-      if (health <= 0) {
-        this.gameover()
+      if (health <= 0 && this.isGameover == false) {
+        setTimeout(this.gameover, 700)
       }
       this.health = health
       this.refreshHealth()
@@ -340,14 +342,6 @@ export default {
   opacity: 0.5;
 }
 
-#background-gameover {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: 99999;
-}
 
 #container {
   position: relative;

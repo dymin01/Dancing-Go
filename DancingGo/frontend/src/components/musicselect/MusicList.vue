@@ -219,7 +219,9 @@
       goToGame (songId) {
         // console.log(this.$route.query.mode)
         this.$refs.selecteffect.play()
-        this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
+        setTimeout(function() {
+          this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
+        }.bind(this), 500)
       }
     },
     // created () {
