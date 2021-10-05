@@ -5,33 +5,60 @@
     <img src="./video/gameover.jpg" alt="" id="background-gameover" v-if="this.isGameover">
     <audio src="/effect/gameover.wav" ref="gameover"></audio>
     <div style="padding: 40px" id="container">
-      <div id="navbar" class="mb-5">
+      <div id="navbar" class="mb-4">
         <ExitButton />
       </div>
-      <div class="d-flex justify-content-center">
-        <div class="progress mt-5 mx-3" id="progress" ref="progress" style="width: 40%; height: 15px; background-color: white;">
-          <div ref="healthBar" id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+
+      <!-- 체력바 -->
+      <div id="hpBarBox">
+        <div class="progress mx-3" id="progress" ref="progress" style="width: 40%; height: 15px; background-color: rgba( 255, 255, 255, 0.1 );">
+          <div ref="healthBar" id="progress-bar" class="progress-bar bg-danger hpBar" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
+
+      <!-- cam -->
       <div id="midBox">
-        <div id="videoBox">
-          <video src="" height="420" ref="video"></video>
-          <canvas ref="videoCanvas" class="d-none"></canvas>
-        </div>
         <div id="camBox">
-          <video ref="webcam" id="webcam" playsinline height="450"></video>
+          <video ref="webcam" id="webcam" playsinline height="540" width="840"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
         </div>
       </div>
-      <div id="rank-bottom">
+
+      <!-- 진행도 빠 -->
+      <div class="progress mt-5 mx-3" id="progress" ref="progress" style="height: 4px; background-color: rgba( 255, 255, 255, 0.1 );">
+        <div ref="progressBar" id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+
+      <!-- 점수 -->
+      <span class="scoreText">{{ this.frameScore }}</span>
+
+      <!-- <div id="rank-bottom">
         <div>
           <span>{{ this.frameScore }}</span>
         </div>
-        <div style="font-size: 20px; font-weight: bold;">
+        <div style="font-size: 20px; font-weight: bold; color: white">
           {{ nowTime }} / {{ endTime }}
         </div>
+      </div> -->
+
+      <!-- 소리와 시간 -->
+      <div id="time-box" style='color: white' class="justify-end">
+        <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
+          <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
+          <div style="width: 32px">
+            <i class="fas fa-volume-mute fs-3" style='color: white' v-if="this.volume == 0 || isMute" @click="unmute"></i>
+            <i class="fas fa-volume-up fs-3" style='color: white' v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
+            <i class="fas fa-volume-down fs-3" style='color: white' v-else-if="!isMute" @click="mute"></i>
+          </div>
+        </div>
+        {{ nowTime }} / {{ endTime }}
       </div>
+
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
+    </div>
+    <div id="videoBox">
+      <video src="" height="420" ref="video"></video>
+      <canvas ref="videoCanvas" class="d-none"></canvas>
     </div>
   </div>
 </template>
@@ -50,7 +77,7 @@ export default {
       health: 100,
       isGameover: false,
       nowTime: '00:00',
-      endTime: '03:41',
+      endTime: '',
       timeInterval: '',
       isCountdown: true,
       vectorInfos: [[15, 0], [2, 9], [5, 12], [2, 5], [9, 12], [2, 3], [3, 4], [5, 6], [6, 7], [9, 10], [10, 11], [12, 13], [13, 14]],
@@ -63,7 +90,11 @@ export default {
                         11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
       scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 6, 4: 10, 5: 15, 6: 21, 7: 50 },
       frameScore: '',
-      scores: [0, 0, 0, 0, 0]
+      scores: [0, 0, 0, 0, 0],
+      isVolumeControl: false,
+      volume: 100,
+      tmpVolume: 100,
+      isMute: false
     }
   },
   components: {
@@ -85,6 +116,8 @@ export default {
     },
     checkTime() {
       var timeInt = parseInt(this.$refs.video.currentTime)
+      let videoPos = timeInt / this.endTimeInt * 100
+      this.$refs.progressBar.style = 'width: ' + String(videoPos) + '%'
       let minute = parseInt(timeInt / 60)
       let second = timeInt % 60
       this.nowTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
@@ -284,6 +317,27 @@ export default {
       this.isGameover = true
       this.$refs.video.pause()
       setTimeout(this.$refs.gameover.play(), 500)
+    },
+    mute() {
+      this.isMute = true
+      this.tmpVolume = this.volume
+      this.volume = 0
+      this.$refs.video.volume = this.volume
+    },
+    unmute() {
+      this.isMute = false
+      this.volume = this.tmpVolume
+      this.$refs.video.volume = this.volume
+    },
+    onVolumeControl() {
+      this.isVolumeControl = true
+    },
+    offVolumeControl() {
+      this.isVolumeControl = false
+    },
+    changeVolume() {
+      this.volume = this.$refs.volume.value
+      this.$refs.video.volume = this.volume * 0.01
     }
   },
   mounted() {
@@ -404,5 +458,41 @@ span:hover {
 
 #container {
   position: relative;
+  width: 100vw;
+  height: 100vh;
 }
+
+#time-box {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.hpBar {
+  box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px red, 0 0 42px red,
+    0 0 82px red, 0 0 92px red, 0 0 102px red;
+}
+
+#hpBarBox {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 4.5vh;
+  left: 29.15vw;
+}
+
+.scoreText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -450%);
+  color: white;
+  font-size: 50px;
+  color: rgb(59, 59, 59);
+  text-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
+}
+
 </style>
