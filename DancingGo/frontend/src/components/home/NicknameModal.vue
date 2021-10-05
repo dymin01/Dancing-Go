@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '@/http.js';
+
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'NicknameModal',
@@ -48,7 +49,7 @@ export default {
         const nickname = this.nicknameInput
         console.log("은교바보")
         console.log(nickname)
-        axios.get("/user/nickname/" + nickname)
+        http.get("/user/nickname/" + nickname)
         .then((res) => {
           console.log("중복결과")
           console.log(res.data)
@@ -59,7 +60,7 @@ export default {
                 userNickname: this.nicknameInput,
                 userId: this.$store.state.account.user.userId,
             }
-            axios.put("/user/nickname/", body)
+            http.put("/user/nickname/", body)
             .then(() => {
               alert('닉네임 설정에 성공했습니다.')
               this.user.userNickname = this.nicknameInput
