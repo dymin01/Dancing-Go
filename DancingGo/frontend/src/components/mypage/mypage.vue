@@ -59,8 +59,8 @@
                           </v-row>
                           <v-row>
                               <v-col class="text-center" cols="4" v-for="(badge,idx) in allBadgeList" :key="idx">
-                                <!-- <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" > -->
-                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" :class="{badgeImg : !checkBadgeShow(badge.badgeId)}">
+                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" v-if="badgeList.some(item => item.badgeId == badge.badgeId)">
+                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" v-else class="badgeImg" >
                               </v-col>
                           </v-row>
                       </v-container>
@@ -109,7 +109,7 @@ export default {
         this.getUserInfo()
         setTimeout(this.getUserBadge, 100)
         // this.getUserBadge()
-        axios.get('/badge/findAllBadgeList/')
+        axios.get('/badge/findAllBadgeList')
             .then((res) => {
                 this.allBadgeList = res.data
                 console.log(this.allBadgeList)
@@ -167,18 +167,7 @@ export default {
                 return true
             }
         }, 
-        checkBadgeShow(inputBadgeId) {
-            // if(this.badgeList.includes(inputBadgeId)) {
-            //     return true
-            // }
-            this.badgeList.forEach(badge => {
-                if(badge.badgeId === inputBadgeId) {
-                    console.log(badge.badgeId === inputBadgeId)
-                    return true
-                }
-            })
-            return false
-        }
+
     }
 }
 </script>
@@ -218,8 +207,8 @@ export default {
 }
 
 .badgeImg {
-    opacity: 0.5; 
-    filter: alpha(opacity=50);
+    opacity: 0.25; 
+    filter: alpha(opacity=25);
 }
 
 
