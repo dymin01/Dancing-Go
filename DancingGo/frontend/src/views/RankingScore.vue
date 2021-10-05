@@ -6,7 +6,7 @@
 
       <v-form class="score-half text-center" id="rank-box" >
         <v-container v-if="this.rankVisible">
-        <v-row>
+        <v-row class="mt-4">
           <div class="text" style="font-size: 250px;" >{{this.rank}}</div>
         </v-row>
         <v-row>
@@ -37,10 +37,10 @@
       </div>
     </div>
     <div v-show="this.menuVisible" id="rank-menu-box">
-      <div class="rank-menu">
+      <div class="rank-menu mr-5">
         <div @click="retry">재도전</div>  
       </div>
-      <div class="rank-menu">
+      <div class="rank-menu ml-5">
         <div @click="goHome">곡선택</div>
       </div>
     </div>
@@ -261,10 +261,11 @@ export default {
 
 .rank-menu {
   /* background-color: rgba(0, 0, 0, 0.6); */
-  background-color: rgb(97, 8, 97);
-  margin-left: 20px;
+  /* background-color: rgb(97, 8, 97); */
+  background-color: rgba(43, 29, 59, 0.6);
+  border: 2px solid rgb(255, 255, 255,0.5);
   border-radius: 10px;
-  color: white;
+  color: rgb(255,255,255, 0.8);
   text-align: center;
   vertical-align: center;
   width: 150px;
