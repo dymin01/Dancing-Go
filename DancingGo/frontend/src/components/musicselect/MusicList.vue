@@ -17,16 +17,18 @@
         <p v-else>{{ musics[activeIndex].songNameEng }}</p>
         <p v-if="this.$store.getters.langMode=='한국어'">{{ musics[activeIndex].singerKor }}</p>
         <p v-else>{{ musics[activeIndex].singerEng }}</p>
-
+        <p v-if="this.$store.getters.langMode=='한국어'">플레이 횟수</p>
+        <p v-else>times played</p>
+        <!-- {{ musics[activeIndex] }} -->
       </div>
       <!-- 랭킹모드 일 때 곡 정보 -->
-      <div v-else id="active-music-info" class="text-center my-3">
+      <div v-else id="active-music-info" class="text-center my-5">
         <p v-if="this.$store.getters.langMode=='한국어'">
-          {{ musics[activeIndex].songNameKor }}-{{ musics[activeIndex].singerKor }}</p>
-        <p v-else>{{ musics[activeIndex].songNameEng }}-{{ musics[activeIndex].singerEng }}</p>
+          {{ musics[activeIndex].songNameKor }} - {{ musics[activeIndex].singerKor }}</p>
+        <p v-else>{{ musics[activeIndex].songNameEng }} - {{ musics[activeIndex].singerEng }}</p>
         <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
-        <p v-if="this.$store.getters.langMode=='한국어'">곡별 최고 점수:</p>
-        <p v-else>Highest score:</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value||0 }}점</p>
+        <p v-else>Highest score: {{ musics[activeIndex].value||0 }} points</p>
         <v-btn
           v-if="this.$store.getters.langMode=='한국어'"
           @click="openRink"
@@ -249,14 +251,15 @@
     // width: 200px;
     // height: 200px;
     position: absolute;
-    top: 15vh;
-    left: 43%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
     box-shadow: 0 0 20px white;
     border-radius: 2%;
 
     img {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
       border-radius: 2%;
       cursor: pointer;
     }
