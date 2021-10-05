@@ -28,6 +28,7 @@ pipeline{
                 frontend:latest'
 
                 sh 'docker run -d --name backend \
+                -p 8080:8080 \
                 backend:latest'
             }
         }
