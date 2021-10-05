@@ -1,6 +1,6 @@
 <template>
-  <v-card class="px-5, py-5" id="mypage">
-      <div class="d-flex justify-content-center py-3">
+  <v-card class="px-3, py-3" id="mypage">
+      <div class="d-flex justify-content-center">
           <v-card-title class="text">
               <span clss="text-h4 title">마이페이지</span>
           </v-card-title>
@@ -55,7 +55,7 @@
                               </v-col>
                           </v-row>
                           <v-row>
-                              <v-col class="text-center" cols="4" v-for="(badge,idx) in badgeList" :key="idx">
+                              <v-col class="text-center" cols="4" v-for="(badge,idx) in allBadgeList" :key="idx">
                                 <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px">
                               </v-col>
                           </v-row>
@@ -88,6 +88,7 @@ export default {
             userTotalscore: 0,
             badgeList: [],
             isEditOpen: false,
+            allBadgeList: []
         }
     },
     components:{
@@ -104,7 +105,14 @@ export default {
         this.getUserInfo()
         setTimeout(this.getUserBadge, 100)
         // this.getUserBadge()
-
+        axios.get('/badge/findAllBadgeList/')
+            .then((res) => {
+                this.allBadgeList = res.data
+                console.log(this.allBadgeList)
+            })
+            .catch((e) => {
+                console.log(e)
+            })
     },
     methods:{
         openEdit(event){

@@ -198,7 +198,7 @@ export default {
             userNickname : this.userInfo.userNickname,
           }
           this.addChallenge(challengeAddReq)
-          this.addBadgeList(1003,"Top 100!","Top 100!","00등 안에 들어보세요!","In the top 100")
+          this.addBadgeList(1003,"Top 100!","Top 100!","100등 안에 들어보세요!","In the top 100")
         }
         // 1004, top 10
         if(res.data.rank <= 10 && !this.badgeInfo.includes(1004)){
