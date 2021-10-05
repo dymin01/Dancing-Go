@@ -1,62 +1,66 @@
 <template>
   <v-card class="px-5, py-5" id="mypage">
-      <div class="d-flex justify-content-center py-3">
-          <v-card-title class="text">
+      <div class="d-flex justify-content-center">
+          <v-card-title class="">
               <span clss="text-h4 title">마이페이지</span>
           </v-card-title>
       </div>
       <v-form>
           <v-container>
-              <v-row>
-                  <v-col cols="6" class="">
+              <v-row class="py-1">
+                  <v-col cols="6" class="wrapper">
                       <v-container class="background">
-                          <v-row>
-                              <v-col cols="12" class="text-center title text">
+                          <v-row class="py-1">
+                              <v-col cols="12" class="text-center title">
                                 내 정보
                               </v-col>
                           </v-row>
                         <v-row>
-                            <v-col cols="5" class="d-flex justify-end align-center">
+                            <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 <div id="box">
-                                    <img :src=userProfile style="max-width:50px">
+                                    <img :src=userProfile style="max-width:55px">
                                 </div>
                             </v-col>
-                            <v-col cols="4" class="d-flex justify-end align-center text">
+                            <v-col cols="4" class="d-flex justify-end align-center text pr-4" style="font-size: 20px;">
                                 <!-- {{ changeNickname }} -->
                                 {{user.userNickname}}
                             </v-col>
-                            <v-col cols="3" class="d-flex justify-center align-center">
-                                <button @click="openEdit($event)" class="text">수정</button>
+                            <v-col cols="2" class="d-flex justify-start align-center" style="padding: 0px;">
+                                <button @click="openEdit($event)" class="">수정</button>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="5" class="text-end">
+                            <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 <img id="profile" src="images/mypage/rank.png" style="max-width:70px">
                             </v-col>
-                            <v-col cols="7" class="text-center text">
+                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-if="checkMinus(userRank)">
                                 {{userRank}}
+                            </v-col>
+                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-else>
+                                -
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="5" class="text-end text">
+                            <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 주간총점
                             </v-col>
-                            <v-col cols="7" class="text-center text">
+                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;">
                                 {{userTotalscore}}
                             </v-col>
                         </v-row>
                       </v-container>
                   </v-col>
-                  <v-col cols="6">
-                      <v-container class="background" style="height:251.271px; width:301px">
+                  <v-col cols="6" class="wrapper">
+                      <v-container class="background py-4" >
                           <v-row>
-                              <v-col cols="12" class="text-center title text">
+                              <v-col cols="12" class="text-center title">
                                 뱃지 목록
                               </v-col>
                           </v-row>
                           <v-row>
-                              <v-col class="text-center" cols="4" v-for="(badge,idx) in badgeList" :key="idx">
-                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px">
+                              <v-col class="text-center" cols="4" v-for="(badge,idx) in allBadgeList" :key="idx">
+                                <!-- <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" > -->
+                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" :class="{badgeImg : !checkBadgeShow(badge.badgeId)}">
                               </v-col>
                           </v-row>
                       </v-container>
@@ -88,6 +92,7 @@ export default {
             userTotalscore: 0,
             badgeList: [],
             isEditOpen: false,
+            allBadgeList: []
         }
     },
     components:{
@@ -104,7 +109,14 @@ export default {
         this.getUserInfo()
         setTimeout(this.getUserBadge, 100)
         // this.getUserBadge()
-
+        axios.get('/badge/findAllBadgeList/')
+            .then((res) => {
+                this.allBadgeList = res.data
+                console.log(this.allBadgeList)
+            })
+            .catch((e) => {
+                console.log(e)
+            })
     },
     methods:{
         openEdit(event){
@@ -147,8 +159,26 @@ export default {
             .catch((e) => {
                 console.log(e)
             })
+        },
+        checkMinus(rankValue) {
+            if(rankValue == -1) {
+                return false
+            } else {
+                return true
+            }
+        }, 
+        checkBadgeShow(inputBadgeId) {
+            // if(this.badgeList.includes(inputBadgeId)) {
+            //     return true
+            // }
+            this.badgeList.forEach(badge => {
+                if(badge.badgeId === inputBadgeId) {
+                    console.log(badge.badgeId === inputBadgeId)
+                    return true
+                }
+            })
+            return false
         }
-        
     }
 }
 </script>
@@ -159,14 +189,19 @@ export default {
     color:white;
 }
 
+.wrapper {
+    padding: 0px;
+}
+
 .background {
     background-color: rgba( 255, 255, 255, 0.1 );
+    height: 100%;
     border-radius: 10%;
 }
 
 #box {
-    width: 50px;
-    height: 50px; 
+    width: 55px;
+    height: 55px; 
     border-radius: 70%;
     overflow: hidden;
 }
@@ -179,7 +214,12 @@ export default {
 }
 
 .text {
-    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+    text-shadow: 0 0 7px #fff, 0 0 10px #0fa, 0 0 21px #0fa;
+}
+
+.badgeImg {
+    opacity: 0.5; 
+    filter: alpha(opacity=50);
 }
 
 
