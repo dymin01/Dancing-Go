@@ -59,7 +59,8 @@
                           </v-row>
                           <v-row>
                               <v-col class="text-center" cols="4" v-for="(badge,idx) in allBadgeList" :key="idx">
-                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px">
+                                <!-- <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" > -->
+                                <img :src="'images/badge/'+badge.badgeId+'.png'" style="max-width:50px" :class="{badgeImg : !checkBadgeShow(badge.badgeId)}">
                               </v-col>
                           </v-row>
                       </v-container>
@@ -165,6 +166,18 @@ export default {
             } else {
                 return true
             }
+        }, 
+        checkBadgeShow(inputBadgeId) {
+            // if(this.badgeList.includes(inputBadgeId)) {
+            //     return true
+            // }
+            this.badgeList.forEach(badge => {
+                if(badge.badgeId === inputBadgeId) {
+                    console.log(badge.badgeId === inputBadgeId)
+                    return true
+                }
+            })
+            return false
         }
     }
 }
@@ -202,6 +215,11 @@ export default {
 
 .text {
     text-shadow: 0 0 7px #fff, 0 0 10px #0fa, 0 0 21px #0fa;
+}
+
+.badgeImg {
+    opacity: 0.5; 
+    filter: alpha(opacity=50);
 }
 
 
