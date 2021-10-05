@@ -33,8 +33,11 @@
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 <img id="profile" src="images/mypage/rank.png" style="max-width:70px">
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;">
+                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-if="checkMinus(userRank)">
                                 {{userRank}}
+                            </v-col>
+                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-else>
+                                -
                             </v-col>
                         </v-row>
                         <v-row>
@@ -155,8 +158,14 @@ export default {
             .catch((e) => {
                 console.log(e)
             })
+        },
+        checkMinus(rankValue) {
+            if(rankValue == -1) {
+                return false
+            } else {
+                return true
+            }
         }
-        
     }
 }
 </script>
