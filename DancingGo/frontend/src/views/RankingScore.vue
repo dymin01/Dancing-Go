@@ -119,10 +119,6 @@ export default {
     showMenu() {
       this.menuVisible = true
     },
-    plusScore() {
-      this.tmpScores[0] += 1
-      this.$refs.perfect.innerText = this.tmpScores[0]
-    },
     retry() {
       router.push('/ranking/' + localStorage.getItem('songId'))
     },
