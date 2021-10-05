@@ -24,7 +24,7 @@
       </slide>
     </carousel-3d>
     <!-- 선택 시 효과음 -->
-    <audio src="sounds/select.wav" ref="selecteffect"></audio>
+    <audio src="sounds/select.mp3" ref="selecteffect"></audio>
   </div>
 </template>
 

@@ -88,9 +88,9 @@
       />
     </v-dialog>
     <!-- 선택 시 효과음 -->
-    <audio src="sounds/select.wav" ref="selecteffect"></audio>
+    <audio src="sounds/select.mp3" ref="selecteffect"></audio>
     <!-- 선택한 곡 -->
-    <audio src="" ref="backgroundSound" autoplay></audio>
+    <audio :src="'songs/'+musics[0].fileName+'.mp3'" ref="backgroundSound" autoplay></audio>
   </div>
 </template>
 
@@ -202,29 +202,33 @@
         alert(songId);
       },
       openRink () {
+        this.$refs.selecteffect.play()
         this.isRankOpen = true
       },
       closeRink() {
         this.isRankOpen = false
       },
       openModal () {
+        this.$refs.selecteffect.play()
         this.isModalOpen = true
       },
       closeModal () {
+        this.$refs.selecteffect.play()
         this.isModalOpen = false
       },
       goToGame (songId) {
-        console.log(this.$route.query.mode)
+        // console.log(this.$route.query.mode)
+        this.$refs.selecteffect.play()
         this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
       }
     },
-    created () {
-      this.$store.dispatch('music/setMusics')
-      // this.$refs.musiclist.$swiper.mousewheel.enable()
-    },
+    // created () {
+    //   this.$store.dispatch('music/setMusics')
+    //   // this.$refs.musiclist.$swiper.mousewheel.enable()
+    // },
     mounted () {
-      console.log(this.musics[this.activeIndex].fileName)
-      this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+      // console.log(this.musics[this.activeIndex].fileName)
+      // this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
       this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
       this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
       this.$refs.backgroundSound.play()

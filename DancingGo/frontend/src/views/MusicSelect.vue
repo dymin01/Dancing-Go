@@ -18,7 +18,11 @@ export default {
   },
   components: {
     MusicList
-  }
+  },
+  created () {
+    this.$store.dispatch('music/setMusics')
+    // this.$refs.musiclist.$swiper.mousewheel.enable()
+  },
 
 }
 </script>
