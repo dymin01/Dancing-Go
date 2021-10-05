@@ -21,11 +21,10 @@ pipeline{
         
                 sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
-                sh 'docker run -d --name frontend \
+                sh 'docker run --name frontend \
                 -p 80:80 \
                 -p 443:443 \
                 -v /etc/letsencrypt/live/j5a105.p.ssafy.io/:/var/jenkins_home/workspace/DancingGo/sslkey/ \
-                -v /etc/localtime:/etc/localtime:ro \
                 --network dancinggonetwork \
                 frontend:latest'
 
