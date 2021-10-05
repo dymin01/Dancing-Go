@@ -35,7 +35,7 @@
       <Logout @closeSettings="closeLogout" />
     </v-dialog>
 
-    <audio src="sounds/select.wav" ref="selecteffect"></audio>
+    <audio src="sounds/select.mp3" ref="selecteffect"></audio>
   </div>
 </template>
 
@@ -67,8 +67,14 @@ export default {
   },
   computed:{
     ...mapGetters(['token', 'user']),
+    changeEffect () {
+      return this.$store.getters.effectVolume*(0.01)
+    },
   },
   watch:{
+    changeEffect (val) {
+      this.$refs.selecteffect.volume = val
+    },
     $route(to, from){
       console.log("from " + from.path)
       console.log("to " + to.path)
@@ -109,6 +115,7 @@ export default {
       this.isHamburgerOpen = active
     },
     goBack () {
+      this.$refs.selecteffect.play()
       router.push({name: "Home"})
     },
     openLogout(){
@@ -120,6 +127,10 @@ export default {
       this.isLogoutOpen = false
     }
   },
+  mounted () {
+    this.$refs.selecteffect.crossorigin = 'anonymous'
+    this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
+  }
 }
 </script>
 

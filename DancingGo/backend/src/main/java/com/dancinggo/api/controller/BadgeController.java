@@ -1,5 +1,6 @@
 package com.dancinggo.api.controller;
 
+import com.dancinggo.api.response.BadgeRes;
 import com.dancinggo.api.service.BadgeService;
 import com.dancinggo.db.entity.Badge;
 import io.swagger.annotations.Api;
@@ -36,7 +37,15 @@ public class BadgeController {
     }
 
 
+    // 전체 뱃지Res 가져오기
+    @GetMapping("/findAllBadgeList")
+    @ApiOperation(value = "뱃지Res 전체 리스트 가져오기", notes = "Res 그냥 다 준다")
+    public ResponseEntity<List<BadgeRes>> findAllBadgeList(){
 
+        List<BadgeRes> badgeList = badgeService.findAllBadgeList();
+
+        return new ResponseEntity<List<BadgeRes>>(badgeList, HttpStatus.OK);
+    }
 
 
 }

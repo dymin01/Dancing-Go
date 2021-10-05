@@ -92,7 +92,7 @@ export default {
             userTotalscore: 0,
             badgeList: [],
             isEditOpen: false,
-            allBadgeList: [],
+            allBadgeList: []
         }
     },
     components:{
