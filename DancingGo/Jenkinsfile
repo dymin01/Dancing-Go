@@ -29,7 +29,7 @@ pipeline{
                 --network dancinggonetwork \
                 frontend:latest'
 
-                sh 'docker run -d --name backend \
+                sh 'docker run --name backend \
                 --network dancinggonetwork backend:latest'
             }
         }
