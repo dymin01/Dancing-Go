@@ -4,30 +4,21 @@
     <div id="shade"></div>
     <div id="score-box" class="">
 
-      <v-form class="score-half text-center" id="rank-box">
-        <v-container>
+      <v-form class="score-half text-center" id="rank-box" >
+        <v-container v-if="this.rankVisible">
         <v-row>
-          <div class="text" style="font-size: 250px;" v-if="this.rankVisible">{{this.rank}}</div>
+          <div class="text" style="font-size: 250px;" >{{this.rank}}</div>
         </v-row>
         <v-row>
           <v-col cols="6">
             <div class="text" style="font-size: 50px; padding-bottom:50px; padding-left:20px">TotalScore</div>
           </v-col>
           <v-col cols="6">
-            <div class="text" style="font-size: 50px; padding-bottom:50px;">{{tempScore}}</div>
+            <div class="text" style="font-size: 50px; padding-bottom:50px;">{{totalScore}}</div>
           </v-col>
-          
-          
         </v-row>
         </v-container>
       </v-form>
-
-
-      <!-- <div class="score-half" id="rank-box"> -->
-        <!-- <img :src="'images/badge/1001.png'" style="max-width:500px"> -->
-        <!-- <div class="text" style="font-size: 250px;" v-if="this.rankVisible">{{this.rank}}</div> -->
-        <!-- <div class="text" style="font-size: 100px;">{{totalScore}}</div> -->
-      <!-- </div> -->
       <div class="score-half text" id="scores-box">
         <div id="score-name">
           <div>Perfect</div>
@@ -50,7 +41,7 @@
         <div @click="retry">재도전</div>  
       </div>
       <div class="rank-menu">
-        <div @click="goHome">메인메뉴</div>
+        <div @click="goHome">곡선택</div>
       </div>
     </div>
   </div>
@@ -68,7 +59,6 @@ export default {
       rankVisible: false,
       menuVisible: false,
       totalScore: 0,
-      tempScore: 100,
     }
   },
   methods: {
@@ -159,7 +149,7 @@ export default {
     } else {
       this.rank = 'F'
     }
-
+    this.totalScore = totalScore
     this.showPerfect()
   }
 }
