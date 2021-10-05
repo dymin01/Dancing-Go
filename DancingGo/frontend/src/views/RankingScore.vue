@@ -2,11 +2,33 @@
   <div>
     <img src="" alt="" id="background" ref="background">
     <div id="shade"></div>
-    <div id="score-box" class="shadow">
-      <div class="score-half" id="rank-box">
-        <div style="font-size: 300px;" v-if="this.rankVisible">{{this.rank}}</div>
-      </div>
-      <div class="score-half" id="scores-box">
+    <div id="score-box" class="">
+
+      <v-form class="score-half text-center" id="rank-box">
+        <v-container>
+        <v-row>
+          <div class="text" style="font-size: 250px;" v-if="this.rankVisible">{{this.rank}}</div>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <div class="text" style="font-size: 50px; padding-bottom:50px; padding-left:20px">TotalScore</div>
+          </v-col>
+          <v-col cols="6">
+            <div class="text" style="font-size: 50px; padding-bottom:50px;">{{tempScore}}</div>
+          </v-col>
+          
+          
+        </v-row>
+        </v-container>
+      </v-form>
+
+
+      <!-- <div class="score-half" id="rank-box"> -->
+        <!-- <img :src="'images/badge/1001.png'" style="max-width:500px"> -->
+        <!-- <div class="text" style="font-size: 250px;" v-if="this.rankVisible">{{this.rank}}</div> -->
+        <!-- <div class="text" style="font-size: 100px;">{{totalScore}}</div> -->
+      <!-- </div> -->
+      <div class="score-half text" id="scores-box">
         <div id="score-name">
           <div>Perfect</div>
           <div>Great</div>
@@ -46,6 +68,7 @@ export default {
       rankVisible: false,
       menuVisible: false,
       totalScore: 0,
+      tempScore: 100,
     }
   },
   methods: {
@@ -164,15 +187,22 @@ export default {
 
 #score-box {
   position: absolute;
-  left: 8vw;
-  top: 8vh;
-  width: 84vw;
+  /* left: 17vw;
+  top: 8vh; */
+  top: 42.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70vw;
   height: 70vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgba(43, 29, 59, 0.6);
+  box-shadow: 0 0 20px white;
+
 }
 
 .score-half {
@@ -180,6 +210,7 @@ export default {
   height: 85%;
   background-color: rgb(215, 226, 255);
   border-radius: 10px;
+  /* box-shadow: 0 0 20px white; */
   /* filter: blur(1.3px); */
 }
 
@@ -187,12 +218,26 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* background-color: rgb(43, 21, 68, 0.6); */
+  background-color: rgba(58, 42, 75, 0);
+}
+
+.text {
+  font-weight: bold;
+  /* text-shadow: 0 0 10px #0fa, 0 0 21px #0fa; */
+  color: rgb(59, 59, 59);
+  text-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
 }
 
 #scores-box {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  /* box-shadow: 0 0 20px white; */
+  border: 4px solid rgb(255, 255, 255,0.5);
+  /* border-block-color: rgb(43, 21, 68); */
+  background-color: rgb(255,255,255, 0.2);
 }
 
 #score-name {
@@ -201,24 +246,32 @@ export default {
 
 #score-name div {
   font-size: 40px;
+  /* font-size: 50px; */
 }
 
 #score-number div {
   font-size: 40px;
+  /* font-size: 50px; */
 }
 
 #rank-menu-box {
   position: absolute;
-  top: 80vh;
-  left: 8vw;
+  /* top: 80vh; */
+  /* left: 8vw; */
+  top: 86%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   width: 84vw;
   height: 80px;
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
+  justify-content: center;
 }
 
 .rank-menu {
-  background-color: rgba(0, 0, 0, 0.6);
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgb(97, 8, 97);
   margin-left: 20px;
   border-radius: 10px;
   color: white;
@@ -229,7 +282,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 25px;
 }
 .rank-menu:hover {
   cursor: pointer;
