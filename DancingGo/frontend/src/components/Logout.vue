@@ -17,14 +17,16 @@
     </v-card-text>
     <v-btn
       id="button"
-      style="margin-left: auto; margin-bottom:20px"
+      style="margin-left: auto; margin-bottom:20px; opacity: 80%;"
+      class="mx-1"
       @click="logout"
     >
       확인
     </v-btn>
     <v-btn
       id="button"
-      style="margin-left: 20px; margin-bottom:20px"
+      class="mx-1"
+      style="margin-left: auto; margin-bottom:20px; background-color: #7D7D7D; opacity: 80%;"
       @click="cancel"
     >
       취소
