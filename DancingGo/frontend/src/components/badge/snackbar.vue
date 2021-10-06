@@ -1,15 +1,4 @@
 <template>
-  <div class="text-center">
-    <v-img id="background" src="images/home/dance3.jpg"></v-img>
-    <button id="check" @click="checkBadge">이거눌러봐요</button>
-    <v-btn
-      dark
-      color="indigo"
-      @click="snackbar = true"
-    >
-    Open Snackbar
-    </v-btn>
-
     <v-snackbar
       v-model="snackbar"
       :vertical="vertical"
@@ -20,21 +9,9 @@
       content-class="badgeSnackbar"
       color="rgba(43, 29, 59, 0.8)"
     >
-      <!-- <img :src="badgeImg" width="200px">
-      {{ badgeNameKor }}
-      {{ badgeNameEng }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="indigo"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-        </v-btn>
-      </template> -->
       <span class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
       <span class="badgeText mb-5">뱃지를 획득했습니다!</span>
-      <img class="badgeImg mb-2" :src="badgeImg">
+      <img class="badgeImg mb-2" style="opacity:1;" :src="badgeImg">
       <span class="badgeName mt-4">{{ badgeNameKor }}</span>
       <span class="badgeCondition mt-2">{{ badgeConditionKor }}</span>
       <template v-slot:action="{ attrs }">
@@ -47,37 +24,18 @@
         </v-btn>
       </template>
     </v-snackbar>
-
-    <!-- 임시 -->
-    <div class="text-center ma-2">
-      <v-btn
-        dark
-        @click="tmpSnackbar = true"
-      >
-        Open Snackbar
-      </v-btn>
-      <v-snackbar
-        v-model="tmpSnackbar"
-        :vertical="vertical"
-        :height="height"
-        :width="width"
-        centered
-        content-class="badgeSnackbar"
-        color="rgba(43, 29, 59, 0.8)"
-      >
-        <span class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
-        <span class="badgeText mb-5">뱃지를 획득했습니다!</span>
-        <img class="badgeImg mb-2" src="images/badge/1001.png">
-        <span class="badgeName mt-4">{{ name }}</span>
-        <span class="badgeCondition mt-2">{{ condition }}</span>
-      </v-snackbar>
-    </div>
-  </div>
+    
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 export default {
+  props:{
+    snackbar: Boolean,
+    totalScore: {
+      type: Number,
+    }
+  },
   data () {
     return{
       userInfo: {},
@@ -92,7 +50,7 @@ export default {
       badgeImg: '',
       badgelist:[],
       //--- snackbar 부분 ---
-      snackbar: false,
+      
       vertical: true,
       height: '360px',
       width: '450px',
@@ -111,6 +69,8 @@ export default {
       this.userInfo = res.data
       this.userNickname = res.data.userNickname
       console.log('닉네임 : '+ this.userNickname)
+
+      this.checkBadge();
     })
   },
   methods:{
@@ -130,7 +90,7 @@ export default {
       const gameoverCnt = this.userInfo.gameoverCnt //mounted
       const totalPlayCnt = this.userInfo.totalPlayCnt //mounted
 
-      this.gameOver() // GAMEOVER method
+      // this.gameOver() // GAMEOVER method
 
       // 획득 조건 판단 후 badgelist에 {bNumber:번호(Number), bNameKor:한글뱃지이름(String), bNameEng:영어뱃지이름(String)} push
       setTimeout(function(){
@@ -171,10 +131,10 @@ export default {
     },
 
     getBadge(totalPlayCnt, gameoverCnt){
-      axios.get("/user/gameinfo/"+this.user.userId)
+      axios.get("/user/gameinfo/" + this.user.userId)
       .then((res)=>{
         // 1001, 첫 완곡
-        if(totalPlayCnt==0 && res.data.totalPlayCnt==1){
+        if(totalPlayCnt==1 && !this.badgeInfo.includes(1001)){
           const challengeAddReq = {
             badgeId : 1001,
             userNickname : this.userInfo.userNickname,
@@ -183,7 +143,7 @@ export default {
           this.addBadgeList(1001,"시작이 반이다","Well begun is half done","첫 곡을 완료하세요!","finish your first dance")
         }
         // 1002, 첫 게임오버
-        if(gameoverCnt==0 && res.data.gameoverCnt==1){
+        if(gameoverCnt==1 && !this.badgeInfo.includes(1002)){
           const challengeAddReq = {
             badgeId : 1002,
             userNickname : this.userInfo.userNickname,
@@ -238,7 +198,7 @@ export default {
           this.addBadgeList(1007,"내가 바로 춤.신.춤.왕.","I am the king of dance!!","우와! 1등입니다!","ranked 1st")
         }
         // 1008, 점수가 10점이하
-        if(this.score <= 10 && !this.badgeInfo.includes(1008)){
+        if(this.totalScore <= 10 && !this.badgeInfo.includes(1008)){
           const challengeAddReq = {
             badgeId : 1008,
             userNickname : this.userInfo.userNickname,
@@ -247,7 +207,7 @@ export default {
           this.addBadgeList(1008,"춤이 추고 싶어?","Do you want to dance?","10점 이하를 기록했어요", "score lower than 10")
         }
         // 1009, 점수가 100점
-        if(this.score == 100 && !this.badgeInfo.includes(1009)){
+        if(this.totalScore == 100 && !this.badgeInfo.includes(1009)){
           const challengeAddReq = {
             badgeId : 1009,
             userNickname : this.userInfo.userNickname,

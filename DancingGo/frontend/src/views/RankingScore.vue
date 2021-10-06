@@ -44,11 +44,15 @@
         <div @click="goHome">곡선택</div>
       </div>
     </div>
+    <Snackbar :totalScore="totalScore"/>
   </div>
 </template>
 
 <script>
 import router from '@/router/index.js'
+import axios from 'axios'
+import Snackbar from '@/components/badge/snackbar.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -60,6 +64,12 @@ export default {
       menuVisible: false,
       totalScore: 0,
     }
+  },
+  components:{
+    Snackbar
+  },
+  computed: {
+    ...mapGetters(['token', 'user'])
   },
   methods: {
     showPerfect() {
@@ -115,6 +125,22 @@ export default {
     showRank() {
       this.rankVisible = true
       setTimeout(this.showMenu, 1000)
+      this.sendResult()
+    },
+    sendResult() {
+      const body = {
+        'songId': localStorage.getItem('songId') * 1,
+        'userNickname': this.user.userNickname,
+        'value': this.totalScore
+      }
+      console.log(body)
+      axios.post('/score/saveScoreValue/', body)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     },
     showMenu() {
       this.menuVisible = true
