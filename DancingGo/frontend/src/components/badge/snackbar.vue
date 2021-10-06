@@ -32,6 +32,9 @@ import axios from 'axios'
 export default {
   props:{
     snackbar: Boolean,
+    totalScore: {
+      type: Number,
+    }
   },
   data () {
     return{
@@ -87,7 +90,7 @@ export default {
       const gameoverCnt = this.userInfo.gameoverCnt //mounted
       const totalPlayCnt = this.userInfo.totalPlayCnt //mounted
 
-      this.gameOver() // GAMEOVER method
+      // this.gameOver() // GAMEOVER method
 
       // 획득 조건 판단 후 badgelist에 {bNumber:번호(Number), bNameKor:한글뱃지이름(String), bNameEng:영어뱃지이름(String)} push
       setTimeout(function(){
@@ -128,10 +131,10 @@ export default {
     },
 
     getBadge(totalPlayCnt, gameoverCnt){
-      axios.get("/user/gameinfo/"+this.user.userId)
+      axios.get("/user/gameinfo/" + this.user.userId)
       .then((res)=>{
         // 1001, 첫 완곡
-        if(totalPlayCnt==0 && res.data.totalPlayCnt==1){
+        if(totalPlayCnt==1 && !this.badgeInfo.includes(1001)){
           const challengeAddReq = {
             badgeId : 1001,
             userNickname : this.userInfo.userNickname,
@@ -140,7 +143,7 @@ export default {
           this.addBadgeList(1001,"시작이 반이다","Well begun is half done","첫 곡을 완료하세요!","finish your first dance")
         }
         // 1002, 첫 게임오버
-        if(gameoverCnt==0 && res.data.gameoverCnt==1){
+        if(gameoverCnt==1 && !this.badgeInfo.includes(1002)){
           const challengeAddReq = {
             badgeId : 1002,
             userNickname : this.userInfo.userNickname,
@@ -195,7 +198,7 @@ export default {
           this.addBadgeList(1007,"내가 바로 춤.신.춤.왕.","I am the king of dance!!","우와! 1등입니다!","ranked 1st")
         }
         // 1008, 점수가 10점이하
-        if(this.score <= 10 && !this.badgeInfo.includes(1008)){
+        if(this.totalScore <= 10 && !this.badgeInfo.includes(1008)){
           const challengeAddReq = {
             badgeId : 1008,
             userNickname : this.userInfo.userNickname,
@@ -204,7 +207,7 @@ export default {
           this.addBadgeList(1008,"춤이 추고 싶어?","Do you want to dance?","10점 이하를 기록했어요", "score lower than 10")
         }
         // 1009, 점수가 100점
-        if(this.score == 100 && !this.badgeInfo.includes(1009)){
+        if(this.totalScore == 100 && !this.badgeInfo.includes(1009)){
           const challengeAddReq = {
             badgeId : 1009,
             userNickname : this.userInfo.userNickname,

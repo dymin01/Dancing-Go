@@ -44,7 +44,7 @@
         <div @click="goHome">곡선택</div>
       </div>
     </div>
-    <Snackbar/>
+    <Snackbar :totalScore="totalScore"/>
   </div>
 </template>
 
@@ -52,7 +52,7 @@
 import router from '@/router/index.js'
 import axios from 'axios'
 import Snackbar from '@/components/badge/snackbar.vue'
-
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -67,6 +67,9 @@ export default {
   },
   components:{
     Snackbar
+  },
+  computed: {
+    ...mapGetters(['token', 'user'])
   },
   methods: {
     showPerfect() {
@@ -126,11 +129,12 @@ export default {
     },
     sendResult() {
       const body = {
-        'sondId': localStorage.getItem('songId'),
-        'userNickname': this.$store.state('account/user'),
+        'songId': localStorage.getItem('songId') * 1,
+        'userNickname': this.user.userNickname,
         'value': this.totalScore
       }
-      axios.post('/score/saveScoreValue', body)
+      console.log(body)
+      axios.post('/score/saveScoreValue/', body)
       .then((res) => {
         console.log(res)
       })
