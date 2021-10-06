@@ -9,8 +9,8 @@ Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 // 개발모드면 true 배포모드면 false
-const DEVELOPMODE = true;
-// const DEVELOPMODE = false;
+//const DEVELOPMODE = true;
+const DEVELOPMODE = false;
 export default new Vuex.Store({
   state: {
     language: '한국어',
