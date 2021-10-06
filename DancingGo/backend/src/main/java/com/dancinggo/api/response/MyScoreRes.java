@@ -19,6 +19,6 @@ public class MyScoreRes {
     Long rank;
 
     @ApiModelProperty(name = "플레이 카운트")
-    Long palyCnt;
+    Long playCnt;
 
 }
