@@ -25,10 +25,10 @@ Vue.config.productionTip = false
 // axios.defaults.baseURL = `${BACKEND_URL}`
 
 //로컬
-//axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = 'http://localhost:8080'
 
 //서버
-axios.defaults.baseURL = 'https://j5a105.p.ssafy.io:8080'
+// axios.defaults.baseURL = 'https://j5a105.p.ssafy.io:8080'
 
 new Vue({
   router,
