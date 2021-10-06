@@ -8,7 +8,9 @@ import ranking from './modules/ranking'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-
+// 개발모드면 true 배포모드면 false
+// const DEVELOPMODE = true;
+const DEVELOPMODE = false;
 export default new Vuex.Store({
   state: {
     language: '한국어',
@@ -16,6 +18,12 @@ export default new Vuex.Store({
     effectVolume: Number(localStorage.getItem('effectVolume'))
   },
   getters: {
+    fileURL: function () {
+      return DEVELOPMODE ? 'http://localhost:3000/' : 'https://j5a105.p.ssafy.io/';
+    },
+    DEVELOPMODE: function() {
+      return DEVELOPMODE;
+    },
     langMode: (state) => {
       return state.language
     },
