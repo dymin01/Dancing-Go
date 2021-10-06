@@ -136,7 +136,7 @@ export default {
                 this.userNickname = res.data.userNickname
 
                 if(res.data.userImg == "" || res.data.userImg == null){
-                    this.userProfile = "images/mapage/noImg.png"
+                    this.userProfile = "images/HallofFame/mirror-ball.png"
                 }else{
                     this.userProfile = res.data.userImg
                 }
