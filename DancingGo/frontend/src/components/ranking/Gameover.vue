@@ -1,6 +1,11 @@
 <template>
   <div>
-    <img src="/images/gameover/gameover.jpg" alt="" id="background-gameover">
+    <Snackbar
+    :totalScore="0"
+    :gameover="1"
+    @snackbarfinished="openModal"
+    style="z-index: 99999"
+    />
     <v-dialog style="z-index: 99999"
       v-model="isModalOpen"
       max-width="350px">
@@ -23,14 +28,17 @@
         @clickX="goMusicSelect"
       />
     </v-dialog>
+    <img style="z-index: 10" src="/images/gameover/gameover.jpg" alt="" id="background-gameover">
     <audio src="/sounds/select.mp3" ref="selecteffect"></audio>
+
   </div>
 </template>
 
 <script>
 import Modal from '@/components/Modal.vue'
 import router from '@/router/index.js'
-import http from '@/http.js';
+import Snackbar from '@/components/badge/snackbar.vue'
+import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -40,12 +48,19 @@ export default {
     }
   },
   components: {
-    Modal
+    Modal,
+    Snackbar
   },
   computed: {
     ...mapGetters(['user']),
   },
   methods: {
+    openModal () {
+      // console.log('openmodal')
+      setTimeout(function() {
+        this.isModalOpen = true
+      }.bind(this), 2000)
+    },
     retry() {
       this.$refs.selecteffect.play()
       setTimeout(function() {
@@ -59,7 +74,7 @@ export default {
       }.bind(this), 500)
     },
     sendResult() {
-      http.get('/user/gameover/' + this.user.userNickname)
+      axios.get('/user/gameover/' + this.user.userNickname)
       .then((res) => {
         console.log(res)
       })
@@ -70,10 +85,13 @@ export default {
   },
   mounted() {
     this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
-    this.sendResult()
-    setTimeout(function() {
-      this.isModalOpen = true
-    }.bind(this), 2000)
+    // this.sendResult()
+    axios.get('/user/gameover/' + this.user.userNickname)
+    // setTimeout(function() {
+    //   if (!this.isModalOpen) {
+    //     this.isModalOpen = true
+    //   }
+    // }.bind(this), 2000)
 
   }
 }
