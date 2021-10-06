@@ -26,17 +26,44 @@
               </v-row>
           </v-container>
       </v-form>
+    <v-dialog
+        v-model="isOverlap"
+        max-width="350px">
+        <Modal1btn
+            :modalTitle="'알림'"
+            :modalContent="'중복된 닉네임 입니다.'"
+            :buttonO="'확인'"
+            @clickO="closeOneModal"
+         />
+    </v-dialog>
+    <v-dialog
+        v-model="isOkNickname"
+        max-width="350px">
+        <Modal1btn
+            style="background-color: rgba(43, 29, 59, 0.8);color: white;"
+            :modalTitle="'알림'"
+            :modalContent="'닉네임이 변경되었습니다.'"
+            :buttonO="'확인'"
+            @clickO="closeModal"
+         />
+    </v-dialog>
     </v-card>
 </template>
 
 <script>
 import http from '@/http.js';
 import { mapMutations, mapGetters } from 'vuex'
+import Modal1btn from '@/components/Modal_1btn.vue'
 export default {
     data(){
         return{
             userNickname:'',
+            isOverlap:false,
+            isOkNickname:false
         }
+    },
+    components:{
+        Modal1btn
     },
     computed:{
         ...mapGetters(['user'])
@@ -61,7 +88,8 @@ export default {
                 if(res.data == false){
                     http.put("/user/nickname/", body)
                     .then((res) => {
-                        alert("닉네임을 바꿨습니다.")
+                        this.isOkNickname = true
+                        // alert("닉네임을 바꿨습니다.")
                         console.log("바꿨습니다.")
                         console.log(res)
                     })
@@ -74,13 +102,20 @@ export default {
                     // console.log("체크")
                     // console.log(this.$store.state.account.user.userNickname)
                 }else{
-                    alert("중복된 닉네임입니다.")
+                    this.isOverlap = true
+                    console.log("중복된 닉네임입니다.")
+                    // alert("중복된 닉네임입니다.")
                 }
             })
         },
         closeModal(){
             console.log("모달 닫기")
+            this.isOkNickname = false
             this.$emit("closeEdit")
+        },
+        closeOneModal(){
+            console.log('확인 모달 닫기')
+            this.isOverlap = false
         }
     }
 }
