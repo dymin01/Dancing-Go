@@ -11,7 +11,7 @@
     >
       <span class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
       <span class="badgeText mb-5">뱃지를 획득했습니다!</span>
-      <img class="badgeImg mb-2" style="opacity:1;" :src="badgeImg">
+      <img class="badge mb-2" style="opacity:1;" :src="badge">
       <span class="badgeName mt-4">{{ badgeNameKor }}</span>
       <span class="badgeCondition mt-2">{{ badgeConditionKor }}</span>
       <template v-slot:action="{ attrs }">
@@ -48,7 +48,7 @@ export default {
       badgeNameEng: '',
       badgeConditionKor: '',
       badgeConditionEng: '',
-      badgeImg: '',
+      badge: '',
       badgelist:[],
       //--- snackbar 부분 ---
       
@@ -119,7 +119,7 @@ export default {
         this.badgeNameEng = badgelist.bNameEng
         this.badgeConditionKor = badgelist.bConditionKor
         this.badgeConditionEng = badgelist.bConditionEng
-        this.badgeImg = 'images/badgeImg/'+badgelist.bNumber+'.png'
+        this.badge = 'images/badge/'+badgelist.bNumber+'.png'
         this.snackbar = true
     },
 
@@ -246,7 +246,7 @@ export default {
   width: 450px;
 }
 
-.badgeImg {
+.badge {
   width: 160px;
 }
 

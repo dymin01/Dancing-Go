@@ -1,6 +1,5 @@
-import axios from 'axios'
-//const SERVER_URL = 'http://localhost:8080'
-const SERVER_URL = 'https://j5a105.p.ssafy.io:8080'
+import http from '@/http.js';
+
 export default {
   namespaced: true,
   state: {
@@ -17,7 +16,7 @@ export default {
     setMusics: function ({ commit }) {
       // console.log(commit)
       // console.log('가져왔다')
-      axios.get(SERVER_URL+'/song/allSongs')
+      http.get('/song/allSongs')
         .then((res) => {
           // console.log(res.data)
           commit('SETMUSICS', res.data)
