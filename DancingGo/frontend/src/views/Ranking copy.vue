@@ -18,10 +18,6 @@
 
       <!-- cam -->
       <div id="midBox">
-        <div id="videoBox">
-          <video src="" height="420" ref="video"></video>
-          <canvas ref="videoCanvas" class="d-none"></canvas>
-        </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" playsinline height="540" width="840"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
@@ -51,6 +47,10 @@
       </div>
 
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
+      <div id="videoBox">
+        <video src="" height="420" ref="video"></video>
+        <canvas ref="videoCanvas" class="d-none"></canvas>
+      </div>
     </div>
   </div>
 </template>
@@ -421,8 +421,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  /* position: absolute;
-  top: 100vh; */
+  position: absolute;
+  top: 100vh;
 }
 
 #camBox {

@@ -157,7 +157,8 @@ export default {
     const scores = this.$store.state.ranking.scores
     this.scores = scores
     var frameNum = scores[0] + scores[1] + scores[2] + scores[3] + scores[4]
-    var totalScore = (scores[0]*1 + scores[1]*0.9 + scores[2]*0.7 + scores[3]*0.4 + scores[4]*0)*100/frameNum
+    var totalScore = (scores[0]*1 + scores[1]*0.9 + scores[2]*0.75 + scores[3]*0.5 + scores[4]*0)*100/frameNum
+    totalScore = totalScore.toFixed(2)
     if (totalScore >= 90) { 
       this.rank = 'S'
     } else if (totalScore >= 80) {
@@ -171,7 +172,7 @@ export default {
     } else {
       this.rank = 'F'
     }
-    this.totalScore = totalScore
+    this.totalScore = Number(totalScore)
     this.showPerfect()
   }
 }
