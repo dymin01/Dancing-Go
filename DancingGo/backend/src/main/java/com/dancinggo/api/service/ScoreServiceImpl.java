@@ -124,9 +124,9 @@ public class ScoreServiceImpl implements ScoreService {
         }
 
         if(check) {
-            return MyScoreRes.builder().value(value).rank(rank + 1L).palyCnt(playCnt).build();
+            return MyScoreRes.builder().value(value).rank(rank + 1L).playCnt(playCnt).build();
         } else {
-            return MyScoreRes.builder().value(value).palyCnt(playCnt).rank(-1L).build();
+            return MyScoreRes.builder().value(value).playCnt(playCnt).rank(-1L).build();
         }
     }
 }
