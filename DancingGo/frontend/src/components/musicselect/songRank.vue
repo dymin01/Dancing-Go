@@ -52,7 +52,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import http from '@/http.js';
 
 export default {
     data(){
@@ -106,7 +106,7 @@ export default {
         songId: this.songId,
         userNickname: this.user.userNickname
       }
-      axios
+      http
         .get('/score/songRank/'+this.songId)
         .then((res) => {
           this.rankList = res.data.slice(3, res.data.length);
@@ -114,7 +114,7 @@ export default {
           this.secondRank = res.data[1]
           this.thirdRank = res.data[2]
       }),
-      axios
+      http
         .post('/score/findMyScore/', body)
         .then((res) => {
           console.log(res.data);
@@ -130,7 +130,7 @@ export default {
           songId: this.songId,
           userNickname: this.user.userNickname
         }
-        axios
+        http
           .get('/score/songRank/'+this.songId)
           .then((res) => {
             console.log(this.songId)
@@ -139,7 +139,7 @@ export default {
             this.secondRank = res.data[1]
             this.thirdRank = res.data[2]
         }),
-        axios
+        http
           .post('/score/findMyScore/', body)
           .then((res) => {
             console.log(res.data);

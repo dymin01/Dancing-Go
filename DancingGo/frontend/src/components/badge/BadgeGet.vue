@@ -34,7 +34,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import http from '@/http.js';
 // import BadgeToast from '@/components/badge/BadgeToast.vue'
 // import Vue from 'vue'
 
@@ -58,14 +58,14 @@ export default {
         ...mapGetters(['token', 'user']),
     },
     mounted() {
-        axios.get("/user/gameinfo/" + this.user.userId)
+        http.get("/user/gameinfo/" + this.user.userId)
         .then((res)=>{
             this.userInfo = res.data
             this.userNickname = res.data.userNickname
             console.log('닉넴'+ this.userNickname)
         })
         // console.log('여기요'+this.userNickname)
-        // axios.get("/challenge/onlyMyBadge/"+ this.userNickname)
+        // http.get("/challenge/onlyMyBadge/"+ this.userNickname)
         // .then((res)=>{
         //     this.badgeInfo = res.data
         // })
@@ -73,18 +73,18 @@ export default {
     methods:{
         checkBadge(){
             console.log('여기요'+this.userNickname)
-            axios.get("/challenge/onlyMyBadge/"+ this.userNickname)
+            http.get("/challenge/onlyMyBadge/"+ this.userNickname)
             .then((res)=>{
                 this.badgeInfo = res.data
             })
             const gameoverCnt = this.userInfo.gameoverCnt
             console.log('게임오버' + gameoverCnt)
             // const totalPlayCnt = this.userInfo.totalPlayCnt
-            axios.get("/user/gameover/"+this.userNickname)
+            http.get("/user/gameover/"+this.userNickname)
             .then((res)=>{
                 console.log('유저유저'+res)
             }),
-            axios.get("/user/gameinfo/"+this.user.userId)
+            http.get("/user/gameinfo/"+this.user.userId)
             .then((res)=>{
                 console.log('드루와1')
                 // 1001, 첫 완곡
@@ -93,7 +93,7 @@ export default {
                 //         badgeId : 1001,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1001번 뱃지 획득!')
                 //         console.log(res)
@@ -111,7 +111,7 @@ export default {
                         badgeId : 1002,
                         userNickname : this.userInfo.userNickname,
                     }
-                    axios.post("/challenge/addChallenge", challengeAddReq)
+                    http.post("/challenge/addChallenge", challengeAddReq)
                     .then((res)=>{
                         alert('1002번 뱃지 획득!')
                         console.log(res)
@@ -131,7 +131,7 @@ export default {
                 //         badgeId : 1003,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge" ,challengeAddReq)
+                //     http.post("/challenge/addChallenge" ,challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1003번 뱃지 획득!')
                 //         console.log(res)
@@ -144,7 +144,7 @@ export default {
                 //         badgeId : 1004,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1004번 뱃지 획득!')
                 //         console.log(res)
@@ -157,7 +157,7 @@ export default {
                 //         badgeId : 1005,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1005번 뱃지 획득!')
                 //         console.log(res)
@@ -170,7 +170,7 @@ export default {
                 //         badgeId : 1006,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1006번 뱃지 획득!')
                 //         console.log(res)
@@ -183,7 +183,7 @@ export default {
                 //         badgeId : 1007,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1007번 뱃지 획득!')
                 //         console.log(res)
@@ -196,7 +196,7 @@ export default {
                 //         badgeId : 1008,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1008번 뱃지 획득!')
                 //         console.log(res)
@@ -209,7 +209,7 @@ export default {
                 //         badgeId : 1009,
                 //         userNickname : this.userInfo.userNickname,
                 //     }
-                //     axios.post("/challenge/addChallenge", challengeAddReq)
+                //     http.post("/challenge/addChallenge", challengeAddReq)
                 //     .then((res)=>{
                 //         alert('1009번 뱃지 획득!')
                 //         console.log(res)

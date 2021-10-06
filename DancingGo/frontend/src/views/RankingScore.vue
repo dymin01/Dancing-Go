@@ -50,7 +50,7 @@
 
 <script>
 import router from '@/router/index.js'
-import axios from 'axios'
+import http from '@/http.js';
 import Snackbar from '@/components/badge/snackbar.vue'
 import { mapGetters } from 'vuex'
 
@@ -134,7 +134,7 @@ export default {
         'value': this.totalScore
       }
       console.log(body)
-      axios.post('/score/saveScoreValue/', body)
+      http.post('/score/saveScoreValue/', body)
       .then((res) => {
         console.log(res)
       })

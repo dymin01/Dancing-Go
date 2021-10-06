@@ -30,7 +30,7 @@
 <script>
 import Modal from '@/components/Modal.vue'
 import router from '@/router/index.js'
-import axios from 'axios'
+import http from '@/http.js';
 import { mapGetters } from 'vuex'
 
 export default {
@@ -59,7 +59,7 @@ export default {
       }.bind(this), 500)
     },
     sendResult() {
-      axios.get('/user/gameover/' + this.user.userNickname)
+      http.get('/user/gameover/' + this.user.userNickname)
       .then((res) => {
         console.log(res)
       })

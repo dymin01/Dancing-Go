@@ -80,7 +80,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios';
+import http from '@/http.js';
 import EditModal from '@/components/mypage/EditModal.vue';
 
 export default {
@@ -109,7 +109,7 @@ export default {
         this.getUserInfo()
         setTimeout(this.getUserBadge, 100)
         // this.getUserBadge()
-        axios.get('/badge/findAllBadgeList')
+        http.get('/badge/findAllBadgeList')
             .then((res) => {
                 this.allBadgeList = res.data
                 console.log(this.allBadgeList)
@@ -129,7 +129,7 @@ export default {
         getUserInfo(){
             console.log("함수 들어왔어요~")
             const userId = this.user.userId;
-            axios.get("/user/info/"+userId)
+            http.get("/user/info/"+userId)
             .then((res) => {
                 console.log("유저")
                 console.log(res)
@@ -150,7 +150,7 @@ export default {
             })
         },
         getUserBadge(){
-            axios.get("/challenge/myBadge/"+this.userNickname)
+            http.get("/challenge/myBadge/"+this.userNickname)
             .then((res) => {
                 console.log("뱃지")
                 this.badgeList = res.data

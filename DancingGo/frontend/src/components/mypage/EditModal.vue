@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '@/http.js';
 import { mapMutations, mapGetters } from 'vuex'
 export default {
     data(){
@@ -50,7 +50,7 @@ export default {
             const nickname = this.userNickname;
             // console.log(this.$store.state.account.user.userId)
             
-            axios.get("/user/nickname/"+nickname)
+            http.get("/user/nickname/"+nickname)
             .then((res) => {
                 console.log("있나 없나?")
                 console.log(res);
@@ -59,7 +59,7 @@ export default {
                     userId: this.$store.state.account.user.userId,
                 }
                 if(res.data == false){
-                    axios.put("/user/nickname/", body)
+                    http.put("/user/nickname/", body)
                     .then((res) => {
                         alert("닉네임을 바꿨습니다.")
                         console.log("바꿨습니다.")

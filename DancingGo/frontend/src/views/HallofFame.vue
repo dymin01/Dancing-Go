@@ -59,7 +59,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import http from '@/http.js';
 
 export default {
   name: 'HallofFame',
@@ -110,7 +110,7 @@ export default {
     },
   },
   mounted() {
-    axios
+    http
       .get('/user/rank')
       .then((res) => {
         this.rankList = res.data.slice(3, res.data.length);
@@ -118,7 +118,7 @@ export default {
         this.secondRank = res.data[1]
         this.thirdRank = res.data[2]
     }),
-    axios
+    http
       .get('/user/info/' + this.user.userId)
       .then((res) => {
         this.myRank = res.data

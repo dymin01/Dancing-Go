@@ -123,7 +123,7 @@
 
 <script>
 import Webcam from 'webcam-easy'
-import axios from 'axios'
+import http from '@/http.js';
 import router from '@/router/index.js'
 // import ExitButton from '@/components/practice/ExitButton.vue'
 import Feedback from '@/components/practice/Feedback.vue'
@@ -407,8 +407,8 @@ export default {
         'images': [videoImage, webcamImage]
       }
       let skeletons = []
-      // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('http://70.12.130.110:8000/api/v1/', params)
+      // await http.post('http://localhost:8000/api/v1/', params)
+      await http.post('http://70.12.130.110:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
@@ -479,7 +479,7 @@ export default {
     localStorage.setItem('songId', songId)
     this.songId = songId
     this.startCam()
-    axios.get('/song/getSong/' + songId)
+    http.get('/song/getSong/' + songId)
     .then(res => {
       const songInfo = res.data
       this.songInfo = songInfo
