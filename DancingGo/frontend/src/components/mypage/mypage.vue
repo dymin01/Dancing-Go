@@ -172,7 +172,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #mypage {
     background-color: rgba( 0, 0, 0, 1 );
     color:white;
