@@ -1,20 +1,26 @@
 <template>
-  <div id="feedback-modal" class="d-flex flex-column elevation-20">
-    <div class="d-flex justify-content-between p-3" style="border-bottom: 0px solid black; position: relative;">
-      <div style="font-size: 20px; font-weight: bold;">feedback</div>
-      <div @click="$emit('closeFeedback')">X</div>
+  <div id="feedback-modal" class="d-flex flex-column justify-content-between" style="box-shadow: 0 0 50px gray">
+    <div class="d-flex justify-content-between align-items-center p-4" style="border-bottom: 1px solid rgb(100, 100, 100); position: relative;">
+      <div style="font-size: 30px; font-weight: bold; color: orange">feedback</div>
+      <button type="button" class="btn-close text-reset" aria-label="Close" @click="$emit('closeFeedback')"></button>
     </div>
     <div class="d-flex justify-content-around p-4">
-      <img :src="feedbackData[2]" alt="" id="feedback-video">
-      <WebcamSkeletonShape :angles="this.angles" />
-      <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="" id="feedback-webcam">
+      <img :src="feedbackData[2]" alt="" id="feedback-video" class="elevation-5">
+      <WebcamSkeletonShape :angles="this.angles" class="elevation-5" />
+      <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="" id="feedback-webcam" class="elevation-5">
     </div>
-    <div class="p-5 d-flex justify-content-between">
+    <!-- <div class="p-5 d-flex justify-content-between" style="border-top: 1px solid rgb(100, 100, 100);">
       <div>
         틀린 부위: {{ this.fail }}
       </div>
-      <button class="btn btn-success" @click="$emit('moveFeedback')">확인하기</button>
-    </div>
+    </div> -->
+    <button class="btn" style="background: orange; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')">확인하기</button>
+    <!-- <div class="p-5 d-flex justify-content-between" style="border-top: 1px solid rgb(100, 100, 100);">
+      <div>
+        틀린 부위: {{ this.fail }}
+      </div>
+        <button class="btn" style="background: purple; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')">확인하기</button>
+    </div> -->
   </div>
 </template>
 
@@ -106,9 +112,9 @@ export default {
   height: 86vh;
   left: 10vw;
   top: 7vh;
-  border: 3px solid black;
   border-radius: 10px;
-  background-color: rgb(184, 145, 199);
+  border: 1px solid rgb(30, 30, 30);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 i:hover {
@@ -125,5 +131,9 @@ i:hover {
   width: 400px;
   height: 300px;
   object-fit: cover;
+}
+
+img {
+  border-radius: 5px;
 }
 </style>

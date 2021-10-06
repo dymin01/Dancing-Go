@@ -30,15 +30,15 @@
           />
         </v-dialog>
         <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">피드백 확인</button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-          <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">피드백</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" ref="feedbackClose"></button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="background-color: rgba(43, 29, 59, 0.8); box-shadow: 0 0 7px black;">
+          <div class="offcanvas-header px-5 align-items-center">
+            <h4 id="offcanvasRightLabel" class="pt-3" style="font-weight: bold; color: rgb(255, 255, 255)">피드백</h4>
+            <button type="button" class="btn-close text-reset btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" ref="feedbackClose"></button>
           </div>
           <div class="offcanvas-body" id="offcanvas-body">
-            <div id="offcanvas-button-box" class="d-flex justify-content-around" style="width: 100%">
-              <button class="btn btn-success" style="width: 49%; padding: 1px;" @click="showAllFeedback">피드백 목록</button>
-              <button class="btn btn-primary" style="width: 49%; padding: 1px;" @click="showSavedFeedback">보관함</button>
+            <div id="offcanvas-button-box" class="d-flex justify-content-center" style="width: 100%">
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2">피드백 목록</button>
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3">보관함</button>
             </div>
             <div v-if="isTemporaryFeedback">
               <div v-for="(feedback, index) in feedbacks" v-bind:key="index">
@@ -607,6 +607,7 @@ span {
 #feedback-modal {
   position: absolute;
   z-index: 99999;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
 }
 
 .button {
@@ -621,4 +622,17 @@ span {
 .txt {
   text-shadow: 0 0 4px purple;
 }
+
+#feedback-box2 {
+  background: rgb(155, 106, 155);
+  color: white; 
+  box-shadow: 0 0 2px white;
+}
+
+#feedback-box3 {
+  background: gray;
+  color: white;
+  box-shadow: 0 0 2px white;
+}
+
 </style>

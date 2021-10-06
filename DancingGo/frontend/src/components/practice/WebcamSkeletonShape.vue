@@ -86,9 +86,9 @@ export default {
           angleScore.push(4)
         } else if (angle <= 10) {
           angleScore.push(0)
-        } else if (angle <= 20) {
-          angleScore.push(1)
         } else if (angle <= 30) {
+          angleScore.push(1)
+        } else if (angle <= 45) {
           angleScore.push(2)
         } else {
           angleScore.push(3)
@@ -117,7 +117,8 @@ export default {
   position: relative;
   width: 270px;
   height: 300px;
-  border: 2px black solid;
+  /* border: 2px black solid; */
+  border-radius: 5px;
   background: white;
 }
 

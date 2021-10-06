@@ -27,8 +27,8 @@
           {{ musics[activeIndex].songNameKor }} - {{ musics[activeIndex].singerKor }}</p>
         <p v-else>{{ musics[activeIndex].songNameEng }} - {{ musics[activeIndex].singerEng }}</p>
         <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
-        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value||0 }}점</p>
-        <p v-else>Highest score: {{ musics[activeIndex].value||0 }} points</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value || 0 }}점</p>
+        <p v-else>Highest score: {{ musics[activeIndex].value ||0 }} points</p>
         <v-btn
           v-if="this.$store.getters.langMode=='한국어'"
           @click="openRink"
