@@ -21,22 +21,23 @@
                                     <img :src=userProfile style="max-width:55px">
                                 </div>
                             </v-col>
-                            <v-col cols="4" class="d-flex justify-end align-center text pr-4" style="font-size: 20px;">
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 16px;">
                                 <!-- {{ changeNickname }} -->
                                 {{user.userNickname}}
                             </v-col>
-                            <v-col cols="2" class="d-flex justify-start align-center" style="padding: 0px;">
+                            <!-- <v-col cols="2" class="d-flex justify-start align-center" style="padding: 0px;">
                                 <button @click="openEdit($event)" class="">수정</button>
-                            </v-col>
+                            </v-col> -->
+                            <button @click="openEdit($event)" class="modifyBtn"><i class="fas fa-pencil-alt" style="font-size:13px;"></i></button>
                         </v-row>
                         <v-row>
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 <img id="profile" src="images/mypage/rank.png" style="max-width:70px">
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-if="checkMinus(userRank)">
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;" v-if="checkMinus(userRank)">
                                 {{userRank}}
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;" v-else>
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;" v-else>
                                 -
                             </v-col>
                         </v-row>
@@ -44,7 +45,7 @@
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 주간총점
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text" style="font-size: 20px;">
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;">
                                 {{userTotalscore}}
                             </v-col>
                         </v-row>
@@ -136,7 +137,7 @@ export default {
                 this.userNickname = res.data.userNickname
 
                 if(res.data.userImg == "" || res.data.userImg == null){
-                    this.userProfile = "images/mapage/noImg.png"
+                    this.userProfile = "images/HallofFame/mirror-ball.png"
                 }else{
                     this.userProfile = res.data.userImg
                 }
@@ -199,7 +200,6 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    
 }
 
 .text {
@@ -211,5 +211,12 @@ export default {
     filter: alpha(opacity=25);
 }
 
+.modifyBtn {
+    position: absolute;
+    top: 28.8vh;
+    left: -2.6vw;
+    font-size: 10px;
+    color: white;
+}
 
 </style>

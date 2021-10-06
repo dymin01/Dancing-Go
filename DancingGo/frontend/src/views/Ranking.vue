@@ -18,6 +18,10 @@
 
       <!-- cam -->
       <div id="midBox">
+        <div id="videoBox">
+          <video src="" height="420" ref="video"></video>
+          <canvas ref="videoCanvas" class="d-none"></canvas>
+        </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" playsinline height="540" width="840"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
@@ -30,7 +34,7 @@
       </div>
 
       <!-- 점수 -->
-      <span class="scoreText">{{ this.frameScore }}</span>
+      <span class="scoreText hidden" ref="scoreText">{{ this.frameScore }}</span>
 
       <!-- <div id="rank-bottom">
         <div>
@@ -43,22 +47,10 @@
 
       <!-- 소리와 시간 -->
       <div id="time-box" style='color: white' class="justify-end">
-        <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
-          <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
-          <div style="width: 32px">
-            <i class="fas fa-volume-mute fs-3" style='color: white' v-if="this.volume == 0 || isMute" @click="unmute"></i>
-            <i class="fas fa-volume-up fs-3" style='color: white' v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
-            <i class="fas fa-volume-down fs-3" style='color: white' v-else-if="!isMute" @click="mute"></i>
-          </div>
-        </div>
         {{ nowTime }} / {{ endTime }}
       </div>
 
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
-    </div>
-    <div id="videoBox">
-      <video src="" height="420" ref="video"></video>
-      <canvas ref="videoCanvas" class="d-none"></canvas>
     </div>
   </div>
 </template>
@@ -128,7 +120,9 @@ export default {
         clearInterval(this.timeInterval)
         clearInterval(this.captureInterval)
         this.$store.dispatch('ranking/setScores', this.scores)
-        router.push('/rankingscore')
+        setTimeout(function() {
+          router.push('/rankingscore')
+        }, 2000)
       }
     },
     refreshHealth() {
@@ -284,26 +278,26 @@ export default {
     },
     changeHealth(score) {
       var health = this.health
-      if (score >= 90) {
+      if (score >= 85) {
         this.frameScore = 'perfect'
         this.scores[0] += 1
         health += 3
-      } else if (score >= 80) {
+      } else if (score >= 70) {
         this.frameScore = 'great'
         this.scores[1] += 1
         health += 2
-      } else if (score >= 70) {
+      } else if (score >= 55) {
         this.scores[2] += 1
         this.frameScore = 'good'
         health += 1
-      } else if (score >= 50) {
+      } else if (score >= 30) {
         this.scores[3] += 1
         this.frameScore = 'bad'
         health -= 3
       } else {
         this.scores[4] += 1
         this.frameScore = 'miss'
-        health -= 50
+        health -= 5
       }
       if (health > 100) {
         health = 100
@@ -311,6 +305,14 @@ export default {
       if (health <= 0 && this.isGameover == false) {
         setTimeout(this.gameover, 700)
       }
+      this.$refs.scoreText.classList.toggle('hidden')
+      // this.$refs.scoreText.classList.toggle('move-box')
+      this.$refs.scoreText.classList.toggle('fade-out')
+      setTimeout(function() {
+        // this.$refs.scoreText.classList.toggle('move-box')
+        this.$refs.scoreText.classList.toggle('fade-out')
+        this.$refs.scoreText.classList.toggle('hidden')
+      }.bind(this), 1201)
       this.health = health
       this.refreshHealth()
     },
@@ -442,9 +444,9 @@ span {
   margin-right: 20px;
 }
 
-span:hover {
+/* span:hover {
   cursor: pointer;
-}
+} */
 
 #bottom-box {
   display: flex;
@@ -490,4 +492,32 @@ span:hover {
   text-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
 }
 
+
+.fade-out {
+  animation: fadeout 1.5s;
+}
+
+.move-box {
+  animation: movebox 15s;
+}
+
+.hidden {
+  display: none;
+}
+
+/* @keyframes movebox {
+  100% {
+    top: 10px;
+  }
+} */
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        top: 350px;
+    }
+}
 </style>

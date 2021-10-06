@@ -17,7 +17,7 @@
         <p v-else>{{ musics[activeIndex].songNameEng }}</p>
         <p v-if="this.$store.getters.langMode=='한국어'">{{ musics[activeIndex].singerKor }}</p>
         <p v-else>{{ musics[activeIndex].singerEng }}</p>
-        <p v-if="this.$store.getters.langMode=='한국어'">플레이 횟수</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">플레이 횟수: {{ myPlayCnt }}</p>
         <p v-else>times played</p>
         <!-- {{ musics[activeIndex] }} -->
       </div>
@@ -27,8 +27,8 @@
           {{ musics[activeIndex].songNameKor }} - {{ musics[activeIndex].singerKor }}</p>
         <p v-else>{{ musics[activeIndex].songNameEng }} - {{ musics[activeIndex].singerEng }}</p>
         <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
-        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value||0 }}점</p>
-        <p v-else>Highest score: {{ musics[activeIndex].value||0 }} points</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value || 0 }}점</p>
+        <p v-else>Highest score: {{ musics[activeIndex].value ||0 }} points</p>
         <v-btn
           v-if="this.$store.getters.langMode=='한국어'"
           @click="openRink"
@@ -101,8 +101,9 @@
   import Music from '@/components/musicselect/Music.vue'
   import Modal from '@/components/Modal.vue'
   import 'swiper/css/swiper.css'
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
   import SongRank from '@/components/musicselect/songRank.vue'
+  import http from '@/http.js';
 
   export default {
     name: 'MusicList',
@@ -119,6 +120,7 @@
       }
     },
     computed: {
+      ...mapGetters(['token', 'user']),
       ...mapState('music', {
         musics: state => state.musics
       }),
@@ -140,6 +142,18 @@
       changeEffect (val) {
       this.$refs.selecteffect.volume = val
       },
+      activeIdx : function() {
+        const body = {
+          songId: this.musics[this.activeIndex].songId,
+          userNickname: this.user.userNickname
+        }
+        http
+          .post('/score/findMyScore/', body)
+          .then((res) => {
+            this.myPlayCnt = res.data.playCnt
+            console.log(res.data)
+          })
+      }
     },
     data() {
       return {
@@ -173,7 +187,8 @@
           //   el: '.swiper-pagination'
           // }
         },
-        isRankOpen: false
+        isRankOpen: false,
+        myPlayCnt: 0
       }
     },
     methods: {
@@ -236,6 +251,16 @@
       this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
       this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
       this.$refs.backgroundSound.play()
+      const body = {
+        songId: this.musics[this.activeIndex].songId,
+        userNickname: this.user.userNickname
+      }
+      http
+        .post('/score/findMyScore/', body)
+        .then((res) => {
+          this.myPlayCnt = res.data.playCnt
+          console.log(res.data)
+        })
     }
   }
 </script>

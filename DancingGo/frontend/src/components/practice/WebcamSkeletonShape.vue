@@ -26,7 +26,8 @@ export default {
         0: 'green',
         1: 'yellow',
         2: 'orange',
-        3: 'red'
+        3: 'red',
+        4: 'gray',
       }
     }
   },
@@ -81,11 +82,13 @@ export default {
       var angleScore = []
       for (let i=0; i < this.angles.length; i++) {
         var angle = this.angles[i]
-        if (angle <= 10 || null) {
+        if (angle == null) {
+          angleScore.push(4)
+        } else if (angle <= 10) {
           angleScore.push(0)
-        } else if (angle <= 20) {
-          angleScore.push(1)
         } else if (angle <= 30) {
+          angleScore.push(1)
+        } else if (angle <= 45) {
           angleScore.push(2)
         } else {
           angleScore.push(3)
@@ -114,17 +117,19 @@ export default {
   position: relative;
   width: 270px;
   height: 300px;
-  border: 2px black solid;
+  /* border: 2px black solid; */
+  border-radius: 5px;
+  background: white;
 }
 
 #head {
   position: absolute;
-  border-radius: 70%;
   border: 3px black solid;
   left: 120px;
   top: 55px;
   width: 30px;
   height: 40px;
+  border-radius: 10px;
 }
 
 #spine {
@@ -137,6 +142,7 @@ export default {
   transform-origin: left;
   transform: rotate(90deg);
   background: white;
+  border-radius: 5px;
 }
 
 #shoulder-line {
@@ -147,6 +153,7 @@ export default {
   width: 50px;
   height: 10px;
   background: white;
+  border-radius: 5px;
 }
 
 #left-waist {
@@ -158,6 +165,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #right-waist {
@@ -169,6 +177,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #heap {
@@ -178,6 +187,7 @@ export default {
   top: 175px;
   width: 50px;
   height: 10px;
+  border-radius: 5px;
 }
 
 #left-arm-up {
@@ -189,6 +199,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(0deg);
+  border-radius: 5px;
 }
 
 #left-arm-down {
@@ -200,6 +211,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(0deg);
+  border-radius: 5px;
 }
 
 #right-arm-up {
@@ -211,6 +223,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(180deg);
+  border-radius: 5px;
 }
 
 #right-arm-down {
@@ -222,6 +235,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(180deg);
+  border-radius: 5px;
 }
 
 #left-leg-up {
@@ -233,6 +247,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #left-leg-down {
@@ -244,6 +259,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #right-leg-up {
@@ -255,6 +271,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #right-leg-down {
@@ -266,6 +283,7 @@ export default {
   height: 10px;
   transform-origin: left;
   transform: rotate(90deg);
+  border-radius: 5px;
 }
 
 #foo {
@@ -276,6 +294,7 @@ export default {
   top: 70px;
   width: 20px;
   height: 30px;
+  border-radius: 5px;
 }
 
 

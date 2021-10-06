@@ -72,6 +72,12 @@ public class SongServiceImpl implements SongService{
         List<Song> allSongList = songRepository.findAll();
 
         for (Song s : allSongList) {
+
+            Long maxValue = scoreRepository.findByScore(s.getSongId());
+            if(maxValue == null) {
+                maxValue = 0L;
+            }
+
             songGetResList.add(SongGetRes.builder()
                     .songId(s.getSongId())
                     .difficulty(s.getDifficulty())
@@ -82,6 +88,8 @@ public class SongServiceImpl implements SongService{
                     .songImg(s.getSongImg())
                     .fileName(s.getFileName())
                     .genreId(s.getGenre().getGenreId())
+                    .value(maxValue)
+                    .songLen(s.getSongLen())
                     .build()
             );
         }
