@@ -1,5 +1,6 @@
 <template>
   <div id="countdown-whole">
+    <audio src="/effect/beep.mp3" ref="beep"></audio>
     <div ref="count" style="font-size: 200px; font-weight: bold; color: white;">3</div>
   </div>
 </template>
@@ -14,6 +15,7 @@ export default {
   },
   methods: {
     show() {
+      this.$refs.beep.play()
       var count = 1
       var interval = setTimeout(function countdown() {
         this.$refs.count.innerText = this.countdownString[count]
@@ -24,12 +26,18 @@ export default {
         } else {
           // this.$refs.count.className = 'fade-in-box'
           count += 1
+          if (count == 4) {
+            this.$refs.beep.src = '/effect/beep2.mp3'
+            this.$refs.beep.playbackRate = 3
+          }
+          this.$refs.beep.play()
           setTimeout(countdown.bind(this), 1000);
         }
       }.bind(this), 1000)
     },
   },
   mounted() {
+    this.$refs.beep.playbackRate = 2
     this.show()
   }
 }

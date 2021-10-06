@@ -302,7 +302,7 @@ export default {
       } else {
         this.scores[4] += 1
         this.frameScore = 'miss'
-        health -= 50
+        health -= 5
       }
       if (health > 100) {
         health = 100

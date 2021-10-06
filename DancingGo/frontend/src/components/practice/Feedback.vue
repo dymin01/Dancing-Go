@@ -1,13 +1,13 @@
 <template>
-  <div id="feedback-modal" class="d-flex flex-column">
+  <div id="feedback-modal" class="d-flex flex-column elevation-20">
     <div class="d-flex justify-content-between p-3" style="border-bottom: 0px solid black; position: relative;">
       <div style="font-size: 20px; font-weight: bold;">feedback</div>
       <div @click="$emit('closeFeedback')">X</div>
     </div>
     <div class="d-flex justify-content-around p-4">
       <img :src="feedbackData[2]" alt="" id="feedback-video">
-      <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="" id="feedback-webcam">
       <WebcamSkeletonShape :angles="this.angles" />
+      <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="" id="feedback-webcam">
     </div>
     <div class="p-5 d-flex justify-content-between">
       <div>
@@ -104,11 +104,11 @@ export default {
   position: absolute;
   width: 80vw;
   height: 86vh;
-  border: 2px solid black;
   left: 10vw;
   top: 7vh;
+  border: 3px solid black;
   border-radius: 10px;
-  background-color: white;
+  background-color: rgb(184, 145, 199);
 }
 
 i:hover {
