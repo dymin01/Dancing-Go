@@ -70,6 +70,7 @@ import router from '@/router/index.js'
 import ExitButton from '@/components/practice/ExitButton.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
 import Gameover from '@/components/ranking/Gameover.vue'
+import axios from 'axios'
 
 export default {
   data() {
