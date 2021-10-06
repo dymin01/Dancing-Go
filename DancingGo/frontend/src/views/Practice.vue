@@ -202,7 +202,9 @@ export default {
       }
     },
     countdown() {
-      this.isCountdown = true
+      if (this.$refs.video.paused == true) {
+        this.isCountdown = true
+      }
     },
     countdownEnd() {
       this.isCountdown = false
@@ -210,14 +212,14 @@ export default {
     },
     playVideo() {
       clearInterval(this.timeInterval)
-      // clearInterval(this.captureInterval)
+      clearInterval(this.captureInterval)
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
       this.$refs.pause.style = 'color: white'
       this.$refs.play.style = 'color: crimson'
       this.timeInterval = setInterval(this.checkTime, 500)
-      // this.captureInterval = setInterval(this.dancingGo, 2000)
+      this.captureInterval = setInterval(this.dancingGo, 2000)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
         this.$refs.videoBox.removeChild(this.$refs.videoBox.querySelector('.tmp-box'))
       }
@@ -230,8 +232,13 @@ export default {
       let second = timeInt % 60
       this.nowTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
       if (!this.isPlaying) {
-        // clearInterval(this.captureInterval)
+        clearInterval(this.captureInterval)
         clearInterval(this.timeInterval)
+      }
+      if (this.nowTime == this.endTime) {
+        clearInterval(this.timeInterval)
+        clearInterval(this.captureInterval)
+        this.pauseVideo()
       }
     },
     pauseVideo() {
@@ -239,7 +246,7 @@ export default {
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: crimson'
       this.$refs.play.style = 'color: white'
-      this.dancingGo()
+      // this.dancingGo()
     },
     removeFeedbacks(time) {
       const len = this.feedbacks.length - 1
@@ -262,7 +269,7 @@ export default {
       const xPos = event.offsetX
       const totalLength = this.$refs.progress.clientWidth
       this.$refs.video.currentTime = xPos/totalLength * this.endTimeInt
-      this.playVideo()
+      // this.pauseVideo()
     },
     startCam() {
       const webcamEl = this.$refs.webcam
