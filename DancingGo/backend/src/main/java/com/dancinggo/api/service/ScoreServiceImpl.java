@@ -106,8 +106,10 @@ public class ScoreServiceImpl implements ScoreService {
         List<Score> scores = scoreRepository.findAllBySong_SongId(myScoreReq.getSongId());
         System.out.println(scores.size());
         Long value = 0L;
+        Long playCnt = 0L;
         if(score.isPresent()) {
             value = score.get().getValue();
+            playCnt = score.get().getPlayCnt();
         }
 
         Long rank = scoreRepository.findByRank(myScoreReq.getSongId(), value);
@@ -122,9 +124,9 @@ public class ScoreServiceImpl implements ScoreService {
         }
 
         if(check) {
-            return MyScoreRes.builder().value(value).rank(rank + 1L).build();
+            return MyScoreRes.builder().value(value).rank(rank + 1L).palyCnt(playCnt).build();
         } else {
-            return MyScoreRes.builder().value(value).rank(-1L).build();
+            return MyScoreRes.builder().value(value).palyCnt(playCnt).rank(-1L).build();
         }
     }
 }

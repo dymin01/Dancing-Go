@@ -1,13 +1,35 @@
 <template>
   <div>
     <img src="" alt="" id="background" ref="background">
+    <div id="shade"></div>
     <!-- <img src="./video/bg.png" alt="" id="background" ref="background"> -->
-    <div style="padding: 40px; margin-top: 40px;" id="container">
+    <div style="padding: 40px;" id="container">
 
       <!-- 네브빠 -->
-      <div id="navbar" class="mb-5">
-        <button class="btn-lg d-flex justify-content-start"></button>
-        <button :disabled="this.isPlaying" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">틀린부분 확인하기</button>
+      <div id="navbar" class="mb-5 px-5">
+        <!-- <ExitButton /> -->
+        <v-btn
+          id="button"
+          style="opacity: 80%;"
+          @click="openModal"
+        >
+          종료
+        </v-btn>
+        <v-dialog
+          v-model="isModalOpen"
+          persistent
+          max-width="370px">
+          <Modal
+            v-if="this.$store.getters.langMode=='한국어'"
+            :modalTitle="'종료하시겠습니까?'"
+            :modalContent="'진행상황은 저장되지 않습니다.'"
+            :buttonO="'종료'"
+            :buttonX="'취소'"
+            @clickO="exitDance"
+            @clickX="closeModal"
+          />
+        </v-dialog>
+        <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">피드백 확인</button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel">피드백</h5>
@@ -59,28 +81,33 @@
       <!-- 버튼 빠 -->
       <div id="bottom-box">
         <div id="button-box">
-          <i ref="play" class="fas fa-play mx-4 fs-3 play-menu" style="color: grey" @click="countdown"></i>
-          <i ref="pause" class="fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: red"></i>
-          <div @click="repeatCheck" class="ms-4">
-            <span ref="A">A</span>
-            <span ref="B">B</span>
+          <i ref="play" class="txt fas fa-play mx-4 fs-3 play-menu" style="color: white;" @click="countdown"></i>
+          <i ref="pause" class="txt fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
+          <div @click="repeatCheck" class="txt ms-4">
+            <span ref="A" style="color: white;">A</span>
+            <span ref="B" style="color: white;">B</span>
           </div>
-          <div class="btn-group dropend ms-3">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="txt btn-group dropend ms-3">
+            <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               반복 횟수 
-            </button>
-            <div class="dropdown-menu ms-2" style="width: 50px;">
+            </button> -->
+            <div class="align-self-center mr-2" style="font-size:25px; color: white;">반복 횟수 : </div>
+            <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
+            <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
+            <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
+            <i class="fas fa-caret-right fa-3x" style="color: white;" @click="plus"></i>
+            <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
               <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
-            </div>
+            </div> -->
           </div>
         </div>
-        <div id="time-box">
+        <div id="time-box" class="txt" style='color: white'>
           <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
             <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
             <div style="width: 32px">
-              <i class="fas fa-volume-mute fs-3" v-if="this.volume == 0 || isMute" @click="unmute"></i>
-              <i class="fas fa-volume-up fs-3" v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
-              <i class="fas fa-volume-down fs-3" v-else-if="!isMute" @click="mute"></i>
+              <i class="fas fa-volume-mute fs-3" style='color: white' v-if="this.volume == 0 || isMute" @click="unmute"></i>
+              <i class="fas fa-volume-up fs-3" style='color: white' v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
+              <i class="fas fa-volume-down fs-3" style='color: white' v-else-if="!isMute" @click="mute"></i>
             </div>
           </div>
           {{ nowTime }} / {{ endTime }}
@@ -96,20 +123,23 @@
 
 <script>
 import Webcam from 'webcam-easy'
-import axios from 'axios'
-// import router from '@/router/index.js'
+import http from '@/http.js';
+import router from '@/router/index.js'
 // import ExitButton from '@/components/practice/ExitButton.vue'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   components: {
     Feedback,
     FeedbackCard,
     SavedFeedbackCard,
-    Countdown
+    Countdown,
+    // ExitButton,
+    Modal,
   },
   data() {
     return {
@@ -120,7 +150,7 @@ export default {
       isMute: false,
       nowTime: '00:00',
       endTime: '',
-      endTimeInt: 221,
+      endTimeInt: 0,
       isVolumeControl: false,
       vectorInfos: [[15, 0], [2, 9], [5, 12], [2, 5], [9, 12], [2, 3], [3, 4], [5, 6], [6, 7], [9, 10], [10, 11], [12, 13], [13, 14]],
       vectorNames: { 0: '목', 1: '우측 허리', 2: '좌측 허리', 3: '어깨 라인', 4: '힙 라인', 5: '오른 팔뚝', 6: '오른 팔', 
@@ -146,9 +176,30 @@ export default {
       nowRepeatCount: 0,
       maxRepeatCount: 5,
       isCountdown: false,
+      isModalOpen: false,
     }
   },
   methods: {
+    exitDance() {
+      router.push({ name: 'MusicSelect', query: {'mode': localStorage.getItem('mode')} })
+    },
+    openModal () {
+        // this.$refs.selecteffect.play()
+        this.isModalOpen = true
+      },
+    closeModal () {
+        this.isModalOpen = false
+    },
+    plus(){
+      if(this.maxRepeatCount < 10){
+        this.maxRepeatCount++
+      }
+    },
+    minus(){
+      if(this.maxRepeatCount > 1){
+        this.maxRepeatCount--
+      }
+    },
     countdown() {
       this.isCountdown = true
     },
@@ -162,8 +213,8 @@ export default {
       this.removeFeedbacks(parseInt(this.$refs.video.currentTime))
       this.isPlaying = true
       this.$refs.video.play()
-      this.$refs.pause.style = 'color: grey'
-      this.$refs.play.style = 'color: red'
+      this.$refs.pause.style = 'color: white'
+      this.$refs.play.style = 'color: crimson'
       this.timeInterval = setInterval(this.checkTime, 500)
       // this.captureInterval = setInterval(this.dancingGo, 2000)
       while (this.$refs.videoBox.querySelector('.tmp-box')) {
@@ -185,8 +236,8 @@ export default {
     pauseVideo() {
       this.isPlaying = false 
       this.$refs.video.pause()
-      this.$refs.pause.style = 'color: red'
-      this.$refs.play.style = 'color: grey'
+      this.$refs.pause.style = 'color: crimson'
+      this.$refs.play.style = 'color: white'
       this.dancingGo()
     },
     removeFeedbacks(time) {
@@ -209,7 +260,7 @@ export default {
     changePosition(event) {
       const xPos = event.offsetX
       const totalLength = this.$refs.progress.clientWidth
-      this.$refs.video.currentTime = xPos/totalLength * 221
+      this.$refs.video.currentTime = xPos/totalLength * this.endTimeInt
       this.playVideo()
     },
     startCam() {
@@ -249,17 +300,17 @@ export default {
       if (!this.isRepeatStart) {
         this.isRepeatStart = true
         this.repeatStartTime = this.$refs.video.currentTime
-        this.$refs.A.style = 'color: red'
+        this.$refs.A.style = 'color: white'
       } else if (!this.isRepeatEnd) {
         this.isRepeatEnd = true
         this.repeatEndTime = this.$refs.video.currentTime
-        this.$refs.B.style = 'color: red'
+        this.$refs.B.style = 'color: white'
         this.$refs.video.currentTime = this.repeatStartTime
         this.pauseVideo()
         this.countdown()
       } else {
-        this.$refs.A.style = 'color: black'
-        this.$refs.B.style = 'color: black'
+        this.$refs.A.style = 'color: rgb(150,150,150)'
+        this.$refs.B.style = 'color: rgb(150,150,150)'
         this.isRepeatEnd = false
         this.isRepeatStart = false
         this.repeatEndTime = 0
@@ -272,8 +323,8 @@ export default {
         this.nowRepeatCount += 1
         if (this.nowRepeatCount >= this.maxRepeatCount) {
           this.nowRepeatCount = 0
-          this.$refs.A.style = 'color: black'
-          this.$refs.B.style = 'color: black'
+          this.$refs.A.style = 'color: rgb(150,150,150)'
+          this.$refs.B.style = 'color: rgb(150,150,150)'
           this.isRepeatEnd = false
           this.isRepeatStart = false
           this.repeatEndTime = 0
@@ -326,11 +377,7 @@ export default {
         var videoPoints = res[0]
         var webcamPoints = res[1]
         var videoVectors = this.getVideoVector(videoPoints)
-        console.log('가이드')
-        console.log(videoVectors)
         var webcamVectors = this.getCamVector(webcamPoints, videoVectors)
-        console.log('캠')
-        console.log(webcamVectors)
         this.makeFeedback(videoImages[0], webcamImage, videoVectors, webcamVectors)
       })
     },
@@ -360,8 +407,8 @@ export default {
         'images': [videoImage, webcamImage]
       }
       let skeletons = []
-      // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('http://70.12.130.110:8000/api/v1/', params)
+      // await http.post('http://localhost:8000/api/v1/', params)
+      await http.post('http://70.12.130.110:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
@@ -375,7 +422,6 @@ export default {
       } else {
         videoPoints.push(null)
       }
-      console.log(videoPoints)
       for (let i = 0; i < this.vectorInfos.length; i++) {
         let vectorInfo = this.vectorInfos[i]
         let start = vectorInfo[0]
@@ -400,7 +446,6 @@ export default {
       } else {
         webcamPoints.push(null)
       }
-      console.log(webcamPoints)
       for (let i = 0; i < this.vectorInfos.length; i++) {
         if (videoVectors[i] != null) {
           let vectorInfo = this.vectorInfos[i]
@@ -434,10 +479,11 @@ export default {
     localStorage.setItem('songId', songId)
     this.songId = songId
     this.startCam()
-    axios.get('/song/getSong/' + songId)
+    http.get('/song/getSong/' + songId)
     .then(res => {
       const songInfo = res.data
       this.songInfo = songInfo
+      // this.$refs.background.src = '/images/home/home_background.jpg'
       this.$refs.background.src = '/images/musicselect/' + songInfo.fileName + '.png'
       this.$refs.video.src = '/guides/' + songInfo.fileName + '.mp4'
       var songLength = songInfo.songLen
@@ -463,6 +509,16 @@ export default {
   opacity: 0.5;
 }
 
+#shade {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.7;
+}
+
 #container {
   position: relative;
 }
@@ -475,6 +531,8 @@ export default {
 #midBox {
   display: flex;
   justify-content: space-around;
+  margin-top: 50px;
+  margin-bottom: 60px;
 }
 
 #videoBox {
@@ -483,6 +541,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 15px white;
+  border-radius: 5px;
 }
 
 #camBox {
@@ -491,6 +551,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
+  box-shadow: 0 0 15px white;
+  border-radius: 5px;
 }
 
 #bottom-box {
@@ -537,5 +599,18 @@ span {
 #feedback-modal {
   position: absolute;
   z-index: 99999;
+}
+
+.button {
+  color: white;
+  background-color: purple;
+  box-shadow: 0 0 10px white;
+}
+.button:hover {
+  color: white;
+}
+
+.txt {
+  text-shadow: 0 0 4px purple;
 }
 </style>

@@ -14,7 +14,7 @@
       @closeModal="closeNicknameModal" />
       <!-- <Mypage @closeMypage="closeMypage" class="mypageModal"/> -->
     </v-dialog>
-    <audio src="songs/background.mp3" ref="background" autoplay loop></audio>
+    <audio src="songs/background.mp3" ref="backgroundSound" autoplay loop></audio>
   </div>
 </template>
 
@@ -32,11 +32,23 @@ export default {
   data () {
     return {
       isNicknameModalOpen: false,
+      // backgroundVolume: localStorage.getItem('backgroundVolume'),
+      // effectVolume: localStorage.getItem('effectVolume')
     }
   },
   computed:{
-        ...mapGetters(['user'])
+      ...mapGetters(['user', 'backgroundVolume']),
+      changeBg () {
+        return this.$store.getters.backgroundVolume*(0.01)
+      },
     },
+  watch:{
+    changeBg (val) {
+      console.log(val)
+      this.$refs.backgroundSound.volume = val
+      console.log(this.$refs.backgroundSound.volume)
+    },
+  },
   methods: {
     ...mapMutations(['setToken', 'setUser']),
     // logout () {
@@ -59,6 +71,7 @@ export default {
     if (!userNickname || userNickname == null) {
       this.isNicknameModalOpen = !this.isNicknameModalOpen
     }
+    this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
   }
 }
 </script>

@@ -26,7 +26,6 @@
 
 <script>
 import http from '@/http.js';
-
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'NicknameModal',

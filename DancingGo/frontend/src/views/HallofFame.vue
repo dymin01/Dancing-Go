@@ -53,6 +53,7 @@
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
       <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
     </div>
+    <audio src="songs/halloffame.mp3" ref="backgroundSound"></audio>
   </div>
 </template>
 
@@ -97,6 +98,16 @@ export default {
   },
   computed: {
     ...mapGetters(['token', 'user']),
+    changeBg () {
+      return this.$store.getters.backgroundVolume*(0.01)
+    },
+  },
+  watch: {
+    changeBg (val) {
+      console.log(val)
+      this.$refs.backgroundSound.volume = val
+      console.log(this.$refs.backgroundSound.volume)
+    },
   },
   mounted() {
     http
@@ -113,6 +124,8 @@ export default {
         this.myRank = res.data
         console.log(this.myRank)
     })
+    this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
+    this.$refs.backgroundSound.play()
   }
 }
 </script>

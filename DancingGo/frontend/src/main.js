@@ -24,7 +24,10 @@ Vue.config.productionTip = false
 // const BACKEND_URL = `${location.protocol}//${location.hostname}${BACKEND_PORT}`
 // axios.defaults.baseURL = `${BACKEND_URL}`
 
+//로컬
 //axios.defaults.baseURL = 'http://localhost:8080'
+
+//서버
 axios.defaults.baseURL = 'https://j5a105:8080'
 
 new Vue({

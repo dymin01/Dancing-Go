@@ -17,16 +17,18 @@
         <p v-else>{{ musics[activeIndex].songNameEng }}</p>
         <p v-if="this.$store.getters.langMode=='한국어'">{{ musics[activeIndex].singerKor }}</p>
         <p v-else>{{ musics[activeIndex].singerEng }}</p>
-
+        <p v-if="this.$store.getters.langMode=='한국어'">플레이 횟수</p>
+        <p v-else>times played</p>
+        <!-- {{ musics[activeIndex] }} -->
       </div>
       <!-- 랭킹모드 일 때 곡 정보 -->
-      <div v-else id="active-music-info" class="text-center my-3">
+      <div v-else id="active-music-info" class="text-center my-5">
         <p v-if="this.$store.getters.langMode=='한국어'">
-          {{ musics[activeIndex].songNameKor }}-{{ musics[activeIndex].singerKor }}</p>
-        <p v-else>{{ musics[activeIndex].songNameEng }}-{{ musics[activeIndex].singerEng }}</p>
+          {{ musics[activeIndex].songNameKor }} - {{ musics[activeIndex].singerKor }}</p>
+        <p v-else>{{ musics[activeIndex].songNameEng }} - {{ musics[activeIndex].singerEng }}</p>
         <!-- <p>{{ musics[activeIndex].singerKor }}</p> -->
-        <p v-if="this.$store.getters.langMode=='한국어'">곡별 최고 점수:</p>
-        <p v-else>Highest score:</p>
+        <p v-if="this.$store.getters.langMode=='한국어'">최고 점수: {{ musics[activeIndex].value||0 }}점</p>
+        <p v-else>Highest score: {{ musics[activeIndex].value||0 }} points</p>
         <v-btn
           v-if="this.$store.getters.langMode=='한국어'"
           @click="openRink"
@@ -88,9 +90,9 @@
       />
     </v-dialog>
     <!-- 선택 시 효과음 -->
-    <audio src="sounds/select.wav" ref="selecteffect"></audio>
+    <audio src="sounds/select.mp3" ref="selecteffect"></audio>
     <!-- 선택한 곡 -->
-    <audio src="" ref="selectedsong" autoplay></audio>
+    <audio :src="'songs/'+musics[0].fileName+'.mp3'" ref="backgroundSound" autoplay></audio>
   </div>
 </template>
 
@@ -122,7 +124,22 @@
       }),
       activeIndex () {
         return this.activeIdx
-      }
+      },
+      changeBg () {
+        return this.$store.getters.backgroundVolume*(0.01)
+      },
+      changeEffect () {
+      return this.$store.getters.effectVolume*(0.01)
+      },
+    },
+    watch: {
+      changeBg (val) {
+      this.$refs.backgroundSound.volume = val
+      console.log(this.$refs.backgroundSound.volume)
+      },
+      changeEffect (val) {
+      this.$refs.selecteffect.volume = val
+      },
     },
     data() {
       return {
@@ -165,8 +182,8 @@
         const swiper = this.$refs.musiclist.$swiper
         this.activeIdx = swiper.activeIndex
         console.log(this.musics[this.activeIndex].fileName)
-        this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
-        this.$refs.selectedsong.play()
+        this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+        this.$refs.backgroundSound.play()
         // console.log(this.activeIdx)
         // const selected = document.querySelector("div.swiper-slide-active div.v-image div.v-image__image")
         // const imgUrl = selected.style.backgroundImage.split('"')[1]
@@ -187,28 +204,38 @@
         alert(songId);
       },
       openRink () {
+        this.$refs.selecteffect.play()
         this.isRankOpen = true
       },
       closeRink() {
         this.isRankOpen = false
       },
       openModal () {
+        this.$refs.selecteffect.play()
         this.isModalOpen = true
       },
       closeModal () {
+        this.$refs.selecteffect.play()
         this.isModalOpen = false
       },
       goToGame (songId) {
-        console.log(this.$route.query.mode)
-        this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
+        // console.log(this.$route.query.mode)
+        this.$refs.selecteffect.play()
+        setTimeout(function() {
+          this.$router.push({ name: this.$route.query.mode, params: { songId: songId } })
+        }.bind(this), 500)
       }
     },
-    created () {
-      this.$store.dispatch('music/setMusics')
-      // this.$refs.musiclist.$swiper.mousewheel.enable()
-    },
+    // created () {
+    //   this.$store.dispatch('music/setMusics')
+    //   // this.$refs.musiclist.$swiper.mousewheel.enable()
+    // },
     mounted () {
-      this.$refs.selectedsong.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+      // console.log(this.musics[this.activeIndex].fileName)
+      // this.$refs.backgroundSound.src = 'songs/'+this.musics[this.activeIndex].fileName+'.mp3'
+      this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
+      this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
+      this.$refs.backgroundSound.play()
     }
   }
 </script>
@@ -226,14 +253,15 @@
     // width: 200px;
     // height: 200px;
     position: absolute;
-    top: 15vh;
-    left: 43%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
     box-shadow: 0 0 20px white;
     border-radius: 2%;
 
     img {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
       border-radius: 2%;
       cursor: pointer;
     }

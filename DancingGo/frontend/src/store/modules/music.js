@@ -1,6 +1,6 @@
 import axios from 'axios'
-const SERVER_URL = 'http://localhost:8080'
-
+//const SERVER_URL = 'http://localhost:8080'
+const SERVER_URL = 'https://j5a105.p.ssafy.io:8080'
 export default {
   namespaced: true,
   state: {
