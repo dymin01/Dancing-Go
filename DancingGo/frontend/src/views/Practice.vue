@@ -407,8 +407,8 @@ export default {
         'images': [videoImage, webcamImage]
       }
       let skeletons = []
-      // await http.post('http://localhost:8000/api/v1/', params)
-      await http.post('http://70.12.130.110:8000/api/v1/', params)
+      // await axios.post('http://localhost:8000/api/v1/', params)
+      await axios.post('http://70.12.130.110:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
