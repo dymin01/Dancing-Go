@@ -38,7 +38,7 @@
 import Modal from '@/components/Modal.vue'
 import router from '@/router/index.js'
 import Snackbar from '@/components/badge/snackbar.vue'
-import axios from 'axios'
+import http from '@/http.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -74,7 +74,7 @@ export default {
       }.bind(this), 500)
     },
     sendResult() {
-      axios.get('/user/gameover/' + this.user.userNickname)
+      http.get('/user/gameover/' + this.user.userNickname)
       .then((res) => {
         console.log(res)
       })
@@ -86,7 +86,7 @@ export default {
   mounted() {
     this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
     // this.sendResult()
-    axios.get('/user/gameover/' + this.user.userNickname)
+    http.get('/user/gameover/' + this.user.userNickname)
     // setTimeout(function() {
     //   if (!this.isModalOpen) {
     //     this.isModalOpen = true
