@@ -18,6 +18,10 @@
 
       <!-- cam -->
       <div id="midBox">
+        <div id="videoBox">
+          <video src="" height="420" ref="video"></video>
+          <canvas ref="videoCanvas"></canvas>
+        </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" playsinline height="540" width="840"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
@@ -47,10 +51,6 @@
       </div>
 
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
-      <div id="videoBox">
-        <video src="" height="420" ref="video"></video>
-        <canvas ref="videoCanvas" class="d-none"></canvas>
-      </div>
     </div>
   </div>
 </template>
@@ -82,7 +82,7 @@ export default {
                         5: '좌측 어깨', 6: '좌측 팔꿈치', 7: '좌측 손목', 
                         8: '골반', 9: '우측 엉덩이', 10: '우측 무릎',  
                         11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
-      scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 6, 4: 10, 5: 15, 6: 21, 7: 50 },
+      scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 5, 4: 8, 5: 11, 6: 15, 7: 19 },
       frameScore: '',
       scores: [0, 0, 0, 0, 0],
       isVolumeControl: false,
@@ -421,8 +421,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  position: absolute;
-  top: 100vh;
+  /* position: absolute;
+  top: 100vh; */
 }
 
 #camBox {

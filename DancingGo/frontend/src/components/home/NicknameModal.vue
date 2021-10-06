@@ -21,18 +21,46 @@
         확인
       </v-btn>
     </v-card-text>
+    <v-dialog
+        v-model="isOverlap"
+        max-width="350px">
+        <Modal1btn
+            style="background-color: rgba(58, 58, 58, 1); color: white;"
+            :modalTitle="'알림'"
+            :modalContent="'중복된 닉네임입니다.'"
+            :buttonO="'확인'"
+            @clickO="closeOneModal"
+         />
+    </v-dialog>
+    <v-dialog
+        v-model="isOkNickname"
+        max-width="350px">
+        <Modal1btn
+            style="background-color: rgba(58, 58, 58, 1); color: white;"
+            :modalTitle="'알림'"
+            :modalContent="'닉네임 설정에 성공했습니다.'"
+            :buttonO="'확인'"
+            @clickO="closeModal"
+         />
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import http from '@/http.js';
 import { mapMutations, mapGetters } from 'vuex'
+import Modal1btn from '@/components/Modal_1btn.vue'
 export default {
   name: 'NicknameModal',
   data () {
     return {
       nicknameInput: '',
+      isOverlap:false,
+      isOkNickname:false
     }
+  },
+  components:{
+        Modal1btn
   },
   computed:{
         ...mapGetters(['user'])
@@ -46,14 +74,15 @@ export default {
         alert('닉네임을 입력해주세요.')
       } else {
         const nickname = this.nicknameInput
-        console.log("은교바보")
         console.log(nickname)
         http.get("/user/nickname/" + nickname)
         .then((res) => {
           console.log("중복결과")
           console.log(res.data)
           if (res.data === true) {
-            alert('중복된 닉네임입니다.')
+            // alert('중복된 닉네임입니다.')
+            console.log("중복된 닉네임입니다.")
+            this.isOverlap = true
           } else {
             const body = {
                 userNickname: this.nicknameInput,
@@ -61,15 +90,29 @@ export default {
             }
             http.put("/user/nickname/", body)
             .then(() => {
-              alert('닉네임 설정에 성공했습니다.')
+              // alert('닉네임 설정에 성공했습니다.')
+              console.log("닉네임 변경에 성공 1234")
               this.user.userNickname = this.nicknameInput
               this.setUser(this.user)
-              this.$emit('closeModal')
+              this.isOkNickname = true
+              
+              // this.closeModal()
+              // this.$emit('closeModal')
             })
+
           }
         })
       }
 
+    },
+    closeModal(){
+      console.log("모달 닫기")
+      this.isOkNickname = false
+      this.$emit("closeModal")
+    },
+    closeOneModal(){
+      console.log('확인 모달 닫기')
+      this.isOverlap = false
     }
   }
 }
@@ -77,6 +120,7 @@ export default {
 
 <style>
 #nickname-modal {
+  /* background-color: rgba(58, 58, 58, 0.8); */
   background-color: rgba(43, 29, 59, 0.8);
   color: white;
   /* text-shadow: 0 0 5px gray; */

@@ -62,6 +62,15 @@ export default {
   animation: fadeout 1.1s;
 }
 
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 @keyframes fadein {
     from {
         opacity: 0;
@@ -71,14 +80,6 @@ export default {
     }
 }
 
-@keyframes fadeout {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
 
 
 </style>

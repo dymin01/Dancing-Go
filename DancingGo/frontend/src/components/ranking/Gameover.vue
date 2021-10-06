@@ -7,6 +7,7 @@
     style="z-index: 99999"
     />
     <v-dialog style="z-index: 99999"
+      persistent
       v-model="isModalOpen"
       max-width="350px">
       <Modal

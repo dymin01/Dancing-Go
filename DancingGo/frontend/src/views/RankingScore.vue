@@ -6,33 +6,33 @@
 
       <v-form class="score-half text-center" id="rank-box" >
         <v-container v-if="this.rankVisible">
-        <v-row class="mt-4">
-          <div class="text" style="font-size: 250px;" >{{this.rank}}</div>
-        </v-row>
-        <v-row>
-          <v-col cols="6">
-            <div class="text" style="font-size: 50px; padding-bottom:50px; padding-left:20px">TotalScore</div>
-          </v-col>
-          <v-col cols="6">
-            <div class="text" style="font-size: 50px; padding-bottom:50px;">{{totalScore}}</div>
-          </v-col>
-        </v-row>
+          <v-row class="mt-4">
+            <div ref="rank" class="text" style="font-size: 250px; line-height: 300px">{{this.rank}}</div>
+          </v-row>
+          <v-row>
+            <v-col cols="6">
+              <div class="text" style="font-size: 50px; padding-bottom:50px; padding-left:20px">Score</div>
+            </v-col>
+            <v-col cols="6">
+              <div class="text" style="font-size: 50px; padding-bottom:50px; text-align: end; padding-right: 50px">{{totalScore}}</div>
+            </v-col>
+          </v-row>
         </v-container>
       </v-form>
       <div class="score-half text" id="scores-box">
         <div id="score-name">
-          <div>Perfect</div>
-          <div>Great</div>
-          <div>Good</div>
-          <div>Bad</div>
-          <div>Miss</div>
+          <div id="perfect">Perfect</div>
+          <div id="great">Great</div>
+          <div id="good">Good</div>
+          <div id="bad">Bad</div>
+          <div id="miss">Miss</div>
         </div>
         <div id="score-number">
-          <div ref="perfect">{{ tmpScores[0] }}</div>
-          <div ref="great">{{ tmpScores[1] }}</div>
-          <div ref="good">{{ tmpScores[2] }}</div>
-          <div ref="bad">{{ tmpScores[3] }}</div>
-          <div ref="miss">{{ tmpScores[4] }}</div>
+          <div ref="perfect" id="perfect">{{ tmpScores[0] }}</div>
+          <div ref="great" id="great">{{ tmpScores[1] }}</div>
+          <div ref="good" id="good">{{ tmpScores[2] }}</div>
+          <div ref="bad" id="bad">{{ tmpScores[3] }}</div>
+          <div ref="miss" id="miss">{{ tmpScores[4] }}</div>
         </div>
       </div>
     </div>
@@ -63,6 +63,16 @@ export default {
       rankVisible: false,
       menuVisible: false,
       totalScore: 0,
+      totalScoreStr: '',
+      rankColor: {
+        'S': '#ff207a',
+        'A': '#ff0000',
+        'B': 'orange',
+        'C': 'green',
+        'D': 'navy',
+        'F': 'rgb(59, 59, 59)'
+        // 'F': 'red'
+      }
     }
   },
   components:{
@@ -124,6 +134,9 @@ export default {
     },
     showRank() {
       this.rankVisible = true
+      setTimeout(function() {
+        this.$refs.rank.style.color = this.rankColor[this.rank]
+      }.bind(this), 10)
       setTimeout(this.showMenu, 1000)
       this.sendResult()
     },
@@ -240,7 +253,8 @@ export default {
   font-weight: bold;
   /* text-shadow: 0 0 10px #0fa, 0 0 21px #0fa; */
   color: rgb(59, 59, 59);
-  text-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
+  /* text-shadow: 0 0 7px #fff, 0 0 10px #0fa, 0 0 21px #0fa; */
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #fff;
 }
 
 #scores-box {
@@ -300,6 +314,32 @@ export default {
 }
 .rank-menu:hover {
   cursor: pointer;
+}
+
+#perfect {
+  color: white;
+  text-shadow: 0 0 3px #eee, 0 0 10px rgb(57, 123, 247), 0 0 21px rgb(57, 123, 247), 0 0 42px rgb(57, 123, 247);
+}
+
+#great {
+  color: white;
+  text-shadow: 0 0 3px #eee, 0 0 10px rgb(123, 255, 71), 0 0 21px rgb(123, 255, 71), 0 0 42px rgb(123, 255, 71);
+}
+
+#good {
+  color: white;
+  text-shadow: 0 0 3px #eee, 0 0 10px rgb(252, 255, 82), 0 0 21px rgb(252, 255, 82), 0 0 42px rgb(252, 255, 82);
+
+}
+
+#bad {
+  color: white;
+  text-shadow: 0 0 3px #eee, 0 0 10px rgb(90, 0, 112), 0 0 21px rgb(90, 0, 112), 0 0 42px rgb(90, 0, 112);
+}
+
+#miss {
+  color: white;
+  text-shadow: 0 0 3px #eee, 0 0 10px rgb(187, 39, 39), 0 0 21px rgb(187, 39, 39), 0 0 42px rgb(187, 39, 39);
 }
 
 </style>

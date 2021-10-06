@@ -5,8 +5,29 @@
     <Gameover v-if="isGameover" />
     <audio src="/effect/gameover.wav" ref="gameover"></audio>
     <div style="padding: 40px" id="container">
-      <div id="navbar" class="mb-4">
-        <ExitButton />
+      <div id="navbar" class="mb-5 px-5">
+        <!-- <ExitButton /> -->
+        <v-btn
+          id="button"
+          style="opacity: 80%;"
+          @click="openModal"
+        >
+          종료
+        </v-btn>
+        <v-dialog
+          v-model="isModalOpen"
+          persistent
+          max-width="370px">
+          <Modal
+            v-if="this.$store.getters.langMode=='한국어'"
+            :modalTitle="'종료하시겠습니까?'"
+            :modalContent="'진행상황은 저장되지 않습니다.'"
+            :buttonO="'종료'"
+            :buttonX="'취소'"
+            @clickO="exitDance"
+            @clickX="closeModal"
+          />
+        </v-dialog>
       </div>
 
       <!-- 체력바 -->
@@ -18,13 +39,20 @@
 
       <!-- cam -->
       <div id="midBox">
-        <div id="videoBox">
-          <video src="" height="420" ref="video"></video>
-          <canvas ref="videoCanvas" class="d-none"></canvas>
+        <div class="sidebar">
+          <div>
+            <div class="combo-text">MAX</div>
+            <div class="combo-text pb-3">COMBO</div> 
+          </div>
+          <div class="combo-number">{{ maxcombo }}</div> 
         </div>
         <div id="camBox">
           <video ref="webcam" id="webcam" playsinline height="540" width="840"></video>
           <canvas class="d-none" ref="webcamCanvas"></canvas>
+        </div>
+        <div class="sidebar2">
+          <div class="combo-text">COMBO</div> 
+          <div class="combo-number">{{ combo }}</div> 
         </div>
       </div>
 
@@ -51,6 +79,10 @@
       </div>
 
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
+      <div id="videoBox">
+        <video src="" height="420" ref="video"></video>
+        <canvas ref="videoCanvas" class="d-none"></canvas>
+      </div>
     </div>
   </div>
 </template>
@@ -59,9 +91,9 @@
 import Webcam from 'webcam-easy'
 import http from '@/http.js';
 import router from '@/router/index.js'
-import ExitButton from '@/components/practice/ExitButton.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
 import Gameover from '@/components/ranking/Gameover.vue'
+import Modal from '@/components/Modal.vue'
 import axios from 'axios'
 
 export default {
@@ -82,19 +114,29 @@ export default {
                         5: '좌측 어깨', 6: '좌측 팔꿈치', 7: '좌측 손목', 
                         8: '골반', 9: '우측 엉덩이', 10: '우측 무릎',  
                         11: '우측 발목', 12: '좌측 엉덩이', 13: '좌측 무릎', 14: '좌측 발목', 15: '몸통'},
-      scoreMatch: { 0: 0, 1: 1, 2: 3, 3: 6, 4: 10, 5: 15, 6: 21, 7: 50 },
+      scoreMatch: { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7 },
       frameScore: '',
       scores: [0, 0, 0, 0, 0],
       isVolumeControl: false,
       volume: 100,
       tmpVolume: 100,
-      isMute: false
+      isMute: false,
+      combo: 0,
+      maxcombo: 0,
+      isModalOpen: false,
+      scoreShadow: {
+        'perfect': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(57, 123, 247), 0 0 21px rgb(57, 123, 247), 0 0 42px rgb(57, 123, 247);',
+        'great': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(123, 255, 71), 0 0 21px rgb(123, 255, 71), 0 0 42px rgb(123, 255, 71);',
+        'good': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(252, 255, 82), 0 0 21px rgb(252, 255, 82), 0 0 42px rgb(252, 255, 82);',
+        'bad': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(90, 0, 112), 0 0 21px rgb(90, 0, 112), 0 0 42px rgb(90, 0, 112);',
+        'miss': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(187, 39, 39), 0 0 21px rgb(187, 39, 39), 0 0 42px rgb(187, 39, 39);',
+      }
     }
   },
   components: {
-    ExitButton,
     Countdown,
-    Gameover
+    Gameover,
+    Modal
   },
   methods: {
     startCam() {
@@ -280,24 +322,37 @@ export default {
       var health = this.health
       if (score >= 85) {
         this.frameScore = 'perfect'
+        this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
+        this.combo += 1
         this.scores[0] += 1
         health += 3
       } else if (score >= 70) {
         this.frameScore = 'great'
+        this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
+        this.combo += 1
         this.scores[1] += 1
         health += 2
       } else if (score >= 55) {
-        this.scores[2] += 1
         this.frameScore = 'good'
+        this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
+        this.combo += 1
+        this.scores[2] += 1
         health += 1
       } else if (score >= 30) {
-        this.scores[3] += 1
         this.frameScore = 'bad'
+        this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
+        this.scores[3] += 1
+        this.combo = 0
         health -= 3
       } else {
-        this.scores[4] += 1
         this.frameScore = 'miss'
+        this.scores[4] += 1
+        this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
+        this.combo = 0
         health -= 5
+      }
+      if (this.combo > this.maxcombo) {
+        this.maxcombo = this.combo
       }
       if (health > 100) {
         health = 100
@@ -343,7 +398,16 @@ export default {
     changeVolume() {
       this.volume = this.$refs.volume.value
       this.$refs.video.volume = this.volume * 0.01
-    }
+    },
+    exitDance() {
+      router.push({ name: 'MusicSelect', query: {'mode': localStorage.getItem('mode')} })
+    },
+    openModal () {
+        this.isModalOpen = true
+      },
+    closeModal () {
+        this.isModalOpen = false
+    },
   },
   mounted() {
     const songId = this.$route.params.songId
@@ -380,6 +444,48 @@ export default {
 </script>
 
 <style scoped>
+.sidebar {
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 300px;
+  background: rgba(43, 29, 59, 0.8);
+  padding-top: 40px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  -webkit-text-stroke: 1px black;
+  font-weight: bold;
+}
+
+.sidebar2 {
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 250px;
+  height: 300px;
+  background: rgba(43, 29, 59, 0.8);
+  border-radius: 10px;
+  -webkit-text-stroke: 1px black;
+  font-weight: bold;
+}
+
+.combo-text {
+  font-size: 45px;
+  color: rgb(17, 17, 17); 
+  text-shadow: 0 0 5px #fff, 0 0 5px yellow, 0 0 10px yellow, 0 0 20px yellow;
+}
+
+.combo-number {
+  font-size: 40px;
+  color: rgb(17, 17, 17); 
+  text-shadow: 0 0 5px #fff, 0 0 5px yellow, 0 0 10px yellow, 0 0 20px yellow;
+}
+
 #shade {
   position: absolute;
   left: 0px;
@@ -411,8 +517,10 @@ export default {
 }
 
 #midBox {
+  position: relative;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 #videoBox {
@@ -421,8 +529,8 @@ export default {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  /* position: absolute;
-  top: 100vh; */
+  position: absolute;
+  top: 100vh;
 }
 
 #camBox {
@@ -488,8 +596,6 @@ span {
   transform: translate(-50%, -450%);
   color: white;
   font-size: 50px;
-  color: rgb(59, 59, 59);
-  text-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
 }
 
 
