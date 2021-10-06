@@ -1,7 +1,7 @@
 // const BACKEND_PORT = process.env.BACKEND_PORT === null ? '' : `:${process.env.BACKEND_PORT}`
 const BACKEND_PORT = ":8080";
 const BACKEND_URL = `${location.protocol}//${location.hostname}${BACKEND_PORT}`
-const FRONTEND_PORT = ":3000";
+//const FRONTEND_PORT = ":3000";
 const REDIRECT_URI = `${location.protocol}//${location.hostname}${FRONTEND_PORT}/oauth/redirect`
 
 export default {
