@@ -46,9 +46,9 @@ public class ScoreController {
         return new ResponseEntity<List<songRankRes>>(songRankResList, HttpStatus.OK);
     }
 
-    // 해당 곡에 대한 나의 점수와 랭크 가져오기
+    // 해당 곡에 대한 나의 점수, 랭크, 플레이 횟수 가져오기
     @PostMapping("/findMyScore")
-    @ApiOperation(value = "해당 곡에 대한 나의 점수와 랭크 가져오기", notes = "해당 곡에 대한 나의 점수와 랭크 가져온다.")
+    @ApiOperation(value = "해당 곡에 대한 나의 점수, 랭크, 플레이 횟수 가져오기", notes = "해당 곡에 대한 나의 점수, 랭크, 플레이 횟수를 가져온다.")
     public ResponseEntity<MyScoreRes> findMyScore(@RequestBody MyScoreReq myScoreReq) {
         MyScoreRes myScoreRes = scoreService.findMyScore(myScoreReq);
         return new ResponseEntity<MyScoreRes>(myScoreRes, HttpStatus.OK);
