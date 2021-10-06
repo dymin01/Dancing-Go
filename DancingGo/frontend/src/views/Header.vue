@@ -90,7 +90,7 @@ export default {
     logout () {
       this.setToken(null)
       this.setUser(null)
-      alert('로그아웃되었습니다.')
+      // alert('로그아웃되었습니다.')
       if (this.$route.path !== '/') this.$router.push('/')
     },
     openMypage(){
