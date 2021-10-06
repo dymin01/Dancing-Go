@@ -28,7 +28,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
+import http from '@/http.js'
 export default {
   props:{
     // snackbar: Boolean,
@@ -77,7 +77,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("/user/gameinfo/" + this.user.userId)
+    http.get("/user/gameinfo/" + this.user.userId)
     .then((res)=>{
       this.userInfo = res.data
       this.userNickname = res.data.userNickname
@@ -88,14 +88,14 @@ export default {
   },
   methods:{
     // gameOver(){
-    //   axios.get("/user/gameover/"+this.userNickname)
+    //   http.get("/user/gameover/"+this.userNickname)
     //   .then(()=>{
     //     this.gameover=true
     //   })
     // },
     // checkBadge() > getBadge(addChellenge(), addBadgeList()) > showBadge()
     checkBadge(){
-      axios.get("/challenge/onlyMyBadge/"+ this.userNickname)
+      http.get("/challenge/onlyMyBadge/"+ this.userNickname)
       .then((res)=>{
         this.badgeInfo = res.data
       })
@@ -149,7 +149,7 @@ export default {
     },
 
     addChallenge(challengeAddReq){
-      axios.post("/challenge/addChallenge", challengeAddReq)
+      http.post("/challenge/addChallenge", challengeAddReq)
     },
 
     addBadgeList(badgeNum, badgeNameKor, badgeNameEng, badgeConditionKor, badgeConditionEng){
@@ -157,7 +157,7 @@ export default {
     },
 
     getBadge(totalPlayCnt){
-      axios.get("/user/gameinfo/" + this.user.userId)
+      http.get("/user/gameinfo/" + this.user.userId)
       .then((res)=>{
         // 1001, 첫 완곡
         if(this.gameover!=1 && totalPlayCnt==1 && !this.badgeInfo.includes(1001)){

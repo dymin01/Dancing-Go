@@ -13,7 +13,10 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
+    //로컬용
     host: 'localhost', // can be overwritten by process.env.HOST
+
+    //서버용
     // host: 'j5a105.p.ssafy.io',
     port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
