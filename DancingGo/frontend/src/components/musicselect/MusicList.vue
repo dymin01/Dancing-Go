@@ -83,8 +83,8 @@
         v-else
         :modalTitle="'Notice'"
         :modalContent="'Let\'s enjoy a dance!💃'"
-        :buttonO="'Start'"
-        :buttonX="'Cancel'"
+        :buttonO="'START'"
+        :buttonX="'CANCEL'"
         @clickO="goToGame(musics[activeIndex].songId)"
         @clickX="closeModal"
       />
