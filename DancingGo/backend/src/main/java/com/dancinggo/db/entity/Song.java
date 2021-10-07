@@ -45,4 +45,7 @@ public class Song {
 
     @Column(name = "file_name")
     private String fileName;
+
+    @Column(name = "song_len")
+    private Long songLen;
 }

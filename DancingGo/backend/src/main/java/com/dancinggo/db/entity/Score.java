@@ -19,18 +19,22 @@ public class Score {
     private Long scoreId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_seq")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id")
     private Song song;
 
-    @Column(columnDefinition = "integer default 0", name = "value")
-    private Integer value;
+    @Column(name = "value")
+    private Long value;
 
-    @Column(columnDefinition = "integer default 0", name = "play_cnt")
-    private Integer playCnt;
+    @Column(name = "play_cnt")
+    private Long playCnt;
 
-
+    @PrePersist
+    public void prePersist() {
+        this.value = this.value == null ? 0 : this.value;
+        this.playCnt = this.playCnt == null ? 0 : this.playCnt;
+    }
 }

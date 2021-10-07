@@ -2,6 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Home from '../views/Home.vue'
+import MusicSelect from '../views/MusicSelect.vue'
+import Practice from '../views/Practice.vue'
+import Ranking from '../views/Ranking.vue'
+import RankingScore from '../views/RankingScore.vue'
+import HallofFame from '../views/HallofFame.vue'
+import OauthRedirect from '@/components/oauth/Redirect'
+import BadgeToast from '@/components/badge/BadgeToast.vue'
+import BadgeGet from '@/components/badge/BadgeGet.vue'
+import snackbar from '@/components/badge/snackbar.vue'
 
 Vue.use(VueRouter)
 
@@ -17,12 +26,58 @@ const routes = [
     component: Home
   },
   {
+    path: '/musicselect',
+    name: 'MusicSelect',
+    component: MusicSelect
+  },
+  {
+    // path: '/practice',
+    path: '/practice/:songId',
+    name: 'Practice',
+    component: Practice
+  },
+  {
+    path: '/ranking/:songId',
+    name: 'Ranking',
+    component: Ranking
+  },
+  {
+    path: '/rankingscore',
+    name: 'RankingScore',
+    component: RankingScore
+  },
+  {
+    path: '/halloffame',
+    name: 'HallofFame',
+    component: HallofFame
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/oauth/redirect',
+    name: 'OauthRedrect',
+    component: OauthRedirect
+  },
+  {
+    path: '/badgetoast',
+    name: 'BadgeToast',
+    component: BadgeToast
+  },
+  {
+    path: '/badgeget',
+    name: 'BadgeGet',
+    component: BadgeGet
+  },
+  {
+    path: '/snackbar',
+    name: 'snackbar',
+    component: snackbar
   }
 ]
 
