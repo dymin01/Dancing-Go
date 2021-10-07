@@ -16,9 +16,9 @@
 
       <img class="badgeImg mb-2" style="opacity:1;" :src="badgeImg">
       <span v-if="this.$store.getters.langMode=='한국어'" class="badgeName mt-4">{{ badgeNameKor }}</span>
-      <span class="badgeName mt-4">{{ badgeNameEng }}</span>
+      <span v-else class="badgeName mt-4">{{ badgeNameEng }}</span>
       <span v-if="this.$store.getters.langMode=='한국어'" class="badgeCondition mt-2">{{ badgeConditionKor }}</span>
-      <span class="badgeCondition mt-2">{{ badgeConditionEng }}</span>
+      <span v-else class="badgeCondition mt-2">{{ badgeConditionEng }}</span>
       <template v-slot:action="{ attrs }">
         <v-btn
           color="indigo"
