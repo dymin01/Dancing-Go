@@ -101,7 +101,7 @@
 
       <!-- 진행도 빠 -->
       <div>
-        <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)" style="height: 4px; background-color: white;">
+        <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)" style="height: 10px; background-color: white;">
           <div ref="progressBar" id="progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
 
@@ -302,8 +302,12 @@ export default {
     changePosition(event) {
       const xPos = event.offsetX
       const totalLength = this.$refs.progress.clientWidth
-      this.$refs.video.currentTime = xPos/totalLength * this.endTimeInt
-      // this.pauseVideo()
+      const videoPos = parseInt(xPos/totalLength * this.endTimeInt)
+      this.$refs.video.currentTime = videoPos
+      this.$refs.progressBar.style = 'width: ' + String(videoPos*100/this.endTimeInt) + '%'
+      let minute = parseInt(videoPos / 60)
+      let second = videoPos % 60
+      this.nowTime = String(minute).padStart(2, '0') + ':' + String(second).padStart(2, '0')
     },
     startCam() {
       const webcamEl = this.$refs.webcam
