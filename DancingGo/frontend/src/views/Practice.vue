@@ -209,7 +209,6 @@ export default {
       isCountdown: false,
       isModalOpen: false,
       isKorean: true,
-      userId : this.user.userId,
     }
   },
   computed:{
@@ -448,7 +447,7 @@ export default {
     async openpose(videoImage, webcamImage) {
       var params = {
         'images': [videoImage, webcamImage],
-        'userid': this.userId,
+        'userid': this.user.userId,
       }
       let skeletons = []
       // await axios.post('http://localhost:8000/api/v1/', params)

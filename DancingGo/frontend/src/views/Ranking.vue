@@ -145,7 +145,6 @@ export default {
         'bad': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(90, 0, 112), 0 0 21px rgb(90, 0, 112), 0 0 42px rgb(90, 0, 112);',
         'miss': 'color: white; text-shadow: 0 0 3px #eee, 0 0 10px rgb(187, 39, 39), 0 0 21px rgb(187, 39, 39), 0 0 42px rgb(187, 39, 39);',
       },
-      userId : this.user.userId,
     }
   },
   computed:{
@@ -239,7 +238,7 @@ export default {
     async openpose(videoImage, webcamImage) {
       var params = {
         'images': [videoImage, webcamImage],
-        'userid': this.userId,
+        'userid': this.user.userId,
       }
       let skeletons = []
       // await axios.post('http://localhost:8000/api/v1/', params)
