@@ -88,8 +88,12 @@ export default {
       isVolumeControl: false,
       volume: 100,
       tmpVolume: 100,
-      isMute: false
+      isMute: false,
+      userId : this.user.userId,
     }
+  },
+  computed:{
+    ...mapGetters(['user']),
   },
   components: {
     ExitButton,
@@ -178,11 +182,12 @@ export default {
     },
     async openpose(videoImage, webcamImage) {
       var params = {
-        'images': [videoImage, webcamImage]
+        'images': [videoImage, webcamImage],
+        'userid': this.userId,
       }
       let skeletons = []
       // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('https://3.36.49.201:8000/api/v1/', params)
+      await axios.post('https://70.12.130.110:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })

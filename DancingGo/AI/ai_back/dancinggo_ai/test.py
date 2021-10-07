@@ -19,12 +19,11 @@ def test(imagePath):
     BASE_DIR = 'C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/'
     # protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_deploy_linevec_faster_4_stages.prototxt"
     # weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_iter_160000.caffemodel"
-    protoFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/body_25/pose_deploy.prototxt"
-    weightsFile = "C:/Users/multicampus/Documents/S05P21A105/DancingGo/AI/ai_back/pose_detection_model/body_25/pose_iter_584000.caffemodel"
+    protoFile = "/usr/src/app/ai_back/pose_detection_model/body_25/pose_deploy.prototxt"
+    weightsFile = "/usr/src/app/ai_back/pose_detection_model/body_25/pose_iter_584000.caffemodel"
     net = cv2.dnn.readNetFromCaffe(protoFile, weightsFile)
     # # 테스트 이미지 읽기
     image = cv2.imread(imagePath)
-    # print(image)
 
     # # 테스트 이미지에서 height, width, color 정보 파악
     imageHeight, imageWidth, imageColor = image.shape
@@ -33,10 +32,10 @@ def test(imagePath):
     inpBlob = cv2.dnn.blobFromImage(image, 1.0 / 255, (imageWidth, imageHeight), (0, 0, 0), swapRB=False, crop=False)
     # 테스트 이미지를 network에 넣어줌
     net.setInput(inpBlob)
-    print('보냈다')
+    # print('보냈다')
     # 결과 받아오기
     output = net.forward()
-    print('받았다')
+    # print('받았다')
     # print(output)
     
     H = output.shape[2]
@@ -49,7 +48,6 @@ def test(imagePath):
         probMap = output[0, i, :, :]
         # global 최대값 찾기
         minVal, prob, minLoc, point = cv2.minMaxLoc(probMap)
-        # print(point, prob)
         # 원래 이미지에 맞게 점 위치 변경
         x = (imageWidth * point[0]) / W
         y = (imageHeight * point[1]) / H
@@ -62,9 +60,11 @@ def test(imagePath):
             points.append((int(x), int(y)))
         else:
             points.append(None)
-    # cv2.imshow("Output-Keypoints", image)
-    # cv2.waitKey(0)
+    # print(points)
+    	# cv2.imshow("Output-Keypoints", image)
     return points
+    
+    # cv2.waitKey(0)
     
     # # 관절들을 선으로 연결해주기
     # for pair in POSE_PAIRS:
@@ -77,7 +77,7 @@ def test(imagePath):
     #     if points[partA] and points[partB]:
     #         cv2.line(image, points[partA], points[partB], (255, 0, 0), 2)
     
-    # cv2.imshow("Output-Keypoints-with-Lines", image)
+    cv2.imshow("Output-Keypoints-with-Lines", image)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
 

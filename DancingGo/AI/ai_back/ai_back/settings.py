@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bqb54$b4x6)yvn%tz88#isu^1_78*xd7bq!8&ew$-#^+2&(j8c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['j5a105.p.ssafy.io', '3.36.49.201',]
 
 CORS_ORIGIN_ALLOW_ALL = True
-
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'sslserver',
 ]
 
 MIDDLEWARE = [

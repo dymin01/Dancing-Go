@@ -209,7 +209,11 @@ export default {
       isCountdown: false,
       isModalOpen: false,
       isKorean: true,
+      userId : this.user.userId,
     }
+  },
+  computed:{
+    ...mapGetters(['user']),
   },
   methods: {
     exitDance() {
@@ -443,11 +447,12 @@ export default {
     },
     async openpose(videoImage, webcamImage) {
       var params = {
-        'images': [videoImage, webcamImage]
+        'images': [videoImage, webcamImage],
+        'userid': this.userId,
       }
       let skeletons = []
       // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('https://3.36.49.201:8000/api/v1/', params)
+      await axios.post('https://70.12.130.110:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
