@@ -180,7 +180,7 @@ export default {
 }
 
 .wrapper {
-    padding: 0px;
+    padding: 0px 12px;
 }
 
 .background {
