@@ -22,7 +22,7 @@
       <span class="myScore"> {{thirdRank.totalScore}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
-    <hr>
+    <hr class="my-hr">
     <div class="list"> 
       <template>
         <v-simple-table
@@ -152,13 +152,13 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-hr {
+.my-hr {
   position: absolute;
   width: 30vw;
-  height: 2px;
   left: 35vw;
-  bottom: 54.5vh;
-  border: none;
+  bottom: 56.5vh;
+  border: 0;
+  height: 3px;
   background-color:white;
 }
 
@@ -182,7 +182,7 @@ hr {
  position: absolute;
  background-color: black;
  width: 40vw;
- height: 95vh;
+ height: 90vh;
  /* 투명도 */
  opacity: 0.6;
  /* 가운데 정렬 */
@@ -197,18 +197,18 @@ hr {
   width: 30%;
   height: 30%;
   left: 35.5vw;
-  bottom: 56.5vh;
+  bottom: 56vh;
 }
 
 .first {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 4vh;
+  top: 8vh;
   left: 47vw;
   /* transform: translate(-50%, -243%); */
   text-align: center;
-  /* background-color: white; */
+  /* background-color: yellow; */
   /* 가득차게 */
   /* overflow:hidden; */
   margin:0 auto;
@@ -218,7 +218,7 @@ hr {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 9.5vh;
+  top: 13vh;
   left: 40.5vw;
   margin:0 auto;
   text-align: center;
@@ -230,7 +230,7 @@ hr {
   position: absolute;
   width: 6vw;
   height: 9vw;
-  top: 11vh;
+  top: 14vh;
   left: 53.5vw;
   margin:0 auto;
   text-align: center;
@@ -287,7 +287,7 @@ hr {
   height: 40vh;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -14%);
+  transform: translate(-50%, -18%);
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
@@ -303,7 +303,7 @@ hr {
   height: 9vh;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 405%);
+  transform: translate(-50%, 387%);
   display: flex;
   /* justify-content: center; */
   align-items: center;
