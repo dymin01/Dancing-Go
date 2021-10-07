@@ -320,7 +320,7 @@ export default {
           }
         }
       }
-      if (notSeeingCount > 3) {
+      if (notSeeingCount > 2) {
         console.log('notSeeing')
         frameScore = 0
       }
@@ -367,7 +367,7 @@ export default {
         this.scores[4] += 1
         this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
         this.combo = 0
-        health -= 5
+        health -= 15
       }
       if (this.combo > this.maxcombo) {
         this.maxcombo = this.combo

@@ -52,6 +52,7 @@ export default {
   margin-bottom: 10px;
   overflow: hidden;
   object-fit: cover;
+  box-shadow: 0 0 5px white;
 }
 
 #feedback-preview-box:hover {

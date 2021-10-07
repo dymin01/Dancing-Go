@@ -57,13 +57,13 @@
           </div>
           <div class="offcanvas-body" id="offcanvas-body">
             <div id="offcanvas-button-box" class="d-flex justify-content-center" style="width: 100%">
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
+              <button class="btn elevation-2" ref="tempFeedback" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
               v-if="this.isKorean">피드백 목록</button>
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
+              <button class="btn elevation-2" ref="tempFeedback" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
               v-else>All Feedback</button>
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
+              <button class="btn elevation-2" ref="savedFeedback" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
               v-if="this.isKorean">보관함</button>
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
+              <button class="btn elevation-2" ref="savedFeedback  " style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
               v-else>Saved Feedback</button>
             </div>
             <div v-if="isTemporaryFeedback">
@@ -110,8 +110,8 @@
           <i ref="play" class="txt fas fa-play mx-4 fs-3 play-menu" style="color: white;" @click="countdown"></i>
           <i ref="pause" class="txt fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
           <div @click="repeatCheck" class="txt ms-4">
-            <span ref="A" style="color: white;">A</span>
-            <span ref="B" style="color: white;">B</span>
+            <span ref="A" style="color: rgb(150,150,150);">A</span>
+            <span ref="B" style="color: rgb(150,150,150)">B</span>
           </div>
           <div class="txt btn-group dropend ms-3">
             <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -504,9 +504,13 @@ export default {
     },
     showAllFeedback() {
       this.isTemporaryFeedback = true
+      this.$refs.tempFeedback.style.background = "#9B6A9B"
+      this.$refs.savedFeedback.style.background = "gray"
     },
     showSavedFeedback() {
       this.isTemporaryFeedback = false
+      this.$refs.tempFeedback.style.background = "gray"
+      this.$refs.savedFeedback.style.background = "#9B6A9B"
     }
   },
   mounted() {
