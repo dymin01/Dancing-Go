@@ -40,7 +40,7 @@
       class="mx-1"
       @click="logout"
     >
-      OK
+      LOGOUT
     </v-btn>
     <v-btn
       id="button"
