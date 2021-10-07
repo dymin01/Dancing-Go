@@ -46,14 +46,17 @@
             @clickX="closeModal"
           />
         </v-dialog>
+        <div id="hpBarBox">
+          <div class="progress mx-3" id="progress" ref="progress" style="width: 40%; height: 15px; background-color: rgba( 255, 255, 255, 0.1 );">
+            <div ref="healthBar" id="progress-bar" class="progress-bar bg-danger hpBar" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div style="width: 70px">
+
+        </div>
       </div>
 
       <!-- 체력바 -->
-      <div id="hpBarBox">
-        <div class="progress mx-3" id="progress" ref="progress" style="width: 40%; height: 15px; background-color: rgba( 255, 255, 255, 0.1 );">
-          <div ref="healthBar" id="progress-bar" class="progress-bar bg-danger hpBar" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
 
       <!-- cam -->
       <div id="midBox">
@@ -74,26 +77,19 @@
         </div>
       </div>
 
-      <!-- 진행도 빠 -->
-      <div class="progress mt-5 mx-3" id="progress" ref="progress" style="height: 4px; background-color: rgba( 255, 255, 255, 0.1 );">
-        <div ref="progressBar" id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
 
       <!-- 점수 -->
-      <span class="scoreText hidden" ref="scoreText">{{ this.frameScore }}</span>
-
-      <!-- <div id="rank-bottom">
-        <div>
-          <span>{{ this.frameScore }}</span>
+      <span class="scoreText hidden" ref="scoreText">{{ this.frameScore }}</span> 
+      <div>
+        <!-- 진행도 빠 -->
+        <div class="progress mt-5 mx-3" id="progress" ref="progress" style="height: 4px; background-color: rgba( 255, 255, 255, 0.1 );">
+          <div ref="progressBar" id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div style="font-size: 20px; font-weight: bold; color: white">
+
+        <!-- 소리와 시간 -->
+        <div id="time-box" style='color: white' class="justify-end">
           {{ nowTime }} / {{ endTime }}
         </div>
-      </div> -->
-
-      <!-- 소리와 시간 -->
-      <div id="time-box" style='color: white' class="justify-end">
-        {{ nowTime }} / {{ endTime }}
       </div>
 
       <Countdown style="z-index: 99999" @countdownEnd="startRanking" v-if="isCountdown" />
@@ -527,11 +523,15 @@ export default {
 #container {
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #navbar {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 #midBox {
@@ -600,12 +600,22 @@ span {
 }
 
 #hpBarBox {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+    /* height: 100%;
+    width: 100%;
+    top: 4.5vh;
+    left: 29.15vw; */
+}
+/* #hpBarBox {
   position: absolute;
   height: 100%;
   width: 100%;
   top: 4.5vh;
   left: 29.15vw;
-}
+} */
 
 .scoreText {
   position: absolute;

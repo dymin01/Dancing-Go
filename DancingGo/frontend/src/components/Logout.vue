@@ -15,7 +15,8 @@
       style="color: white;" class="mt-4 mb-5">로그아웃 하시겠습니까?</h5>
       <h5 v-else style="color: white;" class="mt-4 mb-5">Do you want to log out?</h5>
     </v-card-text>
-    <v-btn
+    <div v-if="this.$store.getters.langMode=='한국어'">
+      <v-btn
       id="button"
       style="margin-left: auto; margin-bottom:20px; opacity: 80%;"
       class="mx-1"
@@ -31,6 +32,25 @@
     >
       취소
     </v-btn>
+    </div>
+    <div v-else>
+      <v-btn
+      id="button"
+      style="margin-left: auto; margin-bottom:20px; opacity: 80%;"
+      class="mx-1"
+      @click="logout"
+    >
+      LOGOUT
+    </v-btn>
+    <v-btn
+      id="button"
+      class="mx-1"
+      style="margin-left: auto; margin-bottom:20px; background-color: #7D7D7D; opacity: 80%;"
+      @click="cancel"
+    >
+      CENCLE
+    </v-btn>
+    </div>
   </v-card>
 </template>
 

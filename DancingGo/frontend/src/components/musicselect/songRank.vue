@@ -16,7 +16,7 @@
       <span class="myScore"> {{thirdRank.value}} </span>
       <span class="myName">{{thirdRank.userNickname}}</span>
     </div>
-    <hr>
+    <hr class="my-hr">
     <div class="list"> 
       <template>
         <v-simple-table
@@ -30,10 +30,10 @@
                 v-for="rank in rankList"
                 :key="rank.rank"
               >
-                <td style="width: 10vh; font-size: 2vh; text-align: center; vertical-align: middle;">{{ rank.rank }}</td>
-                <td style="width: 4vw; padding-right: 0px;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
-                <td style="font-size: 2vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
-                <td style="font-size: 2vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.value }}</td>
+                <td style="width: 10vh; font-size: 1.7vh; text-align: center; vertical-align: middle; ">{{ rank.rank }}</td>
+                <td style="width: 4vw; padding-left: 0px; padding-right: 0px;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
+                <td style="width: 11vh; font-size: 1.7vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
+                <td style="font-size: 1.7vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.value }}</td>
               </tr>
             </tbody>
           </template>
@@ -41,11 +41,11 @@
       </template>
     </div>
     <div class="me transparent white--text"> 
-      <div style="font-size: 2vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
-      <div style="font-size: 2vh; text-align: center;" v-else>-</div>
+      <div style="font-size: 1.7vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
+      <div style="font-size: 1.7vh; text-align: center;" v-else>-</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
-      <div style="font-size: 2vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
-      <div style="font-size: 2vh; padding: 0px; text-align: center;">{{ myRank.value }}</div>
+      <div style="font-size: 1.7vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
+      <div style="font-size: 1.7vh; padding: 0px; text-align: center;">{{ myRank.value }}</div>
     </div>
   </v-card>
 </template>
@@ -165,13 +165,13 @@ export default {
     border-bottom-right-radius: 20px;
 }
 
-hr {
+.my-hr {
   position: absolute;
   width: 22vw;
-  height: 0.5px;
   left: 4vw;
   bottom: 46vh;
-  border: none;
+  height: 2px;
+  border: 0;
   background-color:white;
 }
 
@@ -204,18 +204,18 @@ tr:hover {
 
 #rank {
   position: absolute;
-  width: 60%;
-  height: 30%;
-  left: 6.5vw;
-  bottom: 46vh;
+  width: 65%;
+  height: 35%;
+  left: 5.5vw;
+  bottom: 44.5vh;
 }
 
 .first {
   position: absolute;
-  width: 4vw;
-  height: 6.5vw;
-  top: 1vh;
-  left: 13.2vw;
+  width: 4.8vw;
+  height: 7.8vw;
+  top: 0.5vh;
+  left: 12.5vw;
   /* transform: translate(-50%, -243%); */
   text-align: center;
   /* background-color: yellow; */
@@ -226,10 +226,10 @@ tr:hover {
 
 .second {
   position: absolute;
-  width: 4vw;
-  height: 6.5vw;
-  top: 4.2vh;
-  left: 9.2vw;
+  width: 4.8vw;
+  height: 7.8vw;
+  top: 4vh;
+  left: 7.5vw;
   margin:0 auto;
   text-align: center;
   /* transform: translate(-190%, -300%); */
@@ -238,10 +238,10 @@ tr:hover {
 
 .third {
   position: absolute;
-  width: 4vw;
-  height: 6.5vw;
-  top: 5.5vh;
-  left: 17.2vw;
+  width: 4.8vw;
+  height: 7.8vw;
+  top: 5vh;
+  left: 17.5vw;
   margin:0 auto;
   text-align: center;
   /* transform: translate(-190%, -300%); */
@@ -269,8 +269,8 @@ tr:hover {
 
 .myImg {
   position: absolute;
-  width: 3.5vw;
-  height: 3.5vw;
+  width: 4.2vw;
+  height: 4.2vw;
   object-fit: cover;
   border-radius: 70%;
   top: 50%;
@@ -283,7 +283,7 @@ tr:hover {
   /* top: 50%; */
   /* left: 50%; */
   width: 100%;
-  bottom: 5px;
+  bottom: 7px;
   left: 0px;
   /* transform: translate(50%, 125%); */
   font-weight: bold;
@@ -311,11 +311,10 @@ tr:hover {
   display: flex;
   position: absolute;
   width: 22vw;
-  height: 8vh;
+  height: 7vh;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 350%);
-  display: flex;
+  transform: translate(-50%, 398%);
   /* justify-content: center; */
   align-items: center;
   justify-content: space-evenly;

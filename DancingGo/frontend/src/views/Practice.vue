@@ -100,45 +100,48 @@
       </div>
 
       <!-- 진행도 빠 -->
-      <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)" style="height: 4px; background-color: white;">
-        <div ref="progressBar" id="progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-
-      <!-- 버튼 빠 -->
-      <div id="bottom-box">
-        <div id="button-box">
-          <i ref="play" class="txt fas fa-play mx-4 fs-3 play-menu" style="color: white;" @click="countdown"></i>
-          <i ref="pause" class="txt fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
-          <div @click="repeatCheck" class="txt ms-4">
-            <span ref="A" style="color: rgb(150,150,150);">A</span>
-            <span ref="B" style="color: rgb(150,150,150)">B</span>
-          </div>
-          <div class="txt btn-group dropend ms-3">
-            <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              반복 횟수 
-            </button> -->
-            <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-if="this.isKorean">반복 횟수 : </div>
-            <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-else>repeat : </div>
-            <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
-            <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
-            <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
-            <i class="fas fa-caret-right fa-3x" style="color: white;" @click="plus"></i>
-            <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
-              <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
-            </div> -->
-          </div>
+      <div>
+        <div class="progress mt-5 mx-3" id="progress" ref="progress" @click="changePosition($event)" style="height: 4px; background-color: white;">
+          <div ref="progressBar" id="progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div id="time-box" class="txt" style='color: white'>
-          <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
-            <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
-            <div style="width: 32px">
-              <i class="fas fa-volume-mute fs-3" style='color: white' v-if="this.volume == 0 || isMute" @click="unmute"></i>
-              <i class="fas fa-volume-up fs-3" style='color: white' v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
-              <i class="fas fa-volume-down fs-3" style='color: white' v-else-if="!isMute" @click="mute"></i>
+
+        <!-- 버튼 빠 -->
+        <div id="bottom-box">
+          <div id="button-box">
+            <i ref="play" class="txt fas fa-play mx-4 fs-3 play-menu" style="color: white;" @click="countdown"></i>
+            <i ref="pause" class="txt fas fa-pause fs-3 play-menu" @click="pauseVideo" style="color: crimson"></i>
+            <div @click="repeatCheck" class="txt ms-4">
+              <span ref="A" style="color: rgb(150,150,150);">A</span>
+              <span ref="B" style="color: rgb(150,150,150)">B</span>
+            </div>
+            <div class="txt btn-group dropend ms-3">
+              <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                반복 횟수 
+              </button> -->
+              <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-if="this.isKorean">반복 횟수 : </div>
+              <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-else>repeat : </div>
+              <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
+              <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
+              <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
+              <i class="fas fa-caret-right fa-3x" style="color: white;" @click="plus"></i>
+              <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
+                <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
+              </div> -->
             </div>
           </div>
-          {{ nowTime }} / {{ endTime }}
+          <div id="time-box" class="txt" style='color: white'>
+            <div id="volume-box" class="mx-4 d-flex" @mouseover="onVolumeControl" @mouseleave="offVolumeControl">
+              <input type="range" style="background-color: red;" min="0" max="100" :value="volume" id="volume" class="me-3" v-if="isVolumeControl" @mousemove="changeVolume" ref="volume">
+              <div style="width: 32px">
+                <i class="fas fa-volume-mute fs-3" style='color: white' v-if="this.volume == 0 || isMute" @click="unmute"></i>
+                <i class="fas fa-volume-up fs-3" style='color: white' v-else-if="this.volume >= 50 && !isMute" @click="mute"></i>
+                <i class="fas fa-volume-down fs-3" style='color: white' v-else-if="!isMute" @click="mute"></i>
+              </div>
+            </div>
+            {{ nowTime }} / {{ endTime }}
+          </div>
         </div>
+
       </div>
     </div>
     <Feedback ref="feedback" v-if="this.feedbackVisible" :feedbackData="feedbackData" id="feedback-modal"
@@ -372,10 +375,9 @@ export default {
         this.playVideo()
       }
     },
-    makeFeedback(videoImage, webcamImage, videoSkeleton, webcamSkeleton) {
-      var feedbackTime = parseInt(this.$refs.video.currentTime)
+    makeFeedback(videoImage, webcamImage, videoSkeleton, webcamSkeleton, feedbackTime) {
       this.feedbacks.push([feedbackTime, this.nowTime, 
-      videoImage, webcamImage , 
+      videoImage, webcamImage, 
       videoSkeleton, webcamSkeleton])
     },
     saveFeedback(feedback) {
@@ -401,6 +403,7 @@ export default {
     },
     //posenet 핵심 기능
     dancingGo() {
+      var feedbackTime = parseInt(this.$refs.video.currentTime)
       var video = this.$refs.video
       var videoCanvas = this.$refs.videoCanvas
       var webcam = this.$refs.webcam
@@ -414,7 +417,7 @@ export default {
         var webcamPoints = res[1]
         var videoVectors = this.getVideoVector(videoPoints)
         var webcamVectors = this.getCamVector(webcamPoints, videoVectors)
-        this.makeFeedback(videoImages[0], webcamImage, videoVectors, webcamVectors)
+        this.makeFeedback(videoImages[0], webcamImage, videoVectors, webcamVectors, feedbackTime)
       })
     },
     videoCapture(video, canvas) {
@@ -566,6 +569,11 @@ export default {
 
 #container {
   position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 #navbar {

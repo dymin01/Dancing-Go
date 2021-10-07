@@ -26,7 +26,7 @@
                                     <img :src=userProfile style="max-width:55px">
                                 </div>
                             </v-col>
-                            <v-col cols="6" class="d-flex align-center text pr-10" style="padding-left: 0px; font-size: 16px; justify-content: space-between;">
+                            <v-col cols="6" class="d-flex align-center text pr-6" style="padding-left: 0px; font-size: 16px; justify-content: space-between;">
                                 <!-- {{ changeNickname }} -->
                                 <div style="width: 96px; text-align: center" >{{user.userNickname}}</div>
                                 <button @click="openEdit($event)" class="modifyBtn"><i class="fas fa-pencil-alt" style="font-size:13px; width: 13px; height: 13px;"></i></button>
@@ -39,10 +39,10 @@
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
                                 <img id="profile" src="images/mypage/rank.png" style="max-width:70px">
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;" v-if="checkMinus(userRank)">
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-6" style="padding-left: 0px; font-size: 20px;" v-if="checkMinus(userRank)">
                                 {{userRank}}
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;" v-else>
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-6" style="padding-left: 0px; font-size: 20px;" v-else>
                                 -
                             </v-col>
                         </v-row>
@@ -53,7 +53,7 @@
                             <v-col cols="6" class="d-flex justify-center align-center pl-5" v-else>
                                 Weekly Score
                             </v-col>
-                            <v-col cols="6" class="d-flex justify-center align-center text pr-10" style="padding-left: 0px; font-size: 20px;">
+                            <v-col cols="6" class="d-flex justify-center align-center text pr-6" style="padding-left: 0px; font-size: 20px;">
                                 {{userTotalscore}}
                             </v-col>
                         </v-row>
