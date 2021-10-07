@@ -103,7 +103,14 @@ export default {
             console.log(this.userNickname);
             const nickname = this.userNickname;
             // console.log(this.$store.state.account.user.userId)
-            
+            if(nickname.length > 6){
+                if(this.isKorean){
+                    alert('닉네임은 6자까지 입력 가능합니다.')
+                }else{
+                    alert('Nicknames can contain up to 6 characters.')
+                }
+            }else{
+
             http.get("/user/nickname/"+nickname)
             .then((res) => {
                 console.log("있나 없나?")
@@ -134,6 +141,7 @@ export default {
                     // alert("중복된 닉네임입니다.")
                 }
             })
+        }
         },
         closeModal(){
             console.log("모달 닫기")
