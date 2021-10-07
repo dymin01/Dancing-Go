@@ -75,6 +75,7 @@ export default {
   position: absolute;
   bottom: 15vh;
   overflow: visible;
+  /* font-family: 'Do Hyeon', sans-serif; */
 }
 .slide {
   box-shadow: 0 0 20px white;
@@ -87,8 +88,11 @@ export default {
   position: absolute;
   top: 70%;
   left: 50%;
-  transform: translate(-50%, 50%);
-  text-shadow: 0 0 20px purple;
+  transform: translate(-50%, 80%);
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: rgb(66, 0, 110);
+  text-shadow: 0 0 20px white;
   font-size: 30pt;
+  font-weight: bold;
 }
 </style>
