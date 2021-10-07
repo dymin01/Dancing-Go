@@ -38,10 +38,12 @@
     </div>
     <div v-show="this.menuVisible" id="rank-menu-box">
       <div class="rank-menu mr-5">
-        <div @click="retry">재도전</div>  
+        <div @click="retry" v-if="this.$store.getters.langMode=='한국어'">재도전</div>  
+        <div @click="retry" v-else>Retry</div>  
       </div>
       <div class="rank-menu ml-5">
-        <div @click="goHome">곡선택</div>
+        <div @click="goHome" v-if="this.$store.getters.langMode=='한국어'">곡선택</div>
+        <div @click="goHome" v-else>Song Select</div>
       </div>
     </div>
     <Snackbar :totalScore="totalScore"/>

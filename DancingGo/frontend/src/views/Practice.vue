@@ -12,8 +12,17 @@
           id="button"
           style="opacity: 80%;"
           @click="openModal"
+          v-if="this.$store.getters.langMode=='한국어'"
         >
           종료
+        </v-btn>
+        <v-btn
+          id="button"
+          style="opacity: 80%;"
+          @click="openModal"
+          v-else
+        >
+          QUIT
         </v-btn>
         <v-dialog
           v-model="isModalOpen"
@@ -28,17 +37,34 @@
             @clickO="exitDance"
             @clickX="closeModal"
           />
+          <Modal
+            v-else
+            :modalTitle="'Do you want to quit?'"
+            :modalContent="'Your progress is not saved'"
+            :buttonO="'Quit'"
+            :buttonX="'Cancel'"
+            @clickO="exitDance"
+            @clickX="closeModal"
+          />
         </v-dialog>
-        <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">피드백 확인</button>
+        <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" v-if="this.isKorean">피드백 확인</button>
+        <button :disabled="this.isPlaying" class="btn button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" v-else>Check Feedbacks</button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="background-color: rgba(43, 29, 59, 0.8); box-shadow: 0 0 7px black;">
           <div class="offcanvas-header px-5 align-items-center">
-            <h4 id="offcanvasRightLabel" class="pt-3" style="font-weight: bold; color: rgb(255, 255, 255)">피드백</h4>
+            <h4 id="offcanvasRightLabel" class="pt-3" style="font-weight: bold; color: rgb(255, 255, 255)" v-if="this.isKorean">피드백</h4>
+            <h4 id="offcanvasRightLabel" class="pt-3" style="font-weight: bold; color: rgb(255, 255, 255)" v-else>Feedback</h4>
             <button type="button" class="btn-close text-reset btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" ref="feedbackClose"></button>
           </div>
           <div class="offcanvas-body" id="offcanvas-body">
             <div id="offcanvas-button-box" class="d-flex justify-content-center" style="width: 100%">
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2">피드백 목록</button>
-              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3">보관함</button>
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
+              v-if="this.isKorean">피드백 목록</button>
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; margin-right: 11px; height: 125%" @click="showAllFeedback" id="feedback-box2"
+              v-else>All Feedback</button>
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
+              v-if="this.isKorean">보관함</button>
+              <button class="btn elevation-2" style="width: 40%; padding: 1px; height: 125%" @click="showSavedFeedback" id="feedback-box3"
+              v-else>Saved Feedback</button>
             </div>
             <div v-if="isTemporaryFeedback">
               <div v-for="(feedback, index) in feedbacks" v-bind:key="index">
@@ -91,7 +117,8 @@
             <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               반복 횟수 
             </button> -->
-            <div class="align-self-center mr-2" style="font-size:25px; color: white;">반복 횟수 : </div>
+            <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-if="this.isKorean">반복 횟수 : </div>
+            <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-else>repeat : </div>
             <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
             <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
             <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
@@ -178,6 +205,7 @@ export default {
       maxRepeatCount: 5,
       isCountdown: false,
       isModalOpen: false,
+      isKorean: true,
     }
   },
   methods: {
@@ -482,6 +510,11 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.getters.langMode=='한국어') {
+      this.isKorean = true
+    } else {
+      this.isKorean = false
+    }
     const songId = this.$route.params.songId
     localStorage.setItem('mode', 'Practice')
     localStorage.setItem('songId', songId)
