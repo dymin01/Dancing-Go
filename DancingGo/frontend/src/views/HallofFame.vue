@@ -36,10 +36,10 @@
                 v-for="rank in rankList"
                 :key="rank.rank"
               >
-                <td style="width: 10vh; font-size: 3vh; text-align: center; vertical-align: middle;">{{ rank.rank }}</td>
-                <td style="width: 4vw;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
-                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
-                <td style="font-size: 3vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.totalScore }}</td>
+                <td style="width: 12vh; font-size: 2.2vh; text-align: center; vertical-align: middle;">{{ rank.rank }}</td>
+                <td style="width: 4vw; padding-left: 0px;"><v-img class="listImg mt-2 mb-2" :src="getImg(rank)" /></td>
+                <td style="width: 19vh; font-size: 2.2vh; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.userNickname }}</td>
+                <td style="font-size: 2.2vh; padding-right: 10px; padding: 0px; text-align: center; vertical-align: middle;">{{ rank.totalScore }}</td>
               </tr>
             </tbody>
           </template>
@@ -47,11 +47,11 @@
       </template>
     </div>
     <div class="me white--text"> 
-      <div style="font-size: 3vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
-      <div style="font-size: 3vh; text-align: center;" v-else>-</div>
+      <div style="font-size: 2.2vh; text-align: center;" v-if="checkMinus(myRank.rank)">{{ myRank.rank }}</div>
+      <div style="font-size: 2.2vh; text-align: center;" v-else>-</div>
       <div><v-img class="listImg" :src="getImg(myRank)" /></div>
-      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
-      <div style="font-size: 3vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
+      <div style="font-size: 2.2vh; padding: 0px; text-align: center;">{{ myRank.userNickname }}</div>
+      <div style="font-size: 2.2vh; padding: 0px; text-align: center;">{{ myRank.totalScore }}</div>
     </div>
     <audio src="songs/halloffame.mp3" ref="backgroundSound"></audio>
   </div>
