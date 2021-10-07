@@ -109,7 +109,7 @@ import Countdown from '@/components/ranking/Countdown.vue'
 import Gameover from '@/components/ranking/Gameover.vue'
 import Modal from '@/components/Modal.vue'
 import axios from 'axios'
-
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {

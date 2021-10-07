@@ -162,7 +162,7 @@ import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
 import Modal from '@/components/Modal.vue'
 import axios from 'axios'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Feedback,

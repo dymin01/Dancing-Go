@@ -63,7 +63,7 @@ import ExitButton from '@/components/practice/ExitButton.vue'
 import Countdown from '@/components/ranking/Countdown.vue'
 import Gameover from '@/components/ranking/Gameover.vue'
 import axios from 'axios'
-
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
