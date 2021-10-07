@@ -2,8 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,windows
 
-*.caffemodel
-*.prototxt
+#*.caffemodel
+#*.prototxt
 
 ### Django ###
 *.log
