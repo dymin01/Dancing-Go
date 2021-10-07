@@ -11,20 +11,13 @@ pipeline{
                 sh 'docker build -t frontend:latest /var/jenkins_home/workspace/DancingGo/DancingGo/frontend'
             }
         }
-        stage('ai-build'){
-            steps{
-                sh 'docker build -t aiback:latest /var/jenkins_home/workspace/DancingGo/DancingGo/AI'
-            }
-        }
         stage('docker-run'){
             steps{
                 sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
                 sh 'docker ps -f name=backend -q | xargs --no-run-if-empty docker container stop'
-                sh 'docker ps -f name=aiback -q | xargs --no-run-if-empty docker container stop'
 
                 sh 'docker container ls -a -f name=frontend -q | xargs -r docker container rm'
                 sh 'docker container ls -a -f name=backend -q | xargs -r docker container rm'
-                sh 'docker container ls -a -f name=aiback -q | xargs -r docker container rm'
 
                 sh 'docker images -f dangling=true && docker rmi -f $(docker images -f dangling=true -q)' 
 
@@ -39,11 +32,6 @@ pipeline{
                 -p 8080:8080 \
                 --network dancinggonetwork \
                 backend:latest'
-
-                sh 'docker run -d --name aiback \
-                -p 8000:8000 \
-                --network dancinggonetwork \
-                aiback:latest'
             }
         }
     }
