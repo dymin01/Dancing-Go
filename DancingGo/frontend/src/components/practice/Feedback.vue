@@ -1,7 +1,42 @@
 <template>
   <div id="feedback-modal" class="d-flex flex-column justify-content-between" style="box-shadow: 0 0 50px gray">
     <div class="d-flex justify-content-between align-items-center p-4" style="border-bottom: 1px solid rgb(100, 100, 100); position: relative;">
-      <div style="font-size: 30px; font-weight: bold; color: orange">feedback</div>
+      <div class="d-flex align-items-center">
+        <div style="font-size: 30px; font-weight: bold; color: orange" v-if="this.isKorean">피드백</div>
+        <div style="font-size: 30px; font-weight: bold; color: orange" v-else>Feedback</div>
+        <v-tooltip right>
+          <template v-slot:activator="{ on, attrs }">
+            <i v-bind="attrs" v-on="on" class="fas fa-info-circle" style="font-size: 25px; color: white; margin-left: 30px; text-shadow: 0 0 10px rgb(255, 102, 0);"></i>
+          </template>
+          <div class="d-flex">
+            <div class="d-flex align-items-center mx-3">
+              <div style="width: 15px; height: 15px; background: green; margin-right: 5px; border-radius: 70%; border: solid black 1px;"></div>
+              <div v-if="this.isKorean">정확함</div>
+              <div v-else>Correct</div>
+            </div>|
+            <div class="d-flex align-items-center mx-3">
+              <div style="width: 15px; height: 15px; background: yellow; margin-right: 5px; border-radius: 70%; border: solid black 1px;"></div>
+              <div v-if="this.isKorean">비슷함</div>
+              <div v-else>Similar</div>
+            </div>|
+            <div class="d-flex align-items-center mx-3">
+              <div style="width: 15px; height: 15px; background: orange; margin-right: 5px; border-radius: 70%; border: solid black 1px;"></div>
+              <div v-if="this.isKorean">조금 틀림</div>
+              <div v-else>Bad</div>
+            </div>|
+            <div class="d-flex align-items-center mx-3">
+              <div style="width: 15px; height: 15px; background: red; margin-right: 5px; border-radius: 70%; border: solid black 1px;"></div>
+              <div v-if="this.isKorean">틀림</div>
+              <div v-else>Wrong</div>
+            </div>|
+            <div class="d-flex align-items-center mx-3">
+              <div style="width: 15px; height: 15px; background: gray; margin-right: 5px; border-radius: 70%; border: solid black 1px;"></div>
+              <div v-if="this.isKorean">미인식</div>
+              <div v-else>Not Identified</div>
+            </div>
+          </div>
+        </v-tooltip>
+      </div>
       <button type="button" class="btn-close text-reset" aria-label="Close" @click="$emit('closeFeedback')"></button>
     </div>
     <div class="d-flex justify-content-around p-4">
@@ -9,18 +44,8 @@
       <WebcamSkeletonShape :angles="this.angles" class="elevation-5" />
       <img :src="feedbackData[3]" style="transform: scaleX(-1);" alt="" id="feedback-webcam" class="elevation-5">
     </div>
-    <!-- <div class="p-5 d-flex justify-content-between" style="border-top: 1px solid rgb(100, 100, 100);">
-      <div>
-        틀린 부위: {{ this.fail }}
-      </div>
-    </div> -->
-    <button class="btn" style="background: orange; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')">확인하기</button>
-    <!-- <div class="p-5 d-flex justify-content-between" style="border-top: 1px solid rgb(100, 100, 100);">
-      <div>
-        틀린 부위: {{ this.fail }}
-      </div>
-        <button class="btn" style="background: purple; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')">확인하기</button>
-    </div> -->
+    <button class="btn" style="background: orange; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')" v-if="this.isKorean" >확인하기</button>
+    <button class="btn" style="background: orange; color: white; font-weight: bold; padding: 10px" @click="$emit('moveFeedback')" v-else >Check</button>
   </div>
 </template>
 
@@ -36,6 +61,8 @@ export default {
       notSeeing: [],
       fail: [],
       angles: [],  
+      isKorean: true,
+
     }
   },
   props: {
@@ -75,6 +102,11 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.getters.langMode=='한국어') {
+      this.isKorean = true
+    } else {
+      this.isKorean = false
+    }
     const videoSkeleton = this.feedbackData[4]
     const camSkeleton = this.feedbackData[5]
     const fail = []
