@@ -6,14 +6,14 @@
       <div class="socal_login_container d-flex">
           <div v-for="social in socials" :key="social.id" class="mx-3">
             <a class="social_btn" :href="socialLoginUrl(social.socialType)">
-              <img class="social_login" :src="social.src" :style="{width: social.width, height: social.height}"/>
+              <img class="social_login shadowEffect" :src="social.src" :style="{width: social.width, height: social.height}"/>
             </a>
           </div>
       </div>
       <!-- 소셜로그인 없이 홈페이지 접속용 -->
-      <router-link :to="{name: 'Home'}" exact>
+      <!-- <router-link :to="{name: 'Home'}" exact>
         <v-img id="loginBtn" class="shadowEffect" src="images/main/google_btn.png"></v-img>
-      </router-link>
+      </router-link> -->
       <!-- <v-img id="loginBtn" class="shadowEffect" src="images/main/kakao_btn.png"></v-img> -->
     </div>
   </div>
@@ -36,7 +36,8 @@ export default {
       socials: [
         {
           socialType: 'google',
-          src: $.getSocialImage('google'),
+          // src: $.getSocialImage('google'),
+          src: 'images/main/google_btn.png',
           width: '50px',
           height: '50px',
           comment: '구글 로그인'
@@ -123,8 +124,9 @@ export default {
 }
 #loginBox {
   position: absolute;
-  left: 45vw;
-  bottom: 22vh;
+  left: 50%;
+  top: 65%;
+  transform: translate(-50%, 90%);
 }
 #loginBtn {
   width: 60px;

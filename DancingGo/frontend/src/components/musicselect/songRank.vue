@@ -212,10 +212,10 @@ tr:hover {
 
 .first {
   position: absolute;
-  width: 3.5vw;
+  width: 4vw;
   height: 6.5vw;
   top: 1vh;
-  left: 13.5vw;
+  left: 13.2vw;
   /* transform: translate(-50%, -243%); */
   text-align: center;
   /* background-color: yellow; */
@@ -226,10 +226,10 @@ tr:hover {
 
 .second {
   position: absolute;
-  width: 3.5vw;
+  width: 4vw;
   height: 6.5vw;
   top: 4.2vh;
-  left: 9.5vw;
+  left: 9.2vw;
   margin:0 auto;
   text-align: center;
   /* transform: translate(-190%, -300%); */
@@ -238,10 +238,10 @@ tr:hover {
 
 .third {
   position: absolute;
-  width: 3.5vw;
+  width: 4vw;
   height: 6.5vw;
   top: 5.5vh;
-  left: 17.5vw;
+  left: 17.2vw;
   margin:0 auto;
   text-align: center;
   /* transform: translate(-190%, -300%); */

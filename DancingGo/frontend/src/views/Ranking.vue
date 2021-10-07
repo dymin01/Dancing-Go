@@ -11,8 +11,17 @@
           id="button"
           style="opacity: 80%;"
           @click="openModal"
+          v-if="this.$store.getters.langMode=='한국어'"
         >
           종료
+        </v-btn>
+        <v-btn
+          id="button"
+          style="opacity: 80%;"
+          @click="openModal"
+          v-else
+        >
+          QUIT
         </v-btn>
         <v-dialog
           v-model="isModalOpen"
@@ -24,6 +33,15 @@
             :modalContent="'진행상황은 저장되지 않습니다.'"
             :buttonO="'종료'"
             :buttonX="'취소'"
+            @clickO="exitDance"
+            @clickX="closeModal"
+          />
+          <Modal
+            v-else
+            :modalTitle="'Do you want to quit?'"
+            :modalContent="'Your progress is not saved'"
+            :buttonO="'Quit'"
+            :buttonX="'Cancel'"
             @clickO="exitDance"
             @clickX="closeModal"
           />
@@ -302,7 +320,7 @@ export default {
           }
         }
       }
-      if (notSeeingCount > 3) {
+      if (notSeeingCount > 2) {
         console.log('notSeeing')
         frameScore = 0
       }
@@ -349,7 +367,7 @@ export default {
         this.scores[4] += 1
         this.$refs.scoreText.style = this.scoreShadow[this.frameScore]
         this.combo = 0
-        health -= 5
+        health -= 15
       }
       if (this.combo > this.maxcombo) {
         this.maxcombo = this.combo

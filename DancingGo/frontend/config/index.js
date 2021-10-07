@@ -14,7 +14,7 @@ module.exports = {
 
     // Various Dev Server settings
     //로컬용
-    //host: 'localhost', // can be overwritten by process.env.HOST
+    // host: 'localhost', // can be overwritten by process.env.HOST
 
     //서버용
     host: 'j5a105.p.ssafy.io',

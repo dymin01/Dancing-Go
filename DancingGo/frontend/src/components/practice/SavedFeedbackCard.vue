@@ -5,7 +5,7 @@
       <div class="d-flex" style="width: 80px;">
 
       </div>
-      <div style="font-weight: bold;">{{ feedback[1] }}</div>
+      <div style="font-weight: bold; color: #eee; text-shadow: 0 0 10px purple;">{{ feedback[1] }}</div>
       <div class="d-flex justify-content-end" style="width: 80px;">
         <i class="fas fa-trash-alt ms-5" style="font-size: 18px" @click="$emit('deleteSavedFeedback')"></i>
       </div>
@@ -52,6 +52,7 @@ export default {
   margin-bottom: 10px;
   overflow: hidden;
   object-fit: cover;
+  box-shadow: 0 0 5px white;
 }
 
 #feedback-preview-box:hover {
@@ -62,5 +63,10 @@ export default {
   display: flex;
   width: 300px;
   justify-content: space-between;
+}
+
+i {
+  color: whitesmoke;
+  text-shadow: 0 0 10px purple;
 }
 </style>

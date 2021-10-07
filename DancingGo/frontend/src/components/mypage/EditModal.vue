@@ -2,7 +2,8 @@
     <v-card class="px-5, py-5" id="mypage">
       <div class="d-flex justify-content-center py-3">
           <v-card-title class="text">
-              <span clss="text-h4 title">닉네임 수정</span>
+              <span clss="text-h4 title" v-if="this.isKorean">닉네임 수정</span>
+              <span clss="text-h4 title" v-else>Edit Nickname</span>
           </v-card-title>
       </div>
       <v-form>
@@ -12,16 +13,26 @@
                   </v-col>
                   <v-col cols="9">
                       <v-text-field
+                      v-if="this.isKorean"
                       v-model="userNickname"
                       label="닉네임"
                       required
                       color="#E3F2FD"
                       dark
                       ></v-text-field>
+                      <v-text-field
+                      v-else
+                      v-model="userNickname"
+                      label="Nickname"
+                      required
+                      color="#E3F2FD"
+                      dark
+                      ></v-text-field>
                   </v-col>
 
-                  <v-col cols="2">
-                      <button @click="changeNickname" class="text">수정</button>
+                  <v-col cols="2" style="padding-top: 28px">
+                      <button @click="changeNickname" class="text" v-if="this.isKorean">수정</button>
+                      <button @click="changeNickname" class="text" v-else>Edit</button>
                   </v-col>
               </v-row>
           </v-container>
@@ -30,9 +41,17 @@
         v-model="isOverlap"
         max-width="350px">
         <Modal1btn
+            v-if="this.isKorean"
             :modalTitle="'알림'"
             :modalContent="'중복된 닉네임 입니다.'"
             :buttonO="'확인'"
+            @clickO="closeOneModal"
+         />
+        <Modal1btn
+            v-else
+            :modalTitle="'Alert'"
+            :modalContent="'This nickname is already in use.'"
+            :buttonO="'Close'"
             @clickO="closeOneModal"
          />
     </v-dialog>
@@ -59,7 +78,15 @@ export default {
         return{
             userNickname:'',
             isOverlap:false,
-            isOkNickname:false
+            isOkNickname:false,
+            isKorean: true,
+        }
+    },
+    mounted() {
+        if (this.$store.getters.langMode=='한국어') {
+        this.isKorean = true
+        } else {
+        this.isKorean = false
         }
     },
     components:{
