@@ -9,12 +9,12 @@
       content-class="badgeSnackbar"
       color="rgba(43, 29, 59, 0.8)"
     >
-      <span v-if="this.$store.getters.langMode=='한국어'" class="badgeText mt-2 mb-2">🎉축하합니다!🎉</span>
-      <span v-else class="badgeText mt-2 mb-2">🎉Congratulations!🎉</span>
+      <span v-if="this.$store.getters.langMode=='한국어'" class="badgeText mt-5 mb-2">🎉축하합니다!🎉</span>
+      <span v-else class="badgeText mt-5 mb-2">🎉Congratulations!🎉</span>
       <span v-if="this.$store.getters.langMode=='한국어'" class="badgeText mb-5">뱃지를 획득했습니다!</span>
       <span v-else class="badgeText mb-5">You've got a badge!</span>
 
-      <img class="badge mb-2" style="opacity:1;" :src="badge">
+      <img class="badgeImg mb-2" style="opacity:1;" :src="badgeImg">
       <span v-if="this.$store.getters.langMode=='한국어'" class="badgeName mt-4">{{ badgeNameKor }}</span>
       <span class="badgeName mt-4">{{ badgeNameEng }}</span>
       <span v-if="this.$store.getters.langMode=='한국어'" class="badgeCondition mt-2">{{ badgeConditionKor }}</span>
@@ -55,7 +55,7 @@ export default {
       badgeNameEng: '',
       badgeConditionKor: '',
       badgeConditionEng: '',
-      badge: '',
+      badgeImg: '',
       badgelist:[],
       //--- snackbar 부분 ---
       
@@ -275,7 +275,7 @@ export default {
   width: 450px;
 }
 
-.badge {
+.badgeImg {
   width: 160px;
 }
 

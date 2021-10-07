@@ -28,7 +28,7 @@
                             <!-- <v-col cols="2" class="d-flex justify-start align-center" style="padding: 0px;">
                                 <button @click="openEdit($event)" class="">수정</button>
                             </v-col> -->
-                            <button @click="openEdit($event)" class="modifyBtn"><i class="fas fa-pencil-alt" style="font-size:13px;"></i></button>
+                            <button @click="openEdit($event)" class="modifyBtn"><i class="fas fa-pencil-alt" style="font-size:13px; width: 13px; height: 13px;"></i></button>
                         </v-row>
                         <v-row>
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
@@ -180,7 +180,7 @@ export default {
 }
 
 .wrapper {
-    padding: 0px;
+    padding: 0px 12px;
 }
 
 .background {
@@ -213,8 +213,11 @@ export default {
 
 .modifyBtn {
     position: absolute;
+    width: 13px; 
+    height: 13px; 
+    padding: 0px;
     top: 28.8vh;
-    left: -2.6vw;
+    left: 18vw;
     font-size: 10px;
     color: white;
 }
