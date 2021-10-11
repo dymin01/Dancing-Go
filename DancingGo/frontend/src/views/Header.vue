@@ -1,5 +1,4 @@
 <template>
-  <!-- <div id="header" class="d-flex justify-end m-3 pe-4"> -->
   <div id="header" class="d-flex m-3 pe-4" style="z-index:100;">
     <div v-if="isHome" style="float:left;">
       <i id="icon" class="fas fa-chevron-left"  @click="goBack"></i>
@@ -76,8 +75,6 @@ export default {
       this.$refs.selecteffect.volume = val
     },
     $route(to, from){
-      console.log("from " + from.path)
-      console.log("to " + to.path)
       if(to.path.includes('home')){
         this.isHome = false
       }else{
@@ -90,7 +87,6 @@ export default {
     logout () {
       this.setToken(null)
       this.setUser(null)
-      // alert('로그아웃되었습니다.')
       if (this.$route.path !== '/') this.$router.push('/')
     },
     openMypage(){
@@ -111,7 +107,6 @@ export default {
     },
     onToggle (active) {
       this.$refs.selecteffect.play()
-      // console.log(active)
       this.isHamburgerOpen = active
     },
     goBack () {

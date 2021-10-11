@@ -117,7 +117,6 @@ export default {
       http
         .post('/score/findMyScore/', body)
         .then((res) => {
-          console.log(res.data);
           this.myRank.value = res.data.value
           this.myRank.rank = res.data.rank
           this.myRank.userNickname = this.user.userNickname
@@ -133,7 +132,6 @@ export default {
         http
           .get('/score/songRank/'+this.songId)
           .then((res) => {
-            console.log(this.songId)
             this.rankList = res.data.slice(3, res.data.length);
             this.firstRank = res.data[0]
             this.secondRank = res.data[1]
@@ -142,7 +140,6 @@ export default {
         http
           .post('/score/findMyScore/', body)
           .then((res) => {
-            console.log(res.data);
             this.myRank.value = res.data.value
             this.myRank.rank = res.data.rank
             this.myRank.userNickname = this.user.userNickname
@@ -178,7 +175,6 @@ export default {
 #rankBoard {
   position: absolute;
   background-color: rgba( 0, 0, 0, 0.8 );
-  /* background-color: rgba( 255, 255, 255, 0.1 ); */
   color:white;
   width: 30vw;
   height: 75vh;
@@ -216,11 +212,7 @@ tr:hover {
   height: 7.8vw;
   top: 0.5vh;
   left: 12.5vw;
-  /* transform: translate(-50%, -243%); */
   text-align: center;
-  /* background-color: yellow; */
-  /* 가득차게 */
-  /* overflow:hidden; */
   margin:0 auto;
 }
 
@@ -232,8 +224,6 @@ tr:hover {
   left: 7.5vw;
   margin:0 auto;
   text-align: center;
-  /* transform: translate(-190%, -300%); */
-  /* background-color: yellow; */
 }
 
 .third {
@@ -244,8 +234,6 @@ tr:hover {
   left: 17.5vw;
   margin:0 auto;
   text-align: center;
-  /* transform: translate(-190%, -300%); */
-  /* background-color: yellow; */
 }
 
 .myScore {
@@ -280,12 +268,9 @@ tr:hover {
 
 .myName {
   position: absolute;
-  /* top: 50%; */
-  /* left: 50%; */
   width: 100%;
   bottom: 7px;
   left: 0px;
-  /* transform: translate(50%, 125%); */
   font-weight: bold;
   font-size: 0.5vw;
   color: white;
@@ -302,7 +287,6 @@ tr:hover {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
-  /* background-color: red; */
     background-color: rgba( 255, 255, 255, 0.1 );
   border-radius: 40px;
 }
@@ -315,7 +299,6 @@ tr:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 398%);
-  /* justify-content: center; */
   align-items: center;
   justify-content: space-evenly;
   color: #fff;

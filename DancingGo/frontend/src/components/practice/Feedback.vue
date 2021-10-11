@@ -78,7 +78,6 @@ export default {
       const fail = []
       const angles = []
       for (let i=0; i < Object.keys(this.vectorNames).length; i++) {
-        console.log(i)
         if (videoSkeleton[i] != null) {
           if (camSkeleton[i] != null) {
             const x1 = videoSkeleton[i][0]
@@ -112,7 +111,6 @@ export default {
     const fail = []
     const angles = []
     for (let i=0; i < Object.keys(this.vectorNames).length; i++) {
-      console.log(i)
       if (videoSkeleton[i] != null) {
         if (camSkeleton[i] != null) {
           const x1 = videoSkeleton[i][0]

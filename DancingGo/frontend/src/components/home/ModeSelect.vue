@@ -31,7 +31,6 @@
 <script>
 import { Carousel3d, Slide } from 'vue-carousel-3d'
 import router from '@/router/index.js'
-// import { mapGetters } from 'vuex'
 export default {
   name: 'ModeSelect',
   components: {
@@ -39,16 +38,13 @@ export default {
     Slide,
   },
   computed:{
-    // ...mapGetters(['effectVolume']),
     changeEffect () {
       return this.$store.getters.effectVolume*(0.01)
     },
   },
   watch:{
     changeEffect (val) {
-      // console.log(val)
       this.$refs.selecteffect.volume = val
-      console.log(this.$refs.selecteffect.volume)
     },
   },
   methods: {
@@ -75,7 +71,6 @@ export default {
   position: absolute;
   bottom: 15vh;
   overflow: visible;
-  /* font-family: 'Do Hyeon', sans-serif; */
 }
 .slide {
   box-shadow: 0 0 20px white;

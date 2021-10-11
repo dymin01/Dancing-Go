@@ -35,7 +35,6 @@ import { mapGetters } from 'vuex'
 import http from '@/http.js'
 export default {
   props:{
-    // snackbar: Boolean,
     gameover: {
       type: Number,
     },
@@ -48,7 +47,6 @@ export default {
       snackbar: false,
       userInfo: {},
       badgeInfo: [],
-      // gameover: false,
       userNickname:'',
       badgeNum: '',
       badgeNameKor: '',
@@ -75,7 +73,6 @@ export default {
   watch: {
     cnt (val) {
       if (val === this.badgelist.length) {
-        // console.log('abcd', this.badgelist.length, val)
         this.goEmit()
       }
     }
@@ -85,18 +82,11 @@ export default {
     .then((res)=>{
       this.userInfo = res.data
       this.userNickname = res.data.userNickname
-      // console.log('닉네임 : '+ this.userNickname)
 
       this.checkBadge();
     })
   },
   methods:{
-    // gameOver(){
-    //   http.get("/user/gameover/"+this.userNickname)
-    //   .then(()=>{
-    //     this.gameover=true
-    //   })
-    // },
     // checkBadge() > getBadge(addChellenge(), addBadgeList()) > showBadge()
     checkBadge(){
       http.get("/challenge/onlyMyBadge/"+ this.userNickname)
@@ -104,10 +94,7 @@ export default {
         this.badgeInfo = res.data
       })
 
-      // const gameoverCnt = this.userInfo.gameoverCnt+1 //mounted
       const totalPlayCnt = this.userInfo.totalPlayCnt //mounted
-      // console.log('gameover', gameoverCnt)
-      // this.gameOver() // GAMEOVER method
 
       // 획득 조건 판단 후 badgelist에 {bNumber:번호(Number), bNameKor:한글뱃지이름(String), bNameEng:영어뱃지이름(String)} push
       setTimeout(function(){
@@ -115,30 +102,19 @@ export default {
       }.bind(this),100)
 
       // badgelist에 담긴 획득한 뱃지를 순차적으로 보여줌
-      // if (this.badgelist.length === 0) {
-      //   console.log('뱃지 없음')
-      //   this.$emit('snackbarfinished')
-      // }
       let i =0;
       var sT = setTimeout(function run(){
         if(i==this.badgelist.length){
-          // console.log('뱃지 없음')
           this.$emit('snackbarfinished')
           clearTimeout(sT)
         }else{
           this.showBadge(this.badgelist[i++])
           this.cnt ++
-          // console.log(this.cnt)
           setTimeout(run.bind(this),2000);
         }
       }.bind(this),2000)
-      // this.$emit('snackbarfinished')
-
-      // 담은 후 비워줘야하나? => 새로고침 해서 통신을 다시 하면 해결 가능 or 비워주기
-      // this.badgelist = [];
     },
     goEmit () {
-      // console.log('emit')
       this.$emit('snackbarfinished')
     },
     showBadge(badgelist){
@@ -149,7 +125,6 @@ export default {
         this.badgeConditionEng = badgelist.bConditionEng
         this.badgeImg = '/images/badge/'+badgelist.bNumber+'.png'
         this.snackbar = true
-        console.log('showBadge')
     },
 
     addChallenge(challengeAddReq){
@@ -218,7 +193,6 @@ export default {
           this.addBadgeList(1006,"앞으로 한명!","One to go!","2등안에 들어보세요!","ranked 2nd")
         }
         // 1007, top 1
-        console.log(res.data.rank) // 나 혼자인데 랭크가 2 나옴
         if(this.gameover!=1 && res.data.rank == 1 && !this.badgeInfo.includes(1007)){
           const challengeAddReq = {
             badgeId : 1007,

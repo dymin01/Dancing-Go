@@ -27,13 +27,9 @@
                                 </div>
                             </v-col>
                             <v-col cols="6" class="d-flex align-center text pr-6" style="padding-left: 0px; font-size: 16px; justify-content: space-between;">
-                                <!-- {{ changeNickname }} -->
                                 <div style="width: 96px; text-align: center" >{{user.userNickname}}</div>
                                 <button @click="openEdit($event)" class="modifyBtn"><i class="fas fa-pencil-alt" style="font-size:13px; width: 13px; height: 13px;"></i></button>
                             </v-col>
-                            <!-- <v-col cols="2" class="d-flex justify-start align-center" style="padding: 0px;">
-                                <button @click="openEdit($event)" class="">수정</button>
-                            </v-col> -->
                         </v-row>
                         <v-row>
                             <v-col cols="6" class="d-flex justify-center align-center pl-5">
@@ -118,7 +114,6 @@ export default {
         }
     },
     mounted: function() {
-        console.log(this.user)
         if (this.$store.getters.langMode=='한국어') {
             this.isKorean = true
         } else {
@@ -126,11 +121,9 @@ export default {
         }
         this.getUserInfo()
         setTimeout(this.getUserBadge, 100)
-        // this.getUserBadge()
         http.get('/badge/findAllBadgeList')
             .then((res) => {
                 this.allBadgeList = res.data
-                console.log(this.allBadgeList)
             })
             .catch((e) => {
                 console.log(e)
@@ -145,12 +138,9 @@ export default {
             this.isEditOpen = false
         },
         getUserInfo(){
-            console.log("함수 들어왔어요~")
             const userId = this.user.userId;
             http.get("/user/info/"+userId)
             .then((res) => {
-                console.log("유저")
-                console.log(res)
                 this.userNickname = res.data.userNickname
 
                 if(res.data.userImg == "" || res.data.userImg == null){
@@ -170,9 +160,7 @@ export default {
         getUserBadge(){
             http.get("/challenge/myBadge/"+this.userNickname)
             .then((res) => {
-                console.log("뱃지")
                 this.badgeList = res.data
-                console.log(this.badgeList)
             })
             .catch((e) => {
                 console.log(e)

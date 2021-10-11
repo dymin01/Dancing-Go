@@ -1,8 +1,6 @@
 <template>
   <div>
     <v-img id="background" src="images/home/hall2.jpg"></v-img>
-    <!-- <v-img id="background" src="images/HallofFame/HallofFame.png"></v-img> -->
-    <!-- <v-img id="Firecracker" src="images/HallofFame/Firecracker.png"></v-img> -->
     <div class="board"> 
 
     </div>
@@ -104,9 +102,7 @@ export default {
   },
   watch: {
     changeBg (val) {
-      console.log(val)
       this.$refs.backgroundSound.volume = val
-      console.log(this.$refs.backgroundSound.volume)
     },
   },
   mounted() {
@@ -122,7 +118,6 @@ export default {
       .get('/user/info/' + this.user.userId)
       .then((res) => {
         this.myRank = res.data
-        console.log(this.myRank)
     })
     this.$refs.backgroundSound.volume = this.$store.getters.backgroundVolume*(0.01)
     this.$refs.backgroundSound.play()
@@ -206,11 +201,7 @@ html::-webkit-scrollbar {
   height: 9vw;
   top: 8vh;
   left: 47vw;
-  /* transform: translate(-50%, -243%); */
   text-align: center;
-  /* background-color: yellow; */
-  /* 가득차게 */
-  /* overflow:hidden; */
   margin:0 auto;
 }
 
@@ -222,8 +213,6 @@ html::-webkit-scrollbar {
   left: 40.5vw;
   margin:0 auto;
   text-align: center;
-  /* transform: translate(-190%, -300%); */
-  /* background-color: yellow; */
 }
 
 .third {
@@ -234,8 +223,6 @@ html::-webkit-scrollbar {
   left: 53.5vw;
   margin:0 auto;
   text-align: center;
-  /* transform: translate(-190%, -300%); */
-  /* background-color: yellow; */
 }
 
 .myScore {
@@ -270,12 +257,9 @@ html::-webkit-scrollbar {
 
 .myName {
   position: absolute;
-  /* top: 50%; */
-  /* left: 50%; */
   width: 100%;
   bottom: 5px;
   left: 0px;
-  /* transform: translate(50%, 125%); */
   font-weight: bold;
   font-size: 0.8vw;
   color: white;
@@ -291,7 +275,6 @@ html::-webkit-scrollbar {
   color: #fff;
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
     0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
-    /* background-color: black; */
   background-color: rgba( 0, 0, 0, 0.8 );
   border-radius: 40px;
 }
@@ -305,12 +288,10 @@ html::-webkit-scrollbar {
   left: 50%;
   transform: translate(-50%, 387%);
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   justify-content: space-evenly;
   color: #fff;
   box-shadow: 0 0 7px #fff, 0 0 10px yellow, 0 0 21px yellow, 0 0 42px yellow;
-  /* background-color: rgba( 0, 0, 0, 0.8 ); */
   border-radius: 20px;
 }
 

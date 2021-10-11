@@ -28,8 +28,6 @@ export default {
   },
   watch:{
     $route(to, from){
-      console.log("from " + from.path)
-      console.log("to " + to.path)
       if (to.path === '/') {
       this.isheader = false
     }
@@ -47,7 +45,6 @@ export default {
   mounted () {
     const path = document.location.pathname
     this.path = path
-    console.log(path)
     if (path === '/') {
       this.isheader = false
     }

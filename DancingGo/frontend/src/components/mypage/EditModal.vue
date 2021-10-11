@@ -99,10 +99,7 @@ export default {
         ...mapMutations(['setUser']),
         changeNickname(){
             event.preventDefault()
-            console.log("닉네임 바꿀거야")
-            console.log(this.userNickname);
             const nickname = this.userNickname;
-            // console.log(this.$store.state.account.user.userId)
             if(nickname.length > 6){
                 if(this.isKorean){
                     alert('닉네임은 6자까지 입력 가능합니다.')
@@ -113,43 +110,30 @@ export default {
 
             http.get("/user/nickname/"+nickname)
             .then((res) => {
-                console.log("있나 없나?")
-                console.log(res);
                 const body = {
                     userNickname: this.userNickname,
                     userId: this.$store.state.account.user.userId,
                 }
                 if(res.data == false){
                     http.put("/user/nickname/", body)
-                    .then((res) => {
+                    .then(() => {
                         this.isOkNickname = true
-                        // alert("닉네임을 바꿨습니다.")
-                        console.log("바꿨습니다.")
-                        console.log(res)
                     })
                     
-                    //this.$emit("getUserInfo")
                     this.user.userNickname = nickname
                     this.setUser(this.user)
-                    // this.$store.state.account.user.userNickname = nickname
                     this.closeModal()
-                    // console.log("체크")
-                    // console.log(this.$store.state.account.user.userNickname)
                 }else{
                     this.isOverlap = true
-                    console.log("중복된 닉네임입니다.")
-                    // alert("중복된 닉네임입니다.")
                 }
             })
         }
         },
         closeModal(){
-            console.log("모달 닫기")
             this.isOkNickname = false
             this.$emit("closeEdit")
         },
         closeOneModal(){
-            console.log('확인 모달 닫기')
             this.isOverlap = false
         }
     }

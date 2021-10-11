@@ -1,6 +1,5 @@
 <template>
   <swiper-slide>
-    <!-- {{ music }} -->
     <div id="albumart">
       <v-img :src="'images/musicselect/'+music.fileName+'.png'"></v-img>
       <div class="musicInfo">
@@ -53,7 +52,6 @@ export default {
     width: 100%;
     height: 250px;
     padding-top: 50px;
-    // padding-bottom: 50px;
     position: absolute;
     bottom: 0vh;
     display: flex;
@@ -72,11 +70,9 @@ export default {
       height: 180px;
       text-align: center;
       font-weight: bold;
-      // font-size: $font-size-huge * 2;
       background-color: #2C8DFB;
       background-position: center;
       background-size: cover;
-      // color: $white;
       overflow: visible;
     }
   }

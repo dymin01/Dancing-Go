@@ -22,9 +22,6 @@
         v-model="nicknameInput"
         solo
         ></v-text-field>
-      <!-- <div class="d-flex justify-center">
-        <input type="text" placeholder="닉네임 입력 (6자 까지)" id="nickname-input">
-      </div> -->
       <v-btn
         v-if="this.isKorean"
         id="button"
@@ -128,14 +125,9 @@ export default {
         alert('닉네임을 입력해주세요.')
       } else {
         const nickname = this.nicknameInput
-        console.log(nickname)
         http.get("/user/nickname/" + nickname)
         .then((res) => {
-          console.log("중복결과")
-          console.log(res.data)
           if (res.data === true) {
-            // alert('중복된 닉네임입니다.')
-            console.log("중복된 닉네임입니다.")
             this.isOverlap = true
           } else {
             const body = {
@@ -144,14 +136,9 @@ export default {
             }
             http.put("/user/nickname/", body)
             .then(() => {
-              // alert('닉네임 설정에 성공했습니다.')
-              console.log("닉네임 변경에 성공 1234")
               this.user.userNickname = this.nicknameInput
               this.setUser(this.user)
               this.isOkNickname = true
-              
-              // this.closeModal()
-              // this.$emit('closeModal')
             })
 
           }
@@ -160,12 +147,10 @@ export default {
 
     },
     closeModal(){
-      console.log("모달 닫기")
       this.isOkNickname = false
       this.$emit("closeModal")
     },
     closeOneModal(){
-      console.log('확인 모달 닫기')
       this.isOverlap = false
     }
   }
@@ -174,10 +159,8 @@ export default {
 
 <style>
 #nickname-modal {
-  /* background-color: rgba(58, 58, 58, 0.8); */
   background-color: rgba(43, 29, 59, 0.8);
   color: white;
-  /* text-shadow: 0 0 5px gray; */
 }
 #button {
   color: white;

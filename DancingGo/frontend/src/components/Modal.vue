@@ -46,7 +46,6 @@ export default {
 #nickname-modal {
   background-color: rgba(43, 29, 59, 0.8);
   color: white;
-  /* text-shadow: 0 0 5px gray; */
 }
 #button {
   color: white;

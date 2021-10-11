@@ -65,7 +65,6 @@ export default {
         logout () {
             this.setToken(null)
             this.setUser(null)
-            // alert('로그아웃되었습니다.')
             this.$emit('closeSettings')
             router.push('/');
         },
@@ -81,7 +80,6 @@ export default {
 #logout {
   background-color: rgba(43, 29, 59, 0.8);
   color: white;
-  /* text-shadow: 0 0 5px gray; */
 }
 
 

@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     openModal () {
-      // console.log('openmodal')
       setTimeout(function() {
         this.isModalOpen = true
       }.bind(this), 2000)
@@ -76,9 +75,6 @@ export default {
     },
     sendResult() {
       http.get('/user/gameover/' + this.user.userNickname)
-      .then((res) => {
-        console.log(res)
-      })
       .catch((err) => {
         console.log(err)
       })
@@ -86,14 +82,7 @@ export default {
   },
   mounted() {
     this.$refs.selecteffect.volume = this.$store.getters.effectVolume*(0.01)
-    // this.sendResult()
     http.get('/user/gameover/' + this.user.userNickname)
-    // setTimeout(function() {
-    //   if (!this.isModalOpen) {
-    //     this.isModalOpen = true
-    //   }
-    // }.bind(this), 2000)
-
   }
 }
 </script>

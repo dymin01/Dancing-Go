@@ -148,11 +148,7 @@ export default {
         'userNickname': this.user.userNickname,
         'value': this.totalScore
       }
-      console.log(body)
       http.post('/score/saveScoreValue/', body)
-      .then((res) => {
-        console.log(res)
-      })
       .catch((err) => {
         console.log(err)
       })
@@ -215,8 +211,6 @@ export default {
 
 #score-box {
   position: absolute;
-  /* left: 17vw;
-  top: 8vh; */
   top: 42.5%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -227,7 +221,6 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   border-radius: 10px;
-  /* background-color: rgba(0, 0, 0, 0.6); */
   background-color: rgba(43, 29, 59, 0.6);
   box-shadow: 0 0 20px white;
 
@@ -238,24 +231,18 @@ export default {
   height: 85%;
   background-color: rgb(215, 226, 255);
   border-radius: 10px;
-  /* box-shadow: 0 0 20px white; */
-  /* filter: blur(1.3px); */
 }
 
 #rank-box {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* background-color: rgb(43, 21, 68, 0.6); */
   background-color: rgba(58, 42, 75, 0);
 }
 
 .text {
   font-weight: bold;
-  /* text-shadow: 0 0 10px #0fa, 0 0 21px #0fa; */
   color: rgb(59, 59, 59);
-  /* text-shadow: 0 0 7px #fff, 0 0 10px #0fa, 0 0 21px #0fa; */
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #fff;
 }
 
@@ -263,9 +250,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  /* box-shadow: 0 0 20px white; */
   border: 4px solid rgb(255, 255, 255,0.5);
-  /* border-block-color: rgb(43, 21, 68); */
   background-color: rgb(255,255,255, 0.2);
 }
 
@@ -275,18 +260,14 @@ export default {
 
 #score-name div {
   font-size: 40px;
-  /* font-size: 50px; */
 }
 
 #score-number div {
   font-size: 40px;
-  /* font-size: 50px; */
 }
 
 #rank-menu-box {
   position: absolute;
-  /* top: 80vh; */
-  /* left: 8vw; */
   top: 86%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -294,13 +275,10 @@ export default {
   width: 84vw;
   height: 80px;
   display: flex;
-  /* justify-content: flex-end; */
   justify-content: center;
 }
 
 .rank-menu {
-  /* background-color: rgba(0, 0, 0, 0.6); */
-  /* background-color: rgb(97, 8, 97); */
   background-color: rgba(43, 29, 59, 0.6);
   border: 2px solid rgb(255, 255, 255,0.5);
   border-radius: 10px;

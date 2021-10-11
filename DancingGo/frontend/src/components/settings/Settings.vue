@@ -34,12 +34,6 @@
         ticks
       ></v-slider>
     </v-card-text>
-    <!-- <v-btn
-      id="button"
-      @click="checkNickname"
-    >
-      확인
-    </v-btn> -->
   </v-card>
 </template>
 
@@ -55,21 +49,15 @@ export default {
   },
   watch: {
     backgroundVolume: function (val) {
-      // localStorage.setItem('backgroundVolume', val)
       this.changeBackgroundVol(val)
     },
     effectVolume: function (val) {
-      // localStorage.setItem('effectVolume', val)
       this.changeEffectVol(val)
     }
-  },
-  computed: {
-    // ...mapGetters(['backgroundVolume', 'effectVolume']),
   },
   methods: {
     ...mapMutations(['CHANGEVOLUMEBACKGROUND', 'CHANGEVOLUMEEFFECT']),
     changeBackgroundVol (event) {
-      // console.log('event', event)
       this.CHANGEVOLUMEBACKGROUND(event)
     },
     changeEffectVol (event) {
@@ -86,7 +74,6 @@ export default {
 #settings {
   background-color: rgba(43, 29, 59, 0.8);
   color: white;
-  /* text-shadow: 0 0 5px gray; */
 }
 #button {
   color: white;

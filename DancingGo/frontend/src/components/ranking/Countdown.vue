@@ -19,12 +19,10 @@ export default {
       var count = 1
       var interval = setTimeout(function countdown() {
         this.$refs.count.innerText = this.countdownString[count]
-        // this.$refs.count.className = 'd-none'
         if (count == 4) {
           clearTimeout(interval)
           this.$emit('countdownEnd')
         } else {
-          // this.$refs.count.className = 'fade-in-box'
           count += 1
           if (count == 4) {
             this.$refs.beep.src = '/effect/beep2.mp3'
@@ -58,7 +56,6 @@ export default {
 
 
 .fade-in-box {
-  /* animation: fadein 1s; */
   animation: fadeout 1.1s;
 }
 

@@ -21,7 +21,6 @@ export default {
   },
   created () {
     this.$store.dispatch('music/setMusics')
-    // this.$refs.musiclist.$swiper.mousewheel.enable()
   },
 
 }

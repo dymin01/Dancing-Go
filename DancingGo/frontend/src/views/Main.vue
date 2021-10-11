@@ -10,11 +10,6 @@
             </a>
           </div>
       </div>
-      <!-- 소셜로그인 없이 홈페이지 접속용 -->
-      <!-- <router-link :to="{name: 'Home'}" exact>
-        <v-img id="loginBtn" class="shadowEffect" src="images/main/google_btn.png"></v-img>
-      </router-link> -->
-      <!-- <v-img id="loginBtn" class="shadowEffect" src="images/main/kakao_btn.png"></v-img> -->
     </div>
   </div>
 </template>
@@ -36,19 +31,11 @@ export default {
       socials: [
         {
           socialType: 'google',
-          // src: $.getSocialImage('google'),
           src: 'images/main/google_btn.png',
           width: '50px',
           height: '50px',
           comment: '구글 로그인'
         },
-        // {
-        //   socialType: 'facebook',
-        //   src: $.getSocialImage('facebook'),
-        //   width: '32px',
-        //   height: '32px',
-        //   comment: '페이스북 로그인'
-        // },
         {
           socialType: 'naver',
           src: $.getSocialImage('naver'),

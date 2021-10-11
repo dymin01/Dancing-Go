@@ -2,12 +2,10 @@
   <div>
     <img src="" alt="" id="background" ref="background">
     <div id="shade"></div>
-    <!-- <img src="./video/bg.png" alt="" id="background" ref="background"> -->
     <div style="padding: 40px;" id="container">
 
       <!-- 네브빠 -->
       <div id="navbar" class="mb-5 px-5">
-        <!-- <ExitButton /> -->
         <v-btn
           id="button"
           style="opacity: 80%;"
@@ -115,18 +113,11 @@
               <span ref="B" style="color: rgb(150,150,150)">B</span>
             </div>
             <div class="txt btn-group dropend ms-3">
-              <!-- <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                반복 횟수 
-              </button> -->
               <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-if="this.isKorean">반복 횟수 : </div>
               <div class="align-self-center mr-2" style="font-size:25px; color: white;" v-else>repeat : </div>
-              <!-- <i class="fas fa-sync-alt fa-2x align-self-center mr-2 ml-5" style="color: rgb(150,150,150)"></i> -->
               <i class="fas fa-caret-left fa-3x" style="color: white;" @click="minus"></i>
               <div class="ml-2 mr-2 align-self-center" style="font-size:25px; color: white;">{{maxRepeatCount}}</div>
               <i class="fas fa-caret-right fa-3x" style="color: white;" @click="plus"></i>
-              <!-- <div class="dropdown-menu ms-2" style="width: 50px;">
-                <input class="px-2" type="text" v-model="maxRepeatCount" style="width: 50px;">
-              </div> -->
             </div>
           </div>
           <div id="time-box" class="txt" style='color: white'>
@@ -155,7 +146,6 @@
 import Webcam from 'webcam-easy'
 import http from '@/http.js';
 import router from '@/router/index.js'
-// import ExitButton from '@/components/practice/ExitButton.vue'
 import Feedback from '@/components/practice/Feedback.vue'
 import FeedbackCard from '@/components/practice/FeedbackCard.vue'
 import SavedFeedbackCard from '@/components/practice/SavedFeedbackCard.vue'
@@ -169,7 +159,6 @@ export default {
     FeedbackCard,
     SavedFeedbackCard,
     Countdown,
-    // ExitButton,
     Modal,
   },
   data() {
@@ -219,7 +208,6 @@ export default {
       router.push({ name: 'MusicSelect', query: {'mode': localStorage.getItem('mode')} })
     },
     openModal () {
-        // this.$refs.selecteffect.play()
         this.isModalOpen = true
       },
     closeModal () {
@@ -280,7 +268,6 @@ export default {
       this.$refs.video.pause()
       this.$refs.pause.style = 'color: crimson'
       this.$refs.play.style = 'color: white'
-      // this.dancingGo()
     },
     removeFeedbacks(time) {
       const len = this.feedbacks.length - 1
@@ -314,9 +301,6 @@ export default {
       const canvasEl = this.$refs.canvas
       const webcam = new Webcam(webcamEl, 'user', canvasEl)
       webcam.start()
-      .then(result => {
-        console.log(result)
-      })
       .catch(err => {
         console.log(err)
       })
@@ -454,8 +438,7 @@ export default {
         'userid': this.user.userId,
       }
       let skeletons = []
-      // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('https://70.12.130.110:8000/api/v1/', params)
+      await axios.post('https://j5a105.p.ssafy.io:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
@@ -539,7 +522,6 @@ export default {
     .then(res => {
       const songInfo = res.data
       this.songInfo = songInfo
-      // this.$refs.background.src = '/images/home/home_background.jpg'
       this.$refs.background.src = '/images/musicselect/' + songInfo.fileName + '.png'
       this.$refs.video.src = '/guides/' + songInfo.fileName + '.mp4'
       var songLength = songInfo.songLen

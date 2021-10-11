@@ -77,8 +77,6 @@ export default {
   },
   watch: {
     angles: function() {
-      console.log('바뀌었다')
-      console.log(this.angles)
       var angleScore = []
       for (let i=0; i < this.angles.length; i++) {
         var angle = this.angles[i]
@@ -117,7 +115,6 @@ export default {
   position: relative;
   width: 270px;
   height: 300px;
-  /* border: 2px black solid; */
   border-radius: 5px;
   background: white;
 }

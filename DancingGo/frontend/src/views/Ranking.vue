@@ -161,9 +161,6 @@ export default {
       const canvasEl = this.$refs.canvas
       const webcam = new Webcam(webcamEl, 'user', canvasEl)
       webcam.start()
-      .then(result => {
-        console.log(result)
-      })
       .catch(err => {
         console.log(err)
       })
@@ -206,11 +203,7 @@ export default {
         var videoPoints = res[0]
         var webcamPoints = res[1]
         var videoVectors = this.getVideoVector(videoPoints)
-        console.log('가이드')
-        console.log(videoVectors)
         var webcamVectors = this.getCamVector(webcamPoints, videoVectors)
-        console.log('캠')
-        console.log(webcamVectors)
         var frameScore = this.checkAngle(videoVectors, webcamVectors)
         this.changeHealth(frameScore)
       })
@@ -223,7 +216,6 @@ export default {
       context.translate(-canvas.width, 0)
       context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
       var videoCanvas = canvas.toDataURL()
-      // console.log(videoCanvas)
       return videoCanvas
     },
     webcamCapture(video, canvas) {
@@ -232,7 +224,6 @@ export default {
       canvas.height = video.clientHeight
       context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight)
       var webcamCanvas = canvas.toDataURL()
-      // console.log(webcamCanvas)
       return webcamCanvas
     },
     async openpose(videoImage, webcamImage) {
@@ -241,8 +232,7 @@ export default {
         'userid': this.user.userId,
       }
       let skeletons = []
-      // await axios.post('http://localhost:8000/api/v1/', params)
-      await axios.post('https://70.12.130.110:8000/api/v1/', params)
+      await axios.post('https://j5a105.p.ssafy.io:8000/api/v1/', params)
       .then(function(res) {
         skeletons = res.data.skeletons
       })
@@ -255,7 +245,6 @@ export default {
       } else {
         videoPoints.push(null)
       }
-      console.log(videoPoints)
       for (let i = 0; i < this.vectorInfos.length; i++) {
         let vectorInfo = this.vectorInfos[i]
         let start = vectorInfo[0]
@@ -280,7 +269,6 @@ export default {
       } else {
         webcamPoints.push(null)
       }
-      console.log(webcamPoints)
       for (let i = 0; i < this.vectorInfos.length; i++) {
         if (videoVectors[i] != null) {
           let vectorInfo = this.vectorInfos[i]
@@ -313,7 +301,6 @@ export default {
             const y2 = webcamVectors[i][1]
             const angle = Math.acos((x1*x2 + y1*y2)/(((x1**2 + y1**2)**0.5) * ((x2**2 + y2**2)**0.5)))*(180/Math.PI)
             frameScore -= this.scoreMatch[this.checkScore(angle)]
-            console.log(this.vectorNames[i] + '각도: ' + angle)
           } 
           else {
             notSeeingCount += 1
@@ -321,7 +308,6 @@ export default {
         }
       }
       if (notSeeingCount > 2) {
-        console.log('notSeeing')
         frameScore = 0
       }
       return frameScore
@@ -379,10 +365,8 @@ export default {
         setTimeout(this.gameover, 700)
       }
       this.$refs.scoreText.classList.toggle('hidden')
-      // this.$refs.scoreText.classList.toggle('move-box')
       this.$refs.scoreText.classList.toggle('fade-out')
       setTimeout(function() {
-        // this.$refs.scoreText.classList.toggle('move-box')
         this.$refs.scoreText.classList.toggle('fade-out')
         this.$refs.scoreText.classList.toggle('hidden')
       }.bind(this), 1201)
@@ -451,11 +435,9 @@ export default {
     })
   },
   beforeDestroy() {
-    console.log('hi')
     clearInterval(this.timeInterval)
   },
   destroyed() {
-    console.log('hi2')
     clearInterval(this.timeInterval)
   }
 }
@@ -574,10 +556,6 @@ span {
   margin-right: 20px;
 }
 
-/* span:hover {
-  cursor: pointer;
-} */
-
 #bottom-box {
   display: flex;
   justify-content: space-between;
@@ -608,18 +586,7 @@ span {
   width: 100%;
   display: flex;
   justify-content: center;
-    /* height: 100%;
-    width: 100%;
-    top: 4.5vh;
-    left: 29.15vw; */
 }
-/* #hpBarBox {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 4.5vh;
-  left: 29.15vw;
-} */
 
 .scoreText {
   position: absolute;
@@ -642,12 +609,6 @@ span {
 .hidden {
   display: none;
 }
-
-/* @keyframes movebox {
-  100% {
-    top: 10px;
-  }
-} */
 
 @keyframes fadeout {
     from {
