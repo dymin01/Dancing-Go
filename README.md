@@ -1,4 +1,4 @@
-![로고4](/uploads/cb1ede826590e91e733db0e4e38d28b5/로고4.png)
+![로고4](https://user-images.githubusercontent.com/56018285/136743114-6238d6bc-bab9-4897-aebd-23d243aa5d38.png)
 
 
 
@@ -8,13 +8,13 @@
 
 |TEAM 굴렁쇠|||||
 |:------|:------|:------|:------|:------|
-|![순주](/uploads/6d92d10d38be663724197cbb12197cbf/순주.jpg) |![승현](/uploads/31ac3d98e909115648278d4466de0e3d/승현.jpg) |![동엽](/uploads/9d2e55bb424323efd273ad7855b4c216/동엽.jpg) |![재우](/uploads/44dd2b8f59b5dd77094740b65fda06c5/재우.jpg) |![은교](/uploads/9e3738b83d510270b577c1d2aa9cc766/은교.jpg) |
+|![순주](https://user-images.githubusercontent.com/56018285/136743149-b851c527-9015-4950-addd-fab73371c59e.jpg)|![승현](https://user-images.githubusercontent.com/56018285/136743162-e6f0e754-81a6-43f8-b8f6-1e82d4cccd54.jpg)|![동엽](https://user-images.githubusercontent.com/56018285/136743176-11c05c3b-0366-40b5-994a-78187d53fd64.jpg)|![재우](https://user-images.githubusercontent.com/56018285/136743205-7e2a8b11-4623-46a5-8c1f-28bd53189c9e.jpg)|![은교](https://user-images.githubusercontent.com/56018285/136743232-62b56115-03c3-4c29-bf6e-c6abde71cbdd.jpg)|
 |권순주|김승현|민동엽|심재우|정은교|
-|Backend(Spring) & Frontend|Frontend & OpenPose|Backend(Spring) & Frontend|Backend(Spring) & Frontend & CI/CD|Backend(Django) & Frontend|
+|Backend & Frontend|Frontend & OpenPose|Backend & Frontend|Backend & Frontend & CI/CD|Backend & Frontend|
 |[@ssoonD](https://github.com/ssoonD)|[@kevinkim](https://github.com/kevinkim-dev)|[@dymin01](https://github.com/dymin01)|[@jeus1112](https://github.com/jeus1112)|[@gyoforit](https://github.com/gyoforit)|
 
 ---
-
+## 📅 Development ( 2021-08-23 ~ 2021-10-08 )
 ## ⚙ Development Environment
 
 작성 날짜: 2021-10-08  
@@ -41,25 +41,20 @@ OpenPose: v1.7.0
 OpenPose_detection_model: body25
 
 
-## ✔ How to run[📚Manual](https://lab.ssafy.com/s05-ai-image/S05P21A105/-/blob/master/exec/5%EA%B8%B0_%EC%84%9C%EC%9A%B8_1%EB%B0%98_A105_%ED%8A%B9%ED%99%94_%ED%8F%AC%ED%8C%85%EB%A9%94%EB%89%B4%EC%96%BC.md)  
----  
+## ✔ How to run[📚Manual](https://github.com/dancinggo/Dancing-Go/blob/master/exec/5%EA%B8%B0_%EC%84%9C%EC%9A%B8_1%EB%B0%98_A105_%ED%8A%B9%ED%99%94_%ED%8F%AC%ED%8C%85%EB%A9%94%EB%89%B4%EC%96%BC.md)  
 
-## 📅 Development Sprint ( 2021-08-23 ~ 2021-10-08 )
-
-
----  
 
 ## 🛠 Development && Deploy Flow
 
-![구조도](/uploads/67805fc297bdfcdc12d0ffebf55a978e/구조도.PNG)
+![구조도](https://user-images.githubusercontent.com/56018285/136743326-2e759098-a124-4c12-8fbd-6b7cec5aaf96.PNG)
 
---- 
+
 ## 📋 Project Materials
 
 | 구분         | 링크                                                         |
 | ------------ | ------------------------------------------------------------ |
-|Meeting Log|[Notion - DancingGo]()|
+|Meeting Log|[Notion - DancingGo](https://clever-magnolia-236.notion.site/Dancing-Go-a9a59fa90ea347e5b1d8ab6e1fe43f75)|
 |명세서|[Google - spreadsheets](https://docs.google.com/spreadsheets/d/1EAUi5GxzYhsgMgRSwdpBrIqhuAZ_dQx7IqGvHeqfKaA/edit#gid=0)|
 |ERD|[ERDcloud](https://www.erdcloud.com/d/tbdD5ybu78ygsfsmH)|
-|Figma|[Notion - DancingGo](https://www.figma.com/file/aZ7M7dpkDgNBm9GLp8WMrz/은교와댄스댄스-team-library)|
-|API Docs|[Swagger UI](http://localhost:8080/swagger-ui/#/)|
+|Figma|[Figma - DancingGo](https://www.figma.com/file/aZ7M7dpkDgNBm9GLp8WMrz/은교와댄스댄스-team-library)|
+|API Docs|[Notion - API Docs](https://clever-magnolia-236.notion.site/API-Docs-721047f762c64b9b8f47c39313f7bd15)|
